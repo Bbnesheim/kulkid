@@ -1385,6 +1385,7 @@ class NewsletterFormHandler {
         method: 'POST',
         headers: {
           Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
         },
         body: formData,
       });
@@ -1392,19 +1393,44 @@ class NewsletterFormHandler {
       let data = null;
       const contentType = response.headers.get('content-type') || '';
       const isJson = contentType.includes('application/json');
+      let htmlMessages = null;
 
       if (isJson) {
-        data = await response.json();
+        try {
+          data = await response.json();
+        } catch (error) {
+          data = null;
+        }
+      } else {
+        const responseText = await response.text();
+        htmlMessages = this.parseNewsletterHtmlResponse(responseText);
       }
 
-      if (response.ok && (!isJson || this.isSuccessfulResponse(data))) {
-        this.displaySuccess(this.form.dataset.successMessage || this.defaultSuccessMessage);
+      const redirectedSuccess = this.wasRedirectedSuccess(response);
+      const jsonSuccess = isJson && this.isSuccessfulResponse(data);
+      const htmlSuccess = !isJson && htmlMessages?.successVisible;
+      const htmlErrorVisible = !isJson && htmlMessages?.errorVisible;
+
+      const shouldTreatAsSuccess =
+        response.ok && (jsonSuccess || htmlSuccess || redirectedSuccess || (!isJson && !htmlErrorVisible));
+
+      if (shouldTreatAsSuccess) {
+        const successMessage =
+          (jsonSuccess && this.getSuccessMessage(data)) ||
+          (htmlSuccess ? htmlMessages.successMessage : null) ||
+          this.form.dataset.successMessage ||
+          this.defaultSuccessMessage;
+
+        this.displaySuccess(successMessage);
         this.form.reset();
         this.input.blur();
         return;
       }
-
-      const errorMessage = this.getErrorMessage(data) || this.form.dataset.errorMessage || this.defaultErrorMessage;
+      const errorMessage =
+        (!jsonSuccess && this.getErrorMessage(data)) ||
+        (htmlErrorVisible ? htmlMessages.errorMessage : null) ||
+        this.form.dataset.errorMessage ||
+        this.defaultErrorMessage;
       this.displayError(errorMessage);
     } catch (error) {
       this.displayError(this.form.dataset.errorMessage || this.defaultErrorMessage);
@@ -1465,14 +1491,35 @@ class NewsletterFormHandler {
 
     return false;
   }
+  getSuccessMessage(data) {
+    if (!data || typeof data !== 'object') {
+      return null;
+    }
+
+    if (typeof data.message === 'string' && data.message.trim().length) {
+      return data.message;
+    }
+
+    if (typeof data.body === 'string' && data.body.trim().length) {
+      return data.body;
+    }
+
+    if (typeof data.success_message === 'string' && data.success_message.trim().length) {
+      return data.success_message;
+    }
+
+    return null;
+  }
 
   clearMessages() {
     if (this.errorContainer) {
       this.errorContainer.hidden = true;
+      this.errorContainer.setAttribute('hidden', '');
     }
 
     if (this.successContainer) {
       this.successContainer.hidden = true;
+      this.successContainer.setAttribute('hidden', '');
     }
 
     if (this.input) {
@@ -1484,6 +1531,7 @@ class NewsletterFormHandler {
   displayError(message) {
     if (this.successContainer) {
       this.successContainer.hidden = true;
+      this.successContainer.setAttribute('hidden', '');
     }
 
     if (this.errorText) {
@@ -1497,6 +1545,7 @@ class NewsletterFormHandler {
     }
 
     this.errorContainer.hidden = false;
+    this.errorContainer.removeAttribute('hidden');
 
     if (this.input) {
       this.input.setAttribute('aria-invalid', 'true');
@@ -1510,6 +1559,7 @@ class NewsletterFormHandler {
   displaySuccess(message) {
     if (this.errorContainer) {
       this.errorContainer.hidden = true;
+      this.errorContainer.setAttribute('hidden', '');
     }
 
     if (this.successText) {
@@ -1523,6 +1573,7 @@ class NewsletterFormHandler {
     }
 
     this.successContainer.hidden = false;
+    this.successContainer.removeAttribute('hidden');
 
     if (this.input) {
       this.input.removeAttribute('aria-invalid');
@@ -1547,6 +1598,90 @@ class NewsletterFormHandler {
     if (this.submitButton) {
       this.submitButton.disabled = Boolean(isLoading);
     }
+  }
+
+  parseNewsletterHtmlResponse(html) {
+    if (!html || typeof html !== 'string') {
+      return null;
+    }
+
+    let doc;
+    try {
+      const parser = new DOMParser();
+      doc = parser.parseFromString(html, 'text/html');
+    } catch (error) {
+      return null;
+    }
+
+    if (!doc) {
+      return null;
+    }
+
+    const successElement = doc.querySelector('[data-newsletter-success]');
+    const errorElement = doc.querySelector('[data-newsletter-error]');
+
+    const successVisible = Boolean(successElement) && !this.elementIsHidden(successElement);
+    const errorVisible = Boolean(errorElement) && !this.elementIsHidden(errorElement);
+
+    return {
+      successVisible,
+      successMessage: successVisible
+        ? this.getElementMessage(successElement, '[data-newsletter-success-text]')
+        : null,
+      errorVisible,
+      errorMessage: errorVisible ? this.getElementMessage(errorElement, '[data-newsletter-error-text]') : null,
+    };
+  }
+
+  elementIsHidden(element) {
+    if (!element) return true;
+
+    if (element.hasAttribute('hidden')) {
+      return true;
+    }
+
+    if (element.getAttribute('aria-hidden') === 'true') {
+      return true;
+    }
+
+    const style = element.getAttribute('style');
+    if (style && /(display\s*:\s*none|visibility\s*:\s*hidden)/i.test(style)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  getElementMessage(container, textSelector) {
+    if (!container) {
+      return null;
+    }
+
+    const textElement = textSelector ? container.querySelector(textSelector) : null;
+    const source = textElement || container;
+    const message = source.textContent?.trim();
+    return message && message.length ? message : null;
+  }
+
+  wasRedirectedSuccess(response) {
+    if (!response || !response.redirected || !response.url) {
+      return false;
+    }
+
+    try {
+      const redirectUrl = new URL(response.url, window.location.origin);
+      if (redirectUrl.searchParams.has('customer_posted')) {
+        return true;
+      }
+
+      if (redirectUrl.hash && redirectUrl.hash.includes('customer_posted')) {
+        return true;
+      }
+    } catch (error) {
+      return false;
+    }
+
+    return false;
   }
 }
 
