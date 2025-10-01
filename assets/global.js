@@ -1426,7 +1426,6 @@ class NewsletterFormHandler {
         this.input.blur();
         return;
       }
-
       const errorMessage =
         (!jsonSuccess && this.getErrorMessage(data)) ||
         (htmlErrorVisible ? htmlMessages.errorMessage : null) ||
@@ -1492,7 +1491,6 @@ class NewsletterFormHandler {
 
     return false;
   }
-
   getSuccessMessage(data) {
     if (!data || typeof data !== 'object') {
       return null;
