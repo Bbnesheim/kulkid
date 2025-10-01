@@ -59,8 +59,10 @@
   },
   "newsletter": {
     "label": "Email",
+    "placeholder": "Your Email Address",
     "success": "Thanks for subscribing",
-    "button_label": "Subscribe"
+    "button_label": "Subscribe",
+    "cta": "Sign Up"
   },
   "accessibility": {
     "skip_to_text": "Skip to content",

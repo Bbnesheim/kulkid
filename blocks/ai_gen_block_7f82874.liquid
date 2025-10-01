@@ -93,6 +93,12 @@
     Possibility for left center right side text, In categories, only show the first part of the sentence before |, Add option to fill in social media links for instagram facebook tiktok with icon, place the Social media icons vertically, improve the Footer bottom, place the policies more minimal at the very bottom with no opacity square, remove the darker square, have one master change customization for colour applied to all text in footer, update the categories section so it is up to date with all the categories for the site, reduce the margin for email adress sign up and the box around, make the payment solution more minimal, Payment Methods increase for adding more, option to change margins between stuff, Social Media url icons aligned horizontal in mobile view, make the gradient animation customizable, fix policies look, Customer Club icon skal være farger
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign newsletter_placeholder_default = 'newsletter.placeholder' | t %}
+{% assign newsletter_placeholder = block.settings.email_placeholder | default: newsletter_placeholder_default %}
+{% assign newsletter_cta_default = 'newsletter.cta' | t %}
+{% assign newsletter_cta = block.settings.button_text | default: newsletter_cta_default %}
+{% assign newsletter_success_default = 'newsletter.success' | t %}
+{% assign newsletter_success = block.settings.success_message | default: newsletter_success_default %}
 
 {% style %}
   .ai-footer-{{ ai_gen_id }} {
@@ -593,13 +599,13 @@
               <input type="hidden" name="contact[tags]" value="newsletter">
 
               <div class="kk-field">
-                <label class="visually-hidden" for="FooterNewsletterEmail">{{ block.settings.email_placeholder }}</label>
+                <label class="visually-hidden" for="FooterNewsletterEmail">{{ newsletter_placeholder }}</label>
                 <input
                   id="FooterNewsletterEmail"
                   class="kk-input"
                   type="email"
                   name="contact[email]"
-                  placeholder="{{ block.settings.email_placeholder }}"
+                  placeholder="{{ newsletter_placeholder }}"
                   autocapitalize="off"
                   autocomplete="email"
                   spellcheck="false"
@@ -609,11 +615,11 @@
                 >
               </div>
 
-              <button type="submit" class="kk-button">{{ block.settings.button_text }}</button>
+              <button type="submit" class="kk-button">{{ newsletter_cta }}</button>
 
               <div id="FooterNewsletterMsg" class="kk-msg" role="status" aria-live="polite">
                 {% if form.posted_successfully? %}
-                  <p class="kk-msg--success">{{ block.settings.success_message }}</p>
+                  <p class="kk-msg--success">{{ newsletter_success }}</p>
                 {% elsif form.errors %}
                   <p class="kk-msg--error">{{ form.errors.translated_fields['email'] | default: 'Email' }} {{ form.errors.messages['email'] | default: 'is invalid or already subscribed.' }}</p>
                 {% endif %}
