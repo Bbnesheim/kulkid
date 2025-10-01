@@ -55,10 +55,15 @@
       "next_slide": "Slide right",
       "previous_slide": "Slide left",
       "name": "Slider"
+    },
+    "newsletter_form": {
+      "error": "There was an error subscribing. Please try again."
     }
   },
   "newsletter": {
     "label": "Email",
+    "placeholder": "Enter your email",
+    "cta": "Join our newsletter",
     "success": "Thanks for subscribing",
     "button_label": "Subscribe"
   },

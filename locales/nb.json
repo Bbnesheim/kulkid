@@ -55,10 +55,15 @@
       "next_slide": "Bla til høyre",
       "previous_slide": "Bla til venstre",
       "name": "Glidefelt"
+    },
+    "newsletter_form": {
+      "error": "Noe gikk galt. Prøv igjen."
     }
   },
   "newsletter": {
     "label": "E-post",
+    "placeholder": "Skriv inn e-postadressen din",
+    "cta": "Bli med på nyhetsbrevet vårt",
     "success": "Takk for at du abonnerer",
     "button_label": "Abonner"
   },
