@@ -99,6 +99,14 @@
 {% assign newsletter_cta = block.settings.button_text | default: newsletter_cta_default %}
 {% assign newsletter_success_default = 'newsletter.success' | t %}
 {% assign newsletter_success = block.settings.success_message | default: newsletter_success_default %}
+{% assign newsletter_success = newsletter_success | strip %}
+{% if newsletter_success == blank %}
+  {% assign newsletter_success_translation = 'general.newsletter_form.confirmation' | t %}
+  {% if newsletter_success_translation == 'general.newsletter_form.confirmation' %}
+    {% assign newsletter_success_translation = 'Thanks! Please check your inbox to confirm.' %}
+  {% endif %}
+  {% assign newsletter_success = newsletter_success_translation %}
+{% endif %}
 
 {% style %}
   .ai-footer-{{ ai_gen_id }} {
@@ -265,6 +273,7 @@
     transform: rotate(45deg);
     transition: all 0.6s ease;
     opacity: 0;
+    pointer-events: none;
   }
 
   .kk-newsletter:hover:before {
@@ -597,16 +606,6 @@
 
             {% assign email_placeholder_text = block.settings.email_placeholder | default: 'newsletter.label' | t %}
             {% assign button_text = block.settings.button_text | default: 'newsletter.button_label' | t %}
-            {% assign default_success_copy = 'Thanks! Please check your inbox to confirm.' %}
-            {% assign success_fallback = block.settings.success_message %}
-            {% if success_fallback == blank %}
-              {% assign translated_confirmation = 'general.newsletter_form.confirmation' | t %}
-              {% if translated_confirmation == 'general.newsletter_form.confirmation' %}
-                {% assign success_fallback = default_success_copy %}
-              {% else %}
-                {% assign success_fallback = translated_confirmation %}
-              {% endif %}
-            {% endif %}
             {% assign default_error_message = 'is invalid or already subscribed.' %}
 
             {% form
@@ -643,8 +642,6 @@
               <div id="FooterNewsletterMsg" class="kk-msg" role="status" aria-live="polite">
                 {% if form.posted_successfully? %}
                   <p class="kk-msg--success">{{ newsletter_success }}</p>
-            
-                  <p class="kk-msg--success">{{ success_message_translation }}</p>
                 {% elsif form.errors %}
                   {% assign error_label = form.errors.translated_fields['email'] %}
                   {% if error_label == blank %}
