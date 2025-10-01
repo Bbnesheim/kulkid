@@ -1330,3 +1330,237 @@ class CartPerformance {
     );
   }
 }
+
+class NewsletterFormHandler {
+  constructor(form) {
+    this.form = form;
+    this.field = form.querySelector('.field');
+    this.input = form.querySelector('input[type="email"]');
+    this.submitButton = form.querySelector('[type="submit"]');
+    this.errorContainer = form.querySelector('[data-newsletter-error]');
+    this.errorText = this.errorContainer?.querySelector('[data-newsletter-error-text]');
+    this.successContainer = form.querySelector('[data-newsletter-success]');
+    this.successText = this.successContainer?.querySelector('[data-newsletter-success-text]');
+    this.defaultErrorMessage = this.errorText?.textContent.trim() || form.dataset.errorMessage || '';
+    this.defaultSuccessMessage = this.successText?.textContent.trim() || form.dataset.successMessage || '';
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFieldClick = this.handleFieldClick.bind(this);
+
+    this.form.addEventListener('submit', this.handleSubmit);
+    this.field?.addEventListener('click', this.handleFieldClick);
+  }
+
+  handleFieldClick(event) {
+    if (!this.input) return;
+    if (event.target === this.input) return;
+    if (event.target.closest('button')) return;
+
+    this.input.focus();
+  }
+
+  async handleSubmit(event) {
+    event.preventDefault();
+
+    if (!this.input) {
+      return;
+    }
+
+    this.clearMessages();
+
+    if (!this.input.value.trim()) {
+      this.displayError(this.form.dataset.errorMessage || this.defaultErrorMessage);
+      return;
+    }
+
+    const formData = new FormData(this.form);
+    if (!formData.get('contact[tags]')) {
+      formData.append('contact[tags]', 'newsletter');
+    }
+
+    this.toggleLoading(true);
+
+    try {
+      const response = await fetch(this.form.action || window.location.href, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: formData,
+      });
+
+      let data = null;
+      const contentType = response.headers.get('content-type') || '';
+      const isJson = contentType.includes('application/json');
+
+      if (isJson) {
+        data = await response.json();
+      }
+
+      if (response.ok && (!isJson || this.isSuccessfulResponse(data))) {
+        this.displaySuccess(this.form.dataset.successMessage || this.defaultSuccessMessage);
+        this.form.reset();
+        this.input.blur();
+        return;
+      }
+
+      const errorMessage = this.getErrorMessage(data) || this.form.dataset.errorMessage || this.defaultErrorMessage;
+      this.displayError(errorMessage);
+    } catch (error) {
+      this.displayError(this.form.dataset.errorMessage || this.defaultErrorMessage);
+    } finally {
+      this.toggleLoading(false);
+    }
+  }
+
+  getErrorMessage(data) {
+    if (!data) return null;
+
+    if (typeof data.message === 'string' && data.message.trim().length) {
+      return data.message;
+    }
+
+    if (data.errors) {
+      const messages = [];
+      Object.values(data.errors).forEach((value) => {
+        if (Array.isArray(value)) {
+          value.forEach((message) => {
+            if (message) {
+              messages.push(message);
+            }
+          });
+        } else if (value) {
+          messages.push(value);
+        }
+      });
+
+      if (messages.length) {
+        return messages.join(' ');
+      }
+    }
+
+    if (typeof data.status === 'string' && data.status !== 'success') {
+      return data.status;
+    }
+
+    return null;
+  }
+
+  isSuccessfulResponse(data) {
+    if (!data || typeof data !== 'object') {
+      return false;
+    }
+
+    if (typeof data.status === 'string') {
+      return ['success', 'subscribed'].includes(data.status.toLowerCase());
+    }
+
+    if (typeof data.result === 'string' && data.result.toLowerCase() === 'success') {
+      return true;
+    }
+
+    if (data.success === true) {
+      return true;
+    }
+
+    return false;
+  }
+
+  clearMessages() {
+    if (this.errorContainer) {
+      this.errorContainer.hidden = true;
+    }
+
+    if (this.successContainer) {
+      this.successContainer.hidden = true;
+    }
+
+    if (this.input) {
+      this.input.removeAttribute('aria-invalid');
+      this.input.removeAttribute('aria-describedby');
+    }
+  }
+
+  displayError(message) {
+    if (this.successContainer) {
+      this.successContainer.hidden = true;
+    }
+
+    if (this.errorText) {
+      this.errorText.textContent = message;
+    } else if (this.errorContainer) {
+      this.errorContainer.textContent = message;
+    }
+
+    if (!this.errorContainer) {
+      return;
+    }
+
+    this.errorContainer.hidden = false;
+
+    if (this.input) {
+      this.input.setAttribute('aria-invalid', 'true');
+      if (this.errorContainer.id) {
+        this.input.setAttribute('aria-describedby', this.errorContainer.id);
+      }
+      this.input.focus();
+    }
+  }
+
+  displaySuccess(message) {
+    if (this.errorContainer) {
+      this.errorContainer.hidden = true;
+    }
+
+    if (this.successText) {
+      this.successText.textContent = message;
+    } else if (this.successContainer) {
+      this.successContainer.textContent = message;
+    }
+
+    if (!this.successContainer) {
+      return;
+    }
+
+    this.successContainer.hidden = false;
+
+    if (this.input) {
+      this.input.removeAttribute('aria-invalid');
+      if (this.successContainer.id) {
+        this.input.setAttribute('aria-describedby', this.successContainer.id);
+      }
+    }
+
+    requestAnimationFrame(() => {
+      this.successContainer.focus();
+    });
+  }
+
+  toggleLoading(isLoading) {
+    this.form.classList.toggle('newsletter-form--loading', Boolean(isLoading));
+    if (isLoading) {
+      this.form.setAttribute('aria-busy', 'true');
+    } else {
+      this.form.removeAttribute('aria-busy');
+    }
+
+    if (this.submitButton) {
+      this.submitButton.disabled = Boolean(isLoading);
+    }
+  }
+}
+
+function initNewsletterForms(root = document) {
+  root
+    .querySelectorAll('[data-newsletter-form]:not([data-newsletter-initialized])')
+    .forEach((form) => {
+      form.dataset.newsletterInitialized = 'true';
+      new NewsletterFormHandler(form);
+    });
+}
+
+initNewsletterForms();
+
+document.addEventListener('shopify:section:load', (event) => {
+  initNewsletterForms(event.target);
+});
