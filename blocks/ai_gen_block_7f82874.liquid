@@ -1,0 +1,1625 @@
+{% doc %}
+  @prompt
+    Create a comprehensive footer section for Kul Kid with the following specifications:
+    
+    Layout Structure:
+    - Left column with branding area (uploadable SVG customer club icon + text description), newsletter signup with square input field and full-width "Sign Up" button
+    - Middle columns for navigation: "About Kul Kid" section with internal links, "Categories" section that auto-populates from Shopify collections, "Help & Contacts" section with customer service links
+    - Right column with "Follow Us" heading and social media icons (Instagram, Facebook, TikTok) with hover effects
+    
+    Bottom section with custom payment method icons:
+    - Apple Pay, VISA, Mastercard, American Express, PayPal, Klarna
+    - Icons should be larger than standard and stretch horizontally across the footer width
+    - Support for uploading custom SVG payment icons
+    
+    Design specifications:
+    - Animated rainbow gradient background with smooth transition loop
+    - White text throughout
+    - Clean, modern typography consistent with brand
+    - Ample spacing and padding for visual clarity
+    - Fully responsive design for desktop, tablet, and mobile
+    - Include privacy policy, cookie preferences, and copyright sections
+    - Equal height input field and button for visual balance
+    - Uniform social icon sizing with hover effects (color change or subtle scale)
+    
+    The footer should dynamically populate categories from the Shopify store and include customizable settings for all uploadable elements (customer club icon, payment method icons) and editable text content., Format issue with the Customer club icon, Fix the email so it is integrated into shopifys native email signup system, Issue witht typing in email, problem with email, make the email sign up connected with shopify integration email, Users can’t type into the footer email field (cursor doesn’t focus / input blocked). The current newsletter form isn’t connected to Shopify’s native signup.
+    
+    Goal:
+    
+    Fix the input usability (focus, typing, accessibility).
+    
+    Replace the custom form with Shopify’s native newsletter form so new signups are saved correctly (tagged newsletter) and trigger Shopify flows.
+    
+    Constraints & Requirements:
+    
+    Use Shopify’s native form tag: {% form 'customer' %} with contact[email] and contact[tags]=newsletter.
+    
+    Preserve the current footer layout (square email field, big CTA under it, equal heights).
+    
+    No external apps. Vanilla Liquid/HTML/CSS, minimal JS.
+    
+    Show success/error messages using form.posted_successfully? and form.errors.
+    
+    Fix any CSS/DOM issues that block typing: overlapping elements, pointer-events:none, z-index, width/height overlays, display:flex gaps, or position:absolute labels covering the input.
+    
+    Accessibility: proper label/for, aria-invalid, aria-describedby, keyboard focus states.
+    
+    Responsive: mobile first, no overflow clipping.
+    
+    Acceptance Criteria:
+    
+    Typing works on desktop + mobile.
+    
+    Submissions appear in Customers > Leads (tagged newsletter) or your email marketing audience.
+    
+    Success state visible without a page reload (inline message or anchor jump).
+    
+    Input/CTA heights match; placeholder reads “Your Email Address”, <div class="kk-newsletter">
+      <h3 class="kk-newsletter__title">Join the Club</h3>
+    
+      {% form 'customer', id: 'FooterNewsletterForm', class: 'kk-newsletter__form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+    
+        <div class="kk-field">
+          <label class="visually-hidden" for="FooterNewsletterEmail">Your Email Address</label>
+          <input
+            id="FooterNewsletterEmail"
+            class="kk-input"
+            type="email"
+            name="contact[email]"
+            placeholder="Your Email Address"
+            autocapitalize="off"
+            autocomplete="email"
+            spellcheck="false"
+            required
+            {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
+            aria-describedby="FooterNewsletterMsg"
+          >
+        </div>
+    
+        <button type="submit" class="kk-button">Sign Up</button>
+    
+        <div id="FooterNewsletterMsg" class="kk-msg" role="status" aria-live="polite">
+          {% if form.posted_successfully? %}
+            <p class="kk-msg--success">Thanks! Please check your inbox to confirm.</p>
+          {% elsif form.errors %}
+            <p class="kk-msg--error">{{ form.errors.translated_fields['email'] | default: 'Email' }} {{ form.errors.messages['email'] | default: 'is invalid or already subscribed.' }}</p>
+          {% endif %}
+        </div>
+      {% endform %}
+    </div>
+    , make it five vertical equal columns for each category, Spice up the email sign up card field, Make the news letter heading above the customer club. Customer club icon above description, Align all headers horizontally, Add customixations for text, placement, size etc for Customer club icon and Customer club description
+    Possibilities for colours , intergrate the native shopify Policies into the footer, Customer club icon size possible to make even larger and place left right center.
+    Possibility for left center right side text, In categories, only show the first part of the sentence before |, Add option to fill in social media links for instagram facebook tiktok with icon, place the Social media icons vertically, improve the Footer bottom, place the policies more minimal at the very bottom with no opacity square, remove the darker square, have one master change customization for colour applied to all text in footer, update the categories section so it is up to date with all the categories for the site, reduce the margin for email adress sign up and the box around, make the payment solution more minimal, Payment Methods increase for adding more, option to change margins between stuff, Social Media url icons aligned horizontal in mobile view, make the gradient animation customizable, fix policies look, Customer Club icon skal være farger
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-footer-{{ ai_gen_id }} {
+    {% if block.settings.enable_gradient_animation %}
+      background: linear-gradient({{ block.settings.gradient_direction }}deg, {{ block.settings.gradient_color_1 }}, {{ block.settings.gradient_color_2 }}, {{ block.settings.gradient_color_3 }}, {{ block.settings.gradient_color_4 }}, {{ block.settings.gradient_color_5 }}, {{ block.settings.gradient_color_6 }}, {{ block.settings.gradient_color_7 }});
+      background-size: {{ block.settings.gradient_size }}% {{ block.settings.gradient_size }}%;
+      animation: ai-footer-gradient-{{ ai_gen_id }} {{ block.settings.animation_duration }}s ease infinite;
+    {% else %}
+      background: {{ block.settings.static_background_color }};
+    {% endif %}
+    padding: {{ block.settings.footer_padding }}px {{ block.settings.footer_padding | times: 0.5 }}px;
+    color: {{ block.settings.master_text_color | default: 'white' }};
+    position: relative;
+    overflow: hidden;
+  }
+
+  {% if block.settings.enable_gradient_animation %}
+    @keyframes ai-footer-gradient-{{ ai_gen_id }} {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  {% endif %}
+
+  .ai-footer-content-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ai-footer-main-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: {{ block.settings.column_gap }}px;
+    margin-bottom: {{ block.settings.section_spacing }}px;
+    align-items: start;
+  }
+
+  .ai-footer-column-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-footer-column-{{ ai_gen_id }} h3,
+  .kk-newsletter__title {
+    color: {{ block.settings.master_text_color | default: 'white' }};
+    margin: 0 0 {{ block.settings.heading_bottom_margin }}px 0;
+    font-size: 18px;
+    font-weight: 600;
+    height: 22px;
+    display: flex;
+    align-items: center;
+  }
+
+  .ai-footer-column-{{ ai_gen_id }} a {
+    color: {{ block.settings.master_text_color | default: 'white' }};
+    text-decoration: none;
+    margin-bottom: {{ block.settings.link_spacing }}px;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+    font-size: 14px;
+  }
+
+  .ai-footer-column-{{ ai_gen_id }} a:hover {
+    opacity: 1;
+  }
+
+  .ai-footer-customer-club-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.club_bottom_margin }}px;
+    {% if block.settings.club_layout == 'horizontal' %}
+      display: flex;
+      align-items: center;
+      gap: {{ block.settings.club_gap }}px;
+    {% elsif block.settings.club_layout == 'horizontal_reverse' %}
+      display: flex;
+      align-items: center;
+      flex-direction: row-reverse;
+      gap: {{ block.settings.club_gap }}px;
+    {% else %}
+      display: flex;
+      flex-direction: column;
+      align-items: {{ block.settings.club_icon_position }};
+      gap: {{ block.settings.club_gap }}px;
+    {% endif %}
+    {% if block.settings.club_background_color != blank %}
+      background-color: {{ block.settings.club_background_color }};
+      padding: {{ block.settings.club_padding }}px;
+      border-radius: {{ block.settings.club_border_radius }}px;
+    {% endif %}
+  }
+
+  .ai-footer-club-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.club_icon_size }}px;
+    height: {{ block.settings.club_icon_size }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    {% if block.settings.club_icon_background_color != blank %}
+      background-color: {{ block.settings.club_icon_background_color }};
+      padding: {{ block.settings.club_icon_padding }}px;
+      border-radius: {{ block.settings.club_icon_border_radius }}px;
+    {% endif %}
+  }
+
+  .ai-footer-club-icon-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .ai-footer-club-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    {% if block.settings.club_icon_color != blank %}
+      fill: {{ block.settings.club_icon_color }};
+    {% endif %}
+  }
+
+  .ai-footer-club-text-{{ ai_gen_id }} {
+    {% if block.settings.club_text_color != blank %}
+      color: {{ block.settings.club_text_color }};
+    {% else %}
+      color: {{ block.settings.master_text_color | default: 'white' }};
+    {% endif %}
+    font-size: {{ block.settings.club_text_size }}px;
+    font-weight: {{ block.settings.club_text_weight }};
+    font-style: {{ block.settings.club_text_style }};
+    text-transform: {{ block.settings.club_text_transform }};
+    line-height: {{ block.settings.club_text_line_height }};
+    max-width: {{ block.settings.club_text_max_width }}px;
+    text-align: {{ block.settings.club_text_alignment }};
+    {% if block.settings.club_text_shadow %}
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    {% endif %}
+  }
+
+  .kk-newsletter {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: {{ block.settings.newsletter_margin_top }}px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kk-newsletter:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .kk-newsletter:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+  }
+
+  .kk-newsletter:hover:before {
+    animation: ai-newsletter-shimmer-{{ ai_gen_id }} 0.6s ease-in-out;
+  }
+
+  @keyframes ai-newsletter-shimmer-{{ ai_gen_id }} {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+  }
+
+  .kk-newsletter__title {
+    margin-bottom: {{ block.settings.newsletter_title_margin }}px;
+    text-align: center;
+  }
+
+  .kk-newsletter__form {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.form_element_spacing }}px;
+  }
+
+  .kk-field {
+    margin-bottom: {{ block.settings.form_element_spacing }}px;
+  }
+
+  .kk-input {
+    width: 100%;
+    height: 48px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.4;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    outline: none;
+  }
+
+  .kk-input:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+    transform: scale(1.02);
+  }
+
+  .kk-input::placeholder {
+    color: #999;
+    opacity: 1;
+  }
+
+  .kk-button {
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kk-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+
+  .kk-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .kk-button:hover:before {
+    left: 100%;
+  }
+
+  .kk-msg {
+    margin-top: {{ block.settings.form_element_spacing }}px;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .kk-msg--success {
+    color: #4ade80;
+  }
+
+  .kk-msg--error {
+    color: #f87171;
+  }
+
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .ai-footer-social-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .ai-footer-social-icon-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ block.settings.social_icon_size }}px;
+    height: {{ block.settings.social_icon_size }}px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .ai-footer-social-icon-{{ ai_gen_id }} svg {
+    width: 24px;
+    height: 24px;
+    fill: {{ block.settings.master_text_color | default: 'white' }};
+  }
+
+  .ai-footer-social-icon-{{ ai_gen_id }}:hover {
+    {% if block.settings.social_hover_effect == 'scale' %}
+      transform: scale(1.1);
+    {% elsif block.settings.social_hover_effect == 'lift' %}
+      transform: translateY(-2px);
+    {% elsif block.settings.social_hover_effect == 'rotate' %}
+      transform: rotate(5deg);
+    {% endif %}
+  }
+
+  .ai-footer-social-icon-{{ ai_gen_id }}--instagram:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  }
+
+  .ai-footer-social-icon-{{ ai_gen_id }}--facebook:hover {
+    background: #1877f2;
+  }
+
+  .ai-footer-social-icon-{{ ai_gen_id }}--tiktok:hover {
+    background: #000000;
+  }
+
+  .ai-footer-payment-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ block.settings.payment_section_bottom_margin }}px;
+  }
+
+  .ai-footer-payment-{{ ai_gen_id }} h3 {
+    margin-bottom: {{ block.settings.payment_title_margin }}px;
+    text-align: center;
+  }
+
+  .ai-footer-payment-icons-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: {{ block.settings.payment_icon_spacing }}px;
+  }
+
+  .ai-footer-payment-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.payment_icon_width }}px;
+    height: {{ block.settings.payment_icon_height }}px;
+    background: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-footer-payment-icon-{{ ai_gen_id }}:hover {
+    opacity: 1;
+  }
+
+  .ai-footer-payment-icon-{{ ai_gen_id }} img,
+  .ai-footer-payment-icon-{{ ai_gen_id }} svg {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .ai-footer-policies-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ block.settings.policies_bottom_margin }}px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .ai-footer-policies-{{ ai_gen_id }} a,
+  .ai-footer-policies-{{ ai_gen_id }} button {
+    color: {{ block.settings.master_text_color | default: 'white' }};
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    margin: 0 {{ block.settings.policy_link_spacing | divided_by: 2 }}px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 8px 12px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .ai-footer-policies-{{ ai_gen_id }} a:hover,
+  .ai-footer-policies-{{ ai_gen_id }} button:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .ai-footer-policies-{{ ai_gen_id }} .ai-footer-policy-separator-{{ ai_gen_id }} {
+    color: {{ block.settings.master_text_color | default: 'white' }};
+    opacity: 0.4;
+    margin: 0 8px;
+    font-size: 12px;
+  }
+
+  .ai-footer-copyright-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.6;
+    margin-top: {{ block.settings.copyright_top_margin }}px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  @media screen and (max-width: 1199px) {
+    .ai-footer-main-{{ ai_gen_id }} {
+      grid-template-columns: repeat(3, 1fr);
+      gap: {{ block.settings.mobile_column_gap }}px;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-footer-main-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+      gap: {{ block.settings.mobile_column_gap }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-footer-main-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.mobile_section_spacing }}px;
+    }
+
+    .ai-footer-{{ ai_gen_id }} {
+      padding: {{ block.settings.footer_padding | times: 0.7 }}px {{ block.settings.footer_padding | times: 0.5 }}px;
+    }
+
+    .ai-footer-social-{{ ai_gen_id }} {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .ai-footer-payment-icons-{{ ai_gen_id }} {
+      gap: {{ block.settings.mobile_payment_spacing }}px;
+    }
+
+    .ai-footer-policies-{{ ai_gen_id }} a,
+    .ai-footer-policies-{{ ai_gen_id }} button {
+      margin: 5px {{ block.settings.mobile_policy_spacing | divided_by: 2 }}px;
+      font-size: 13px;
+    }
+
+    .ai-footer-customer-club-{{ ai_gen_id }} {
+      {% if block.settings.club_layout == 'horizontal' or block.settings.club_layout == 'horizontal_reverse' %}
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      {% endif %}
+    }
+  }
+{% endstyle %}
+
+<footer class="ai-footer-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-footer-content-{{ ai_gen_id }}">
+    <div class="ai-footer-main-{{ ai_gen_id }}">
+      <div class="ai-footer-column-{{ ai_gen_id }}">
+        {% if block.settings.show_newsletter %}
+          <div class="kk-newsletter">
+            <h3 class="kk-newsletter__title">{{ block.settings.newsletter_heading }}</h3>
+            
+            {% if block.settings.show_customer_club and block.settings.customer_club_icon != blank or block.settings.customer_club_text != blank %}
+              <div class="ai-footer-customer-club-{{ ai_gen_id }}">
+                {% if block.settings.customer_club_icon %}
+                  <div class="ai-footer-club-icon-{{ ai_gen_id }}">
+                    <img
+                      src="{{ block.settings.customer_club_icon | image_url: width: 320 }}"
+                      alt="{{ block.settings.customer_club_text | escape }}"
+                      loading="lazy"
+                      width="{{ block.settings.club_icon_size }}"
+                      height="{{ block.settings.club_icon_size }}"
+                    >
+                  </div>
+                {% endif %}
+                {% if block.settings.customer_club_text != blank %}
+                  <div class="ai-footer-club-text-{{ ai_gen_id }}">
+                    {{ block.settings.customer_club_text }}
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+
+            {% form 'customer', id: 'FooterNewsletterForm', class: 'kk-newsletter__form' %}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+
+              <div class="kk-field">
+                <label class="visually-hidden" for="FooterNewsletterEmail">{{ block.settings.email_placeholder }}</label>
+                <input
+                  id="FooterNewsletterEmail"
+                  class="kk-input"
+                  type="email"
+                  name="contact[email]"
+                  placeholder="{{ block.settings.email_placeholder }}"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  spellcheck="false"
+                  required
+                  {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
+                  aria-describedby="FooterNewsletterMsg"
+                >
+              </div>
+
+              <button type="submit" class="kk-button">{{ block.settings.button_text }}</button>
+
+              <div id="FooterNewsletterMsg" class="kk-msg" role="status" aria-live="polite">
+                {% if form.posted_successfully? %}
+                  <p class="kk-msg--success">{{ block.settings.success_message }}</p>
+                {% elsif form.errors %}
+                  <p class="kk-msg--error">{{ form.errors.translated_fields['email'] | default: 'Email' }} {{ form.errors.messages['email'] | default: 'is invalid or already subscribed.' }}</p>
+                {% endif %}
+              </div>
+            {% endform %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-footer-column-{{ ai_gen_id }}">
+        <h3>{{ block.settings.about_heading }}</h3>
+        {% for i in (1..5) %}
+          {% assign link_key = 'about_link_' | append: i %}
+          {% assign text_key = 'about_text_' | append: i %}
+          {% if block.settings[link_key] != blank and block.settings[text_key] != blank %}
+            <a href="{{ block.settings[link_key] }}">{{ block.settings[text_key] }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="ai-footer-column-{{ ai_gen_id }}">
+        <h3>{{ block.settings.categories_heading }}</h3>
+        {% assign collections_sorted = collections | sort: 'title' %}
+        {% assign displayed_count = 0 %}
+        {% for collection in collections_sorted %}
+          {% if collection.published and collection.products_count > 0 and displayed_count < block.settings.categories_limit %}
+            {% assign collection_title_parts = collection.title | split: '|' %}
+            <a href="{{ collection.url }}">{{ collection_title_parts[0] | strip }}</a>
+            {% assign displayed_count = displayed_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+        {% if block.settings.show_view_all and collections.size > block.settings.categories_limit %}
+          <a href="/collections">{{ block.settings.view_all_text }}</a>
+        {% endif %}
+      </div>
+
+      <div class="ai-footer-column-{{ ai_gen_id }}">
+        <h3>{{ block.settings.help_heading }}</h3>
+        {% for i in (1..5) %}
+          {% assign link_key = 'help_link_' | append: i %}
+          {% assign text_key = 'help_text_' | append: i %}
+          {% if block.settings[link_key] != blank and block.settings[text_key] != blank %}
+            <a href="{{ block.settings[link_key] }}">{{ block.settings[text_key] }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="ai-footer-column-{{ ai_gen_id }}">
+        <h3>{{ block.settings.social_heading }}</h3>
+        <div class="ai-footer-social-{{ ai_gen_id }}">
+          {% if block.settings.instagram_url != blank %}
+            <a href="{{ block.settings.instagram_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--instagram" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+          {% endif %}
+
+          {% if block.settings.facebook_url != blank %}
+            <a href="{{ block.settings.facebook_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--facebook" target="_blank" rel="noopener" aria-label="Follow us on Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+          {% endif %}
+
+          {% if block.settings.tiktok_url != blank %}
+            <a href="{{ block.settings.tiktok_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--tiktok" target="_blank" rel="noopener" aria-label="Follow us on TikTok">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% if block.settings.show_payment_methods %}
+      <div class="ai-footer-payment-{{ ai_gen_id }}">
+        <h3>{{ block.settings.payment_heading }}</h3>
+        <div class="ai-footer-payment-icons-{{ ai_gen_id }}">
+          {% for i in (1..12) %}
+            {% assign payment_key = 'payment_method_' | append: i %}
+            {% if block.settings[payment_key] != blank %}
+              <div class="ai-footer-payment-icon-{{ ai_gen_id }}">
+                <img
+                  src="{{ block.settings[payment_key] | image_url: width: 100 }}"
+                  alt="Payment method {{ i }}"
+                  loading="lazy"
+                  width="{{ block.settings.payment_icon_width }}"
+                  height="{{ block.settings.payment_icon_height }}"
+                >
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="ai-footer-policies-{{ ai_gen_id }}">
+      {% assign policy_count = 0 %}
+      
+      {% if shop.privacy_policy %}
+        <a href="{{ shop.privacy_policy.url }}">{{ shop.privacy_policy.title }}</a>
+        {% assign policy_count = policy_count | plus: 1 %}
+      {% endif %}
+      
+      {% if shop.terms_of_service %}
+        {% if policy_count > 0 %}<span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>{% endif %}
+        <a href="{{ shop.terms_of_service.url }}">{{ shop.terms_of_service.title }}</a>
+        {% assign policy_count = policy_count | plus: 1 %}
+      {% endif %}
+      
+      {% if shop.refund_policy %}
+        {% if policy_count > 0 %}<span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>{% endif %}
+        <a href="{{ shop.refund_policy.url }}">{{ shop.refund_policy.title }}</a>
+        {% assign policy_count = policy_count | plus: 1 %}
+      {% endif %}
+      
+      {% if shop.shipping_policy %}
+        {% if policy_count > 0 %}<span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>{% endif %}
+        <a href="{{ shop.shipping_policy.url }}">{{ shop.shipping_policy.title }}</a>
+        {% assign policy_count = policy_count | plus: 1 %}
+      {% endif %}
+      
+      {% if shop.subscription_policy %}
+        {% if policy_count > 0 %}<span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>{% endif %}
+        <a href="{{ shop.subscription_policy.url }}">{{ shop.subscription_policy.title }}</a>
+        {% assign policy_count = policy_count | plus: 1 %}
+      {% endif %}
+      
+      {% if block.settings.show_cookie_preferences %}
+        {% if policy_count > 0 %}<span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>{% endif %}
+        <button type="button" onclick="window.Shopify.customerPrivacy.setTrackingConsent(false, function() { location.reload(); });">Cookie preferences</button>
+      {% endif %}
+    </div>
+
+    <div class="ai-footer-copyright-{{ ai_gen_id }}">
+      {{ block.settings.copyright_text }}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Kul Kid Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background & animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gradient_animation",
+      "label": "Enable gradient animation",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "static_background_color",
+      "label": "Static background color (when animation disabled)",
+      "default": "#334fb4"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Animation duration",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "gradient_direction",
+      "label": "Gradient direction",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "°",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "gradient_size",
+      "label": "Gradient size",
+      "min": 200,
+      "max": 800,
+      "step": 50,
+      "unit": "%",
+      "default": 400
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#ff6b6b"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#4ecdc4"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_3",
+      "label": "Gradient color 3",
+      "default": "#45b7d1"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_4",
+      "label": "Gradient color 4",
+      "default": "#96ceb4"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_5",
+      "label": "Gradient color 5",
+      "default": "#feca57"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_6",
+      "label": "Gradient color 6",
+      "default": "#ff9ff3"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_7",
+      "label": "Gradient color 7",
+      "default": "#54a0ff"
+    },
+    {
+      "type": "header",
+      "content": "Master settings"
+    },
+    {
+      "type": "color",
+      "id": "master_text_color",
+      "label": "Master text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter heading",
+      "default": "Join the Club"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Your Email Address"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Sign Up"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thanks! Please check your inbox to confirm."
+    },
+    {
+      "type": "header",
+      "content": "Customer club"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_customer_club",
+      "label": "Show customer club",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "customer_club_icon",
+      "label": "Customer club icon"
+    },
+    {
+      "type": "textarea",
+      "id": "customer_club_text",
+      "label": "Customer club description",
+      "default": "Join our exclusive customer club for special offers and early access to new products."
+    },
+    {
+      "type": "select",
+      "id": "club_layout",
+      "label": "Layout",
+      "options": [
+        {"value": "vertical", "label": "Vertical (icon above text)"},
+        {"value": "horizontal", "label": "Horizontal (icon left, text right)"},
+        {"value": "horizontal_reverse", "label": "Horizontal reverse (text left, icon right)"}
+      ],
+      "default": "vertical"
+    },
+    {
+      "type": "select",
+      "id": "club_icon_position",
+      "label": "Icon position (vertical layout)",
+      "options": [
+        {"value": "flex-start", "label": "Left"},
+        {"value": "center", "label": "Center"},
+        {"value": "flex-end", "label": "Right"}
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "club_text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {"value": "left", "label": "Left"},
+        {"value": "center", "label": "Center"},
+        {"value": "right", "label": "Right"}
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "club_icon_size",
+      "label": "Icon size",
+      "min": 20,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "club_gap",
+      "label": "Gap between icon and text",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "club_icon_color",
+      "label": "Icon color (optional override)"
+    },
+    {
+      "type": "color",
+      "id": "club_icon_background_color",
+      "label": "Icon background color (optional)"
+    },
+    {
+      "type": "range",
+      "id": "club_icon_padding",
+      "label": "Icon background padding",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "club_icon_border_radius",
+      "label": "Icon background border radius",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "club_text_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "club_text_weight",
+      "label": "Text weight",
+      "options": [
+        {"value": "300", "label": "Light"},
+        {"value": "400", "label": "Normal"},
+        {"value": "500", "label": "Medium"},
+        {"value": "600", "label": "Semi-bold"},
+        {"value": "700", "label": "Bold"}
+      ],
+      "default": "400"
+    },
+    {
+      "type": "select",
+      "id": "club_text_style",
+      "label": "Text style",
+      "options": [
+        {"value": "normal", "label": "Normal"},
+        {"value": "italic", "label": "Italic"}
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "select",
+      "id": "club_text_transform",
+      "label": "Text transform",
+      "options": [
+        {"value": "none", "label": "None"},
+        {"value": "uppercase", "label": "Uppercase"},
+        {"value": "lowercase", "label": "Lowercase"},
+        {"value": "capitalize", "label": "Capitalize"}
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "club_text_line_height",
+      "label": "Text line height",
+      "min": 1.0,
+      "max": 2.0,
+      "step": 0.1,
+      "default": 1.4
+    },
+    {
+      "type": "range",
+      "id": "club_text_max_width",
+      "label": "Text max width",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 250
+    },
+    {
+      "type": "color",
+      "id": "club_text_color",
+      "label": "Text color (optional override)"
+    },
+    {
+      "type": "checkbox",
+      "id": "club_text_shadow",
+      "label": "Add text shadow",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "club_background_color",
+      "label": "Section background color (optional)"
+    },
+    {
+      "type": "range",
+      "id": "club_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "club_border_radius",
+      "label": "Section border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "About section"
+    },
+    {
+      "type": "text",
+      "id": "about_heading",
+      "label": "About heading",
+      "default": "About Kul Kid"
+    },
+    {
+      "type": "url",
+      "id": "about_link_1",
+      "label": "About link 1"
+    },
+    {
+      "type": "text",
+      "id": "about_text_1",
+      "label": "About text 1",
+      "default": "Our Story"
+    },
+    {
+      "type": "url",
+      "id": "about_link_2",
+      "label": "About link 2"
+    },
+    {
+      "type": "text",
+      "id": "about_text_2",
+      "label": "About text 2",
+      "default": "Sustainability"
+    },
+    {
+      "type": "url",
+      "id": "about_link_3",
+      "label": "About link 3"
+    },
+    {
+      "type": "text",
+      "id": "about_text_3",
+      "label": "About text 3",
+      "default": "Careers"
+    },
+    {
+      "type": "url",
+      "id": "about_link_4",
+      "label": "About link 4"
+    },
+    {
+      "type": "text",
+      "id": "about_text_4",
+      "label": "About text 4",
+      "default": "Press"
+    },
+    {
+      "type": "url",
+      "id": "about_link_5",
+      "label": "About link 5"
+    },
+    {
+      "type": "text",
+      "id": "about_text_5",
+      "label": "About text 5",
+      "default": "Blog"
+    },
+    {
+      "type": "header",
+      "content": "Categories"
+    },
+    {
+      "type": "text",
+      "id": "categories_heading",
+      "label": "Categories heading",
+      "default": "Categories"
+    },
+    {
+      "type": "range",
+      "id": "categories_limit",
+      "label": "Number of categories to show",
+      "min": 3,
+      "max": 15,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view all link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View all text",
+      "default": "View All Categories"
+    },
+    {
+      "type": "header",
+      "content": "Help & Contact"
+    },
+    {
+      "type": "text",
+      "id": "help_heading",
+      "label": "Help heading",
+      "default": "Help & Contact"
+    },
+    {
+      "type": "url",
+      "id": "help_link_1",
+      "label": "Help link 1"
+    },
+    {
+      "type": "text",
+      "id": "help_text_1",
+      "label": "Help text 1",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "help_link_2",
+      "label": "Help link 2"
+    },
+    {
+      "type": "text",
+      "id": "help_text_2",
+      "label": "Help text 2",
+      "default": "Size Guide"
+    },
+    {
+      "type": "url",
+      "id": "help_link_3",
+      "label": "Help link 3"
+    },
+    {
+      "type": "text",
+      "id": "help_text_3",
+      "label": "Help text 3",
+      "default": "FAQ"
+    },
+    {
+      "type": "url",
+      "id": "help_link_4",
+      "label": "Help link 4"
+    },
+    {
+      "type": "text",
+      "id": "help_text_4",
+      "label": "Help text 4",
+      "default": "Returns"
+    },
+    {
+      "type": "url",
+      "id": "help_link_5",
+      "label": "Help link 5"
+    },
+    {
+      "type": "text",
+      "id": "help_text_5",
+      "label": "Help text 5",
+      "default": "Track Order"
+    },
+    {
+      "type": "header",
+      "content": "Social media"
+    },
+    {
+      "type": "text",
+      "id": "social_heading",
+      "label": "Social heading",
+      "default": "Follow Us"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok URL"
+    },
+    {
+      "type": "range",
+      "id": "social_icon_size",
+      "label": "Social icon size",
+      "min": 30,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 45
+    },
+    {
+      "type": "select",
+      "id": "social_hover_effect",
+      "label": "Hover effect",
+      "options": [
+        {"value": "none", "label": "None"},
+        {"value": "scale", "label": "Scale up"},
+        {"value": "lift", "label": "Lift up"},
+        {"value": "rotate", "label": "Rotate"}
+      ],
+      "default": "scale"
+    },
+    {
+      "type": "header",
+      "content": "Payment methods"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_methods",
+      "label": "Show payment methods",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "payment_heading",
+      "label": "Payment heading",
+      "default": "We Accept"
+    },
+    {
+      "type": "range",
+      "id": "payment_icon_width",
+      "label": "Payment icon width",
+      "min": 40,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "payment_icon_height",
+      "label": "Payment icon height",
+      "min": 25,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 35
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_1",
+      "label": "Payment method 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_2",
+      "label": "Payment method 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_3",
+      "label": "Payment method 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_4",
+      "label": "Payment method 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_5",
+      "label": "Payment method 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_6",
+      "label": "Payment method 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_7",
+      "label": "Payment method 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_8",
+      "label": "Payment method 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_9",
+      "label": "Payment method 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_10",
+      "label": "Payment method 10"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_11",
+      "label": "Payment method 11"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_method_12",
+      "label": "Payment method 12"
+    },
+    {
+      "type": "header",
+      "content": "Policies"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cookie_preferences",
+      "label": "Show cookie preferences",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Copyright"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "default": "© 2024 Kul Kid. All rights reserved."
+    },
+    {
+      "type": "header",
+      "content": "Spacing & margins"
+    },
+    {
+      "type": "range",
+      "id": "footer_padding",
+      "label": "Footer padding",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "section_spacing",
+      "label": "Section spacing",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_bottom_margin",
+      "label": "Heading bottom margin",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "link_spacing",
+      "label": "Link spacing",
+      "min": 5,
+      "max": 25,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "mobile_column_gap",
+      "label": "Mobile column gap",
+      "min": 15,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "mobile_section_spacing",
+      "label": "Mobile section spacing",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "newsletter_margin_top",
+      "label": "Newsletter top margin",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "newsletter_title_margin",
+      "label": "Newsletter title margin",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "form_element_spacing",
+      "label": "Form element spacing",
+      "min": 5,
+      "max": 20,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "club_bottom_margin",
+      "label": "Club bottom margin",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "payment_section_bottom_margin",
+      "label": "Payment section bottom margin",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "payment_title_margin",
+      "label": "Payment title margin",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "payment_icon_spacing",
+      "label": "Payment icon spacing",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "policy_link_spacing",
+      "label": "Policy link spacing",
+      "min": 10,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "policies_bottom_margin",
+      "label": "Policies bottom margin",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "copyright_top_margin",
+      "label": "Copyright top margin",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_payment_spacing",
+      "label": "Mobile payment spacing",
+      "min": 5,
+      "max": 20,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "mobile_policy_spacing",
+      "label": "Mobile policy spacing",
+      "min": 5,
+      "max": 20,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kul Kid Footer"
+    }
+  ]
+}
+{% endschema %}

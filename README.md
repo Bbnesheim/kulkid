@@ -1,2 +1,0 @@
-# kulkid
-kulkid.no codebase
