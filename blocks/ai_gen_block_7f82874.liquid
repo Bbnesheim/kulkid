@@ -249,11 +249,15 @@
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
-    padding: 15px;
+    padding: 0 15px 15px;
     margin-top: {{ block.settings.newsletter_margin_top }}px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+  }
+
+  .kk-newsletter__body {
+    padding-top: 15px;
   }
 
   .kk-newsletter:hover {
@@ -582,87 +586,89 @@
         {% if block.settings.show_newsletter %}
           <div class="kk-newsletter">
             <h3 class="kk-newsletter__title">{{ block.settings.newsletter_heading }}</h3>
-            
-            {% if block.settings.show_customer_club and block.settings.customer_club_icon != blank or block.settings.customer_club_text != blank %}
-              <div class="ai-footer-customer-club-{{ ai_gen_id }}">
-                {% if block.settings.customer_club_icon %}
-                  <div class="ai-footer-club-icon-{{ ai_gen_id }}">
-                    <img
-                      src="{{ block.settings.customer_club_icon | image_url: width: 320 }}"
-                      alt="{{ block.settings.customer_club_text | escape }}"
-                      loading="lazy"
-                      width="{{ block.settings.club_icon_size }}"
-                      height="{{ block.settings.club_icon_size }}"
-                    >
-                  </div>
-                {% endif %}
-                {% if block.settings.customer_club_text != blank %}
-                  <div class="ai-footer-club-text-{{ ai_gen_id }}">
-                    {{ block.settings.customer_club_text }}
-                  </div>
-                {% endif %}
-              </div>
-            {% endif %}
 
-            {% assign email_placeholder_text = block.settings.email_placeholder | default: 'newsletter.label' | t %}
-            {% assign button_text = block.settings.button_text | default: 'newsletter.button_label' | t %}
-            {% assign default_error_message = 'is invalid or already subscribed.' %}
-
-            {% form
-              'customer',
-              id: 'FooterNewsletterForm',
-              class: 'kk-newsletter__form',
-              data-cptcha: 'true'
-            %}
-              <input type="hidden" name="contact[tags]" value="newsletter,kul-kid-klubben">
-
-              <div class="kk-field">
-                <label class="visually-hidden" for="FooterNewsletterEmail">{{ newsletter_placeholder }}</label>
-                <input
-                  id="FooterNewsletterEmail"
-                  class="kk-input"
-                  type="email"
-                  name="contact[email]"
-                  placeholder="{{ newsletter_placeholder }}"
-                  value="{{ form.email | default: customer.email | escape }}"
-                  autocapitalize="off"
-                  autocomplete="email"
-                  autocorrect="off"
-                  spellcheck="false"
-                  required
-                  aria-describedby="FooterNewsletterMsg"
-                  {% if form.errors contains 'email' %}
-                    aria-invalid="true"
+            <div class="kk-newsletter__body">
+              {% if block.settings.show_customer_club and block.settings.customer_club_icon != blank or block.settings.customer_club_text != blank %}
+                <div class="ai-footer-customer-club-{{ ai_gen_id }}">
+                  {% if block.settings.customer_club_icon %}
+                    <div class="ai-footer-club-icon-{{ ai_gen_id }}">
+                      <img
+                        src="{{ block.settings.customer_club_icon | image_url: width: 320 }}"
+                        alt="{{ block.settings.customer_club_text | escape }}"
+                        loading="lazy"
+                        width="{{ block.settings.club_icon_size }}"
+                        height="{{ block.settings.club_icon_size }}"
+                      >
+                    </div>
                   {% endif %}
-                >
-              </div>
+                  {% if block.settings.customer_club_text != blank %}
+                    <div class="ai-footer-club-text-{{ ai_gen_id }}">
+                      {{ block.settings.customer_club_text }}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
 
-              <button type="submit" class="kk-button">{{ newsletter_cta }}</button>
+              {% assign email_placeholder_text = block.settings.email_placeholder | default: 'newsletter.label' | t %}
+              {% assign button_text = block.settings.button_text | default: 'newsletter.button_label' | t %}
+              {% assign default_error_message = 'is invalid or already subscribed.' %}
 
-              <div id="FooterNewsletterMsg" class="kk-msg" role="status" aria-live="polite">
-                {% if form.posted_successfully? %}
-                  <p class="kk-msg--success">{{ newsletter_success }}</p>
-                {% elsif form.errors %}
-                  {% assign error_label = form.errors.translated_fields['email'] %}
-                  {% if error_label == blank %}
-                    {% assign error_label = 'newsletter.label' | t %}
-                    {% if error_label == 'newsletter.label' %}
-                      {% assign error_label = email_placeholder_text %}
+              {% form
+                'customer',
+                id: 'FooterNewsletterForm',
+                class: 'kk-newsletter__form',
+                data-cptcha: 'true'
+              %}
+                <input type="hidden" name="contact[tags]" value="newsletter,kul-kid-klubben">
+
+                <div class="kk-field">
+                  <label class="visually-hidden" for="FooterNewsletterEmail">{{ newsletter_placeholder }}</label>
+                  <input
+                    id="FooterNewsletterEmail"
+                    class="kk-input"
+                    type="email"
+                    name="contact[email]"
+                    placeholder="{{ newsletter_placeholder }}"
+                    value="{{ form.email | default: customer.email | escape }}"
+                    autocapitalize="off"
+                    autocomplete="email"
+                    autocorrect="off"
+                    spellcheck="false"
+                    required
+                    aria-describedby="FooterNewsletterMsg"
+                    {% if form.errors contains 'email' %}
+                      aria-invalid="true"
                     {% endif %}
-                  {% endif %}
+                  >
+                </div>
 
-                  {% assign error_message = form.errors.messages['email'] %}
-                  {% if error_message == blank %}
-                    {% assign error_message = 'general.newsletter_form.error' | t %}
-                    {% if error_message == 'general.newsletter_form.error' %}
-                      {% assign error_message = default_error_message %}
+                <button type="submit" class="kk-button">{{ newsletter_cta }}</button>
+
+                <div id="FooterNewsletterMsg" class="kk-msg" role="status" aria-live="polite">
+                  {% if form.posted_successfully? %}
+                    <p class="kk-msg--success">{{ newsletter_success }}</p>
+                  {% elsif form.errors %}
+                    {% assign error_label = form.errors.translated_fields['email'] %}
+                    {% if error_label == blank %}
+                      {% assign error_label = 'newsletter.label' | t %}
+                      {% if error_label == 'newsletter.label' %}
+                        {% assign error_label = email_placeholder_text %}
+                      {% endif %}
                     {% endif %}
-                  {% endif %}
 
-                  <p class="kk-msg--error">{{ error_label }} {{ error_message }}</p>
-                {% endif %}
-              </div>
-            {% endform %}
+                    {% assign error_message = form.errors.messages['email'] %}
+                    {% if error_message == blank %}
+                      {% assign error_message = 'general.newsletter_form.error' | t %}
+                      {% if error_message == 'general.newsletter_form.error' %}
+                        {% assign error_message = default_error_message %}
+                      {% endif %}
+                    {% endif %}
+
+                    <p class="kk-msg--error">{{ error_label }} {{ error_message }}</p>
+                  {% endif %}
+                </div>
+              {% endform %}
+            </div>
           </div>
         {% endif %}
       </div>
