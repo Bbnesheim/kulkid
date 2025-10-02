@@ -194,6 +194,12 @@
     "collage_DM3cc7": {
       "type": "collage",
       "blocks": {
+        "image_bEL7Nw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dea9aeefd82.jpg"
+          }
+        },
         "product_egMeiK": {
           "type": "product",
           "settings": {
@@ -206,25 +212,19 @@
           "settings": {
             "collection": "superhelter"
           }
-        },
-        "image_bEL7Nw": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dea9aeefd82.jpg"
-          }
         }
       },
       "block_order": [
+        "image_bEL7Nw",
         "product_egMeiK",
-        "collection_wc336X",
-        "image_bEL7Nw"
+        "collection_wc336X"
       ],
       "name": "SUPERHELTER",
       "settings": {
         "heading": "Små superhelter",
         "heading_size": "h1",
-        "desktop_layout": "right",
-        "mobile_layout": "column",
+        "desktop_layout": "left",
+        "mobile_layout": "collage",
         "card_styles": "product-card-wrapper",
         "color_scheme": "",
         "padding_top": 36,
