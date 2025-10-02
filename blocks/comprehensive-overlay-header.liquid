@@ -426,7 +426,45 @@
 
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} {
       display: flex;
+      --ai-cart-hover-color: {{ block.settings.cart_icon_hover_color_desktop | default: block.settings.cart_icon_color_desktop | default: '#ffffff' }};
+      --ai-cart-hover-gradient: linear-gradient(
+        90deg,
+        #ff0000,
+        #ff8000,
+        #ffff00,
+        #80ff00,
+        #00ff00,
+        #00ff80,
+        #00ffff,
+        #0080ff,
+        #0000ff,
+        #8000ff,
+        #ff00ff,
+        #ff0080
+      );
     }
+
+    {% if block.settings.cart_icon_hover_color_desktop != blank %}
+      @supports (color: color-mix(in srgb, red, blue)) {
+        .ai-overlay-header-actions-desktop-{{ ai_gen_id }} {
+          --ai-cart-hover-gradient: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--ai-cart-hover-color) 70%, #ff0000 30%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 65%, #ff8000 35%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 60%, #ffff00 40%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 58%, #80ff00 42%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 55%, #00ff00 45%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 52%, #00ff80 48%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 50%, #00ffff 50%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 52%, #0080ff 48%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 55%, #0000ff 45%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 58%, #8000ff 42%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 62%, #ff00ff 38%),
+            color-mix(in srgb, var(--ai-cart-hover-color) 66%, #ff0080 34%)
+          );
+        }
+      }
+    {% endif %}
 
     .ai-overlay-header-icon-{{ ai_gen_id }} {
       width: {{ block.settings.icon_size_desktop }}px;
@@ -443,10 +481,6 @@
 
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-account-icon-{{ ai_gen_id }} {
       color: {{ block.settings.account_icon_color_desktop }};
-    }
-
-    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }} {
-      color: {{ block.settings.cart_icon_color_desktop }};
     }
 
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }} svg,
@@ -481,6 +515,47 @@
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover img {
       transform: scale(1.05);
       filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4));
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }} {
+      position: relative;
+      color: {{ block.settings.cart_icon_color_desktop }};
+      transition: color 0.3s ease;
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}:hover,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}:focus-visible {
+      color: var(--ai-cart-hover-color);
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}::after {
+      content: '';
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      bottom: -0.5rem;
+      height: 0.2rem;
+      border-radius: 999px;
+      background-image: var(--ai-cart-hover-gradient);
+      background-size: 200% 100%;
+      opacity: 0;
+      transform: scaleX(0.4);
+      transform-origin: center;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}:hover::after,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}:focus-visible::after {
+      opacity: 1;
+      transform: scaleX(1);
+      animation: ai-rainbow-underline-{{ ai_gen_id }} 1.6s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}:hover::after,
+      .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}:focus-visible::after {
+        animation: none;
+      }
     }
   }
 {% endstyle %}
