@@ -15,7 +15,7 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Myke basics – klare for hverdagen",
+            "heading": "Klar for små monstre!",
             "heading_size": "h2"
           }
         },
@@ -51,7 +51,7 @@
         "image_height": "large",
         "image_behavior": "none",
         "desktop_content_position": "bottom-center",
-        "desktop_content_alignment": "left",
+        "desktop_content_alignment": "center",
         "show_text_box": false,
         "color_scheme": "scheme-1",
         "stack_images_on_mobile": false,
@@ -65,7 +65,7 @@
       "settings": {
         "collection": "halloween",
         "products_to_show": 4,
-        "title": "Klar for små monstre!",
+        "title": "",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -364,10 +364,10 @@
     "image_banner",
     "featured_collection",
     "collage_UyGffd",
-    "featured_collection_md4CFj",
     "collage_DM3cc7",
-    "collection_list_gTXynP",
+    "featured_collection_md4CFj",
     "collage_qdRyxk",
+    "collection_list_gTXynP",
     "image_with_text_m3GQHy",
     "featured_collection_RXfLrt"
   ]
