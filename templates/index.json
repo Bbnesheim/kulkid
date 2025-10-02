@@ -131,11 +131,11 @@
     "collection_list_gTXynP": {
       "type": "collection-list",
       "blocks": {
-        "featured_collection_76cpVN": {
+        "featured_collection_myyJBW": {
           "type": "featured_collection",
-          "name": "Halloween",
+          "name": "Monsterne",
           "settings": {
-            "collection": "halloween"
+            "collection": "monstere"
           }
         },
         "featured_collection_Tz4i3X": {
@@ -145,18 +145,18 @@
             "collection": "dyrene"
           }
         },
-        "featured_collection_myyJBW": {
+        "featured_collection_76cpVN": {
           "type": "featured_collection",
-          "name": "Monsterne",
+          "name": "Halloween",
           "settings": {
-            "collection": "monstere"
+            "collection": "halloween"
           }
         }
       },
       "block_order": [
-        "featured_collection_76cpVN",
+        "featured_collection_myyJBW",
         "featured_collection_Tz4i3X",
-        "featured_collection_myyJBW"
+        "featured_collection_76cpVN"
       ],
       "name": "MOTIVER",
       "settings": {
