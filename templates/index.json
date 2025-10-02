@@ -133,20 +133,20 @@
         "image_qCLexE": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/toddler-staple-tee-black-front-68dbac4ca0dc6.jpg"
+            "image": "shopify://shop_images/kids-eco-hoodie-black-left-front-68dd7891f0d4b.jpg"
           }
         },
         "product_pqWbbq": {
           "type": "product",
           "settings": {
-            "product": "",
+            "product": "t-shirt-i-bomull-kulkid-basic",
             "second_image": false
           }
         },
         "collection_fHUPUR": {
           "type": "collection",
           "settings": {
-            "collection": "personlig-med-navn-gaver-babyklaer-kulkid-no"
+            "collection": "basics"
           }
         }
       },
