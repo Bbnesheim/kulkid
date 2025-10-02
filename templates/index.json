@@ -119,7 +119,7 @@
       "name": "t:sections.collage.presets.name",
       "settings": {
         "heading": "Halloween for de minste",
-        "heading_size": "h1",
+        "heading_size": "h2",
         "desktop_layout": "left",
         "mobile_layout": "collage",
         "card_styles": "product-card-wrapper",
@@ -204,7 +204,7 @@
           "type": "product",
           "settings": {
             "product": "kulkid-t-skjorte-spiderman-stripe-barn-2-6-ar",
-            "second_image": false
+            "second_image": true
           }
         },
         "collection_wc336X": {
