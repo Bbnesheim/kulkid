@@ -27,28 +27,28 @@
             "image": "shopify://shop_images/5415408336485179745_2048.jpg"
           }
         },
+        "collection_Q8HVGK": {
+          "type": "collection",
+          "settings": {
+            "collection": "svarte-basics-komfortable-klaer-til-barn-kulkid-no"
+          }
+        },
         "product_7yX6qi": {
           "type": "product",
           "settings": {
             "product": "kulkid-basics-joggebukse-barn-6-14-ar",
             "second_image": true
           }
-        },
-        "collection_Q8HVGK": {
-          "type": "collection",
-          "settings": {
-            "collection": "svarte-basics-komfortable-klaer-til-barn-kulkid-no"
-          }
         }
       },
       "block_order": [
         "image_NBYCUg",
-        "product_7yX6qi",
-        "collection_Q8HVGK"
+        "collection_Q8HVGK",
+        "product_7yX6qi"
       ],
       "name": "t:sections.collage.presets.name",
       "settings": {
-        "heading": "Multimedia-kollasj",
+        "heading": "Svarte basics for barn",
         "heading_size": "h2",
         "desktop_layout": "left",
         "mobile_layout": "collage",
