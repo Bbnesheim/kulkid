@@ -134,20 +134,20 @@
         "product_egMeiK": {
           "type": "product",
           "settings": {
-            "product": "cool-kid-baby-long-sleeve-organic-bodysuit-cute-infant-outfit-eco-friendly-baby-clothes-baby-shower-gift-newborn-essentials",
+            "product": "kulkid-leggings-spiderman-stripe-barn-2-8-ar",
             "second_image": false
           }
         },
         "collection_wc336X": {
           "type": "collection",
           "settings": {
-            "collection": "halloween"
+            "collection": "superhelter"
           }
         },
         "image_bEL7Nw": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/all-over-print-kids-leggings-white-left-front-68de9dc5438e0.jpg"
+            "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dea9aeefd82.jpg"
           }
         }
       },
@@ -156,9 +156,9 @@
         "collection_wc336X",
         "image_bEL7Nw"
       ],
-      "name": "t:sections.collage.presets.name",
+      "name": "SUPERHELTER",
       "settings": {
-        "heading": "Halloween for de minste",
+        "heading": "Kommer for å redde dagen!",
         "heading_size": "h1",
         "desktop_layout": "right",
         "mobile_layout": "column",
