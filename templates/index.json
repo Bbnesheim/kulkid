@@ -115,7 +115,7 @@
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
-        "title": "Finn riktig kategori",
+        "title": "Finn riktig motiv",
         "heading_size": "h1",
         "image_ratio": "square",
         "columns_desktop": 3,
