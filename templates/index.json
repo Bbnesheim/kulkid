@@ -85,7 +85,7 @@
         "columns_mobile": "2",
         "swipe_on_mobile": true,
         "padding_top": 44,
-        "padding_bottom": 36
+        "padding_bottom": 0
       }
     },
     "collage_UyGffd": {
@@ -94,7 +94,7 @@
         "product_H8xCmH": {
           "type": "product",
           "settings": {
-            "product": "cool-kid-baby-long-sleeve-organic-bodysuit-cute-infant-outfit-eco-friendly-baby-clothes-baby-shower-gift-newborn-essentials",
+            "product": "halloween-hoodie-limited-edition-svart",
             "second_image": false
           }
         },
@@ -119,6 +119,46 @@
       "name": "t:sections.collage.presets.name",
       "settings": {
         "heading": "Halloween for de minste",
+        "heading_size": "h1",
+        "desktop_layout": "right",
+        "mobile_layout": "column",
+        "card_styles": "product-card-wrapper",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collage_DM3cc7": {
+      "type": "collage",
+      "blocks": {
+        "product_egMeiK": {
+          "type": "product",
+          "settings": {
+            "product": "kulkid-leggings-spiderman-stripe-barn-2-8-ar",
+            "second_image": false
+          }
+        },
+        "collection_wc336X": {
+          "type": "collection",
+          "settings": {
+            "collection": "superhelter"
+          }
+        },
+        "image_bEL7Nw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dea9aeefd82.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "product_egMeiK",
+        "collection_wc336X",
+        "image_bEL7Nw"
+      ],
+      "name": "SUPERHELTER",
+      "settings": {
+        "heading": "",
         "heading_size": "h1",
         "desktop_layout": "right",
         "mobile_layout": "column",
@@ -157,39 +197,39 @@
         "padding_bottom": 36
       }
     },
-    "collage_DM3cc7": {
+    "collage_qdRyxk": {
       "type": "collage",
       "blocks": {
-        "product_egMeiK": {
+        "image_qCLexE": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/kids-eco-hoodie-black-left-front-68dd7891f0d4b.jpg"
+          }
+        },
+        "product_pqWbbq": {
           "type": "product",
           "settings": {
-            "product": "kulkid-leggings-spiderman-stripe-barn-2-8-ar",
+            "product": "t-shirt-i-bomull-kulkid-basic",
             "second_image": false
           }
         },
-        "collection_wc336X": {
+        "collection_fHUPUR": {
           "type": "collection",
           "settings": {
-            "collection": "superhelter"
-          }
-        },
-        "image_bEL7Nw": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dea9aeefd82.jpg"
+            "collection": "basics"
           }
         }
       },
       "block_order": [
-        "product_egMeiK",
-        "collection_wc336X",
-        "image_bEL7Nw"
+        "image_qCLexE",
+        "product_pqWbbq",
+        "collection_fHUPUR"
       ],
-      "name": "SUPERHELTER",
+      "name": "BASICS",
       "settings": {
-        "heading": "",
+        "heading": "Den kuleste kiden i gata!",
         "heading_size": "h1",
-        "desktop_layout": "right",
+        "desktop_layout": "left",
         "mobile_layout": "column",
         "card_styles": "product-card-wrapper",
         "color_scheme": "",
@@ -237,46 +277,6 @@
         "show_view_all": true,
         "columns_mobile": "2",
         "swipe_on_mobile": true,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collage_qdRyxk": {
-      "type": "collage",
-      "blocks": {
-        "image_qCLexE": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/kids-eco-hoodie-black-left-front-68dd7891f0d4b.jpg"
-          }
-        },
-        "product_pqWbbq": {
-          "type": "product",
-          "settings": {
-            "product": "t-shirt-i-bomull-kulkid-basic",
-            "second_image": false
-          }
-        },
-        "collection_fHUPUR": {
-          "type": "collection",
-          "settings": {
-            "collection": "basics"
-          }
-        }
-      },
-      "block_order": [
-        "image_qCLexE",
-        "product_pqWbbq",
-        "collection_fHUPUR"
-      ],
-      "name": "BASICS",
-      "settings": {
-        "heading": "Den kuleste kiden i gata!",
-        "heading_size": "h1",
-        "desktop_layout": "left",
-        "mobile_layout": "column",
-        "card_styles": "product-card-wrapper",
-        "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 36
       }
