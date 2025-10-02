@@ -30,7 +30,7 @@
         "collection_Q8HVGK": {
           "type": "collection",
           "settings": {
-            "collection": "svarte-basics-komfortable-klaer-til-barn-kulkid-no"
+            "collection": "svarte-basics-komfortable-klaer-til-barn-kulkid"
           }
         },
         "product_7yX6qi": {
@@ -62,7 +62,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "svarte-basics-komfortable-klaer-til-barn-kulkid-no",
+        "collection": "svarte-basics-komfortable-klaer-til-barn-kulkid",
         "products_to_show": 4,
         "title": "",
         "heading_size": "h2",
