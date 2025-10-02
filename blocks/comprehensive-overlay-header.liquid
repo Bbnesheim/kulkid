@@ -62,6 +62,9 @@
     height: {{ block.settings.header_height_mobile }}px;
     max-width: {{ settings.page_width }}px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1002;
+    background-color: inherit;
   }
 
   .ai-overlay-header-logo-{{ ai_gen_id }} {
@@ -120,7 +123,7 @@
   .ai-overlay-header-nav-link-{{ ai_gen_id }}::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: 0;
     left: 0;
     width: 0;
     height: 2px;
@@ -245,16 +248,17 @@
 
   .ai-overlay-header-mobile-overlay-{{ ai_gen_id }} {
     position: fixed;
-    top: 0;
+    top: var(--ai-overlay-offset-{{ ai_gen_id }}, 0);
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - var(--ai-overlay-offset-{{ ai_gen_id }}, 0));
     background-color: {{ block.settings.overlay_bg_color }};
     z-index: 1001;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .ai-overlay-header-mobile-overlay-{{ ai_gen_id }}.active {
@@ -264,7 +268,6 @@
 
   .ai-overlay-header-mobile-overlay-content-{{ ai_gen_id }} {
     padding: {{ block.settings.overlay_padding_mobile }}px {{ block.settings.header_margin_mobile }}px;
-    margin-top: {{ block.settings.header_height_mobile }}px;
   }
 
   .ai-overlay-header-mobile-nav-{{ ai_gen_id }} {
@@ -280,7 +283,9 @@
   .ai-overlay-header-mobile-nav-link-{{ ai_gen_id }} {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: {{ block.settings.caret_spacing }}px;
+    width: 100%;
     color: {{ block.settings.overlay_text_color }};
     text-decoration: none;
     font-size: {{ block.settings.nav_font_size_mobile }}px;
@@ -298,21 +303,39 @@
     animation: ai-rainbow-press-{{ ai_gen_id }} 0.3s ease-in-out;
   }
 
-  .ai-overlay-header-caret-{{ ai_gen_id }} {
-    width: {{ block.settings.caret_size }}px;
-    height: {{ block.settings.caret_size }}px;
-    margin-left: {{ block.settings.caret_margin }}px;
-    transition: transform 0.3s ease;
+  .ai-overlay-header-mobile-nav-label-{{ ai_gen_id }} {
+    flex: 1;
+    text-align: left;
+    min-width: 0;
   }
 
+  .ai-overlay-header-caret-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: {{ block.settings.caret_margin }}px;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+  }
+
+  .ai-overlay-header-caret-symbol-{{ ai_gen_id }} {
+    display: inline-block;
+    font-size: {{ block.settings.caret_size }}px;
+    line-height: 1;
+    background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .ai-overlay-header-caret-{{ ai_gen_id }} img,
   .ai-overlay-header-caret-{{ ai_gen_id }} svg {
-    width: 100%;
-    height: 100%;
-    fill: url(#ai-rainbow-gradient-{{ ai_gen_id }});
+    width: {{ block.settings.caret_size }}px;
+    height: {{ block.settings.caret_size }}px;
   }
 
   .ai-overlay-header-mobile-nav-link-{{ ai_gen_id }}.active .ai-overlay-header-caret-{{ ai_gen_id }} {
-    transform: rotate(180deg);
+    transform: rotate(90deg);
   }
 
   .ai-overlay-header-mobile-dropdown-{{ ai_gen_id }} {
@@ -535,15 +558,13 @@
         {% for link in linklists[block.settings.menu].links %}
           <li class="ai-overlay-header-mobile-nav-item-{{ ai_gen_id }}">
             <a href="{{ link.url }}" class="ai-overlay-header-mobile-nav-link-{{ ai_gen_id }}" data-has-dropdown="{% if link.links.size > 0 %}true{% else %}false{% endif %}">
-              {{ link.title }}
+              <span class="ai-overlay-header-mobile-nav-label-{{ ai_gen_id }}">{{ link.title }}</span>
               {% if link.links.size > 0 %}
                 <span class="ai-overlay-header-caret-{{ ai_gen_id }}">
                   {% if block.settings.custom_caret_icon %}
                     <img src="{{ block.settings.custom_caret_icon | image_url: width: 20 }}" alt="Dropdown">
                   {% else %}
-                    <svg viewBox="0 0 24 24">
-                      <path d="M7 10l5 5 5-5z"/>
-                    </svg>
+                    <span class="ai-overlay-header-caret-symbol-{{ ai_gen_id }}">▼</span>
                   {% endif %}
                 </span>
               {% endif %}
@@ -608,18 +629,39 @@
         this.hamburger = this.querySelector('.ai-overlay-header-hamburger-{{ ai_gen_id }}');
         this.overlay = this.querySelector('.ai-overlay-header-mobile-overlay-{{ ai_gen_id }}');
         this.mobileNavLinks = this.querySelectorAll('.ai-overlay-header-mobile-nav-link-{{ ai_gen_id }}[data-has-dropdown="true"]');
+        this.headerContainer = this.querySelector('.ai-overlay-header-container-{{ ai_gen_id }}');
+        this.updateOverlayOffset = this.updateOverlayOffset.bind(this);
+        if (this.hamburger) {
+          this.hamburger.setAttribute('aria-expanded', 'false');
+        }
       }
 
       connectedCallback() {
         this.setupEventListeners();
+        this.updateOverlayOffset();
+        window.addEventListener('resize', this.updateOverlayOffset);
+        window.addEventListener('scroll', this.updateOverlayOffset, { passive: true });
+      }
+
+      disconnectedCallback() {
+        window.removeEventListener('resize', this.updateOverlayOffset);
+        window.removeEventListener('scroll', this.updateOverlayOffset);
       }
 
       setupEventListeners() {
+        if (!this.hamburger || !this.overlay) {
+          return;
+        }
+
         this.hamburger.addEventListener('click', () => {
           this.toggleMobileMenu();
         });
 
         this.mobileNavLinks.forEach(link => {
+          if (link.dataset.hasDropdown === 'true') {
+            link.setAttribute('aria-expanded', 'false');
+          }
+
           link.addEventListener('click', (e) => {
             if (link.dataset.hasDropdown === 'true') {
               e.preventDefault();
@@ -636,24 +678,41 @@
       }
 
       toggleMobileMenu() {
-        this.hamburger.classList.toggle('active');
-        this.overlay.classList.toggle('active');
-        document.body.style.overflow = this.overlay.classList.contains('active') ? 'hidden' : '';
+        const isActive = !this.overlay.classList.contains('active');
+        this.hamburger.classList.toggle('active', isActive);
+        this.overlay.classList.toggle('active', isActive);
+        this.hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+        this.updateOverlayOffset();
+        document.body.style.overflow = isActive ? 'hidden' : '';
       }
 
       closeMobileMenu() {
         this.hamburger.classList.remove('active');
         this.overlay.classList.remove('active');
+        this.hamburger.setAttribute('aria-expanded', 'false');
+        this.updateOverlayOffset();
         document.body.style.overflow = '';
       }
 
       toggleMobileDropdown(link) {
         const dropdown = link.nextElementSibling;
-        
+
         if (dropdown) {
           dropdown.classList.toggle('active');
           link.classList.toggle('active');
+          const isOpen = dropdown.classList.contains('active');
+          link.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         }
+      }
+
+      updateOverlayOffset() {
+        if (!this.overlay || !this.headerContainer) {
+          return;
+        }
+
+        const headerRect = this.headerContainer.getBoundingClientRect();
+        const clampedOffset = Math.min(Math.max(headerRect.bottom, 0), window.innerHeight);
+        this.overlay.style.setProperty('--ai-overlay-offset-{{ ai_gen_id }}', clampedOffset + 'px');
       }
     }
 
