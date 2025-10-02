@@ -217,7 +217,7 @@
     },
     "featured_collection_RXfLrt": {
       "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
+      "name": "SALG",
       "settings": {
         "collection": "tilbud",
         "products_to_show": 4,
