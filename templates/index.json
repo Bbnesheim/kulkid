@@ -43,6 +43,7 @@
         "text_UK4ByM",
         "button"
       ],
+      "name": "HERO",
       "settings": {
         "image": "shopify://shop_images/kids-eco-hoodie-burnt-orange-front-68dd6b8c17bee.jpg",
         "image_2": "shopify://shop_images/toddler-jersey-t-shirt-black-front-68dd3fe333c86.jpg",
@@ -60,6 +61,7 @@
     },
     "featured_collection": {
       "type": "featured-collection",
+      "name": "Halloween-kolleksjon",
       "settings": {
         "collection": "halloween",
         "products_to_show": 4,
@@ -91,18 +93,21 @@
       "blocks": {
         "featured_collection_76cpVN": {
           "type": "featured_collection",
+          "name": "Halloween",
           "settings": {
             "collection": "halloween"
           }
         },
         "featured_collection_Tz4i3X": {
           "type": "featured_collection",
+          "name": "Dyrene",
           "settings": {
             "collection": "dyrene"
           }
         },
         "featured_collection_myyJBW": {
           "type": "featured_collection",
+          "name": "Monsterne",
           "settings": {
             "collection": "monstere"
           }
@@ -113,7 +118,7 @@
         "featured_collection_Tz4i3X",
         "featured_collection_myyJBW"
       ],
-      "name": "t:sections.collection-list.presets.name",
+      "name": "MOTIVER",
       "settings": {
         "title": "Finn riktig motiv",
         "heading_size": "h1",
@@ -155,7 +160,7 @@
         "product_pqWbbq",
         "collection_fHUPUR"
       ],
-      "name": "t:sections.collage.presets.name",
+      "name": "BASICS",
       "settings": {
         "heading": "Den kuleste kiden i gata!",
         "heading_size": "h1",
@@ -198,6 +203,7 @@
         "text_h9B43i",
         "button_DLTnd8"
       ],
+      "disabled": true,
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
         "image": "shopify://shop_images/julien-tromeur-6-adg66qleM-unsplash.jpg",
