@@ -433,28 +433,54 @@
       height: {{ block.settings.icon_size_desktop }}px;
     }
 
-    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-search-icon-{{ ai_gen_id }} {
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }} {
       color: {{ block.settings.search_icon_color_desktop }};
-    }
-
-    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-search-icon-{{ ai_gen_id }}:hover {
-      color: {{ block.settings.search_icon_hover_color_desktop }};
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-account-icon-{{ ai_gen_id }} {
       color: {{ block.settings.account_icon_color_desktop }};
     }
 
-    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-account-icon-{{ ai_gen_id }}:hover {
-      color: {{ block.settings.account_icon_hover_color_desktop }};
-    }
-
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }} {
       color: {{ block.settings.cart_icon_color_desktop }};
     }
 
-    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}:hover {
-      color: {{ block.settings.cart_icon_hover_color_desktop }};
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }} svg,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }} img {
+      transition: transform 0.3s ease, filter 0.3s ease;
+      display: block;
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }} svg path,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }} svg circle,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }} svg rect,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }} svg polygon {
+      transition: fill 0.3s ease;
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-search-icon-{{ ai_gen_id }} {
+      color: {{ block.settings.search_icon_color_desktop }};
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover {
+      color: inherit;
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg path,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg circle,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg rect,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg polygon {
+      fill: url(#ai-rainbow-gradient-{{ ai_gen_id }});
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg,
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover img {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4));
     }
   }
 {% endstyle %}
