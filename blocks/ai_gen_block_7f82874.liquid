@@ -109,6 +109,9 @@
 {% endif %}
 
 {% assign newsletter_margin_top = block.settings.newsletter_margin_top | default: 0 | plus: 0 %}
+{% assign about_content_id = 'ai-footer-accordion-' | append: ai_gen_id | append: '-about' %}
+{% assign categories_content_id = 'ai-footer-accordion-' | append: ai_gen_id | append: '-categories' %}
+{% assign help_content_id = 'ai-footer-accordion-' | append: ai_gen_id | append: '-help' %}
 
 {% style %}
   .ai-footer-{{ ai_gen_id }} {
@@ -153,6 +156,10 @@
     flex-direction: column;
   }
 
+  .ai-footer-column-{{ ai_gen_id }}[data-footer-accordion] {
+    gap: 12px;
+  }
+
   .ai-footer-column-{{ ai_gen_id }} h3,
   .kk-newsletter__title {
     color: {{ block.settings.master_text_color | default: 'white' }};
@@ -175,6 +182,63 @@
 
   .ai-footer-column-{{ ai_gen_id }} a:hover {
     opacity: 1;
+  }
+
+  .ai-footer-accordion__toggle {
+    display: none;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: none;
+    border: none;
+    color: {{ block.settings.master_text_color | default: 'white' }};
+    font: inherit;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .ai-footer-accordion__toggle:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 4px;
+  }
+
+  .ai-footer-accordion__icon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .ai-footer-accordion__icon::before,
+  .ai-footer-accordion__icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+  }
+
+  .ai-footer-accordion__icon::before {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .ai-footer-accordion__icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .ai-footer-accordion__toggle[aria-expanded='true'] .ai-footer-accordion__icon::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .ai-footer-accordion__content {
+    display: flex;
+    flex-direction: column;
   }
 
   .ai-footer-customer-club-{{ ai_gen_id }} {
@@ -558,6 +622,18 @@
       padding: {{ block.settings.footer_padding | times: 0.7 }}px {{ block.settings.footer_padding | times: 0.5 }}px;
     }
 
+    .ai-footer-column-{{ ai_gen_id }} h3 {
+      display: none;
+    }
+
+    .ai-footer-accordion__toggle {
+      display: flex;
+    }
+
+    .ai-footer-accordion__content {
+      padding-top: 4px;
+    }
+
     .ai-footer-social-{{ ai_gen_id }} {
       flex-direction: row;
       justify-content: center;
@@ -679,42 +755,75 @@
         {% endif %}
       </div>
 
-      <div class="ai-footer-column-{{ ai_gen_id }}">
+      <div class="ai-footer-column-{{ ai_gen_id }}" data-footer-accordion>
         <h3>{{ block.settings.about_heading }}</h3>
-        {% for i in (1..5) %}
-          {% assign link_key = 'about_link_' | append: i %}
-          {% assign text_key = 'about_text_' | append: i %}
-          {% if block.settings[link_key] != blank and block.settings[text_key] != blank %}
-            <a href="{{ block.settings[link_key] }}">{{ block.settings[text_key] }}</a>
-          {% endif %}
-        {% endfor %}
+        <button
+          class="ai-footer-accordion__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="{{ about_content_id }}"
+        >
+          <span>{{ block.settings.about_heading }}</span>
+          <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
+        </button>
+        <div id="{{ about_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content>
+          {% for i in (1..5) %}
+            {% assign link_key = 'about_link_' | append: i %}
+            {% assign text_key = 'about_text_' | append: i %}
+            {% if block.settings[link_key] != blank and block.settings[text_key] != blank %}
+              <a href="{{ block.settings[link_key] }}">{{ block.settings[text_key] }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
 
-      <div class="ai-footer-column-{{ ai_gen_id }}">
+      <div class="ai-footer-column-{{ ai_gen_id }}" data-footer-accordion>
         <h3>{{ block.settings.categories_heading }}</h3>
-        {% assign collections_sorted = collections | sort: 'title' %}
-        {% assign displayed_count = 0 %}
-        {% for collection in collections_sorted %}
-          {% if collection.published and collection.products_count > 0 and displayed_count < block.settings.categories_limit %}
-            {% assign collection_title_parts = collection.title | split: '|' %}
-            <a href="{{ collection.url }}">{{ collection_title_parts[0] | strip }}</a>
-            {% assign displayed_count = displayed_count | plus: 1 %}
+        <button
+          class="ai-footer-accordion__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="{{ categories_content_id }}"
+        >
+          <span>{{ block.settings.categories_heading }}</span>
+          <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
+        </button>
+        <div id="{{ categories_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content>
+          {% assign collections_sorted = collections | sort: 'title' %}
+          {% assign displayed_count = 0 %}
+          {% for collection in collections_sorted %}
+            {% if collection.published and collection.products_count > 0 and displayed_count < block.settings.categories_limit %}
+              {% assign collection_title_parts = collection.title | split: '|' %}
+              <a href="{{ collection.url }}">{{ collection_title_parts[0] | strip }}</a>
+              {% assign displayed_count = displayed_count | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+          {% if block.settings.show_view_all and collections.size > block.settings.categories_limit %}
+            <a href="/collections">{{ block.settings.view_all_text }}</a>
           {% endif %}
-        {% endfor %}
-        {% if block.settings.show_view_all and collections.size > block.settings.categories_limit %}
-          <a href="/collections">{{ block.settings.view_all_text }}</a>
-        {% endif %}
+        </div>
       </div>
 
-      <div class="ai-footer-column-{{ ai_gen_id }}">
+      <div class="ai-footer-column-{{ ai_gen_id }}" data-footer-accordion>
         <h3>{{ block.settings.help_heading }}</h3>
-        {% for i in (1..5) %}
-          {% assign link_key = 'help_link_' | append: i %}
-          {% assign text_key = 'help_text_' | append: i %}
-          {% if block.settings[link_key] != blank and block.settings[text_key] != blank %}
-            <a href="{{ block.settings[link_key] }}">{{ block.settings[text_key] }}</a>
-          {% endif %}
-        {% endfor %}
+        <button
+          class="ai-footer-accordion__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="{{ help_content_id }}"
+        >
+          <span>{{ block.settings.help_heading }}</span>
+          <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
+        </button>
+        <div id="{{ help_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content>
+          {% for i in (1..5) %}
+            {% assign link_key = 'help_link_' | append: i %}
+            {% assign text_key = 'help_text_' | append: i %}
+            {% if block.settings[link_key] != blank and block.settings[text_key] != blank %}
+              <a href="{{ block.settings[link_key] }}">{{ block.settings[text_key] }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
 
       <div class="ai-footer-column-{{ ai_gen_id }}">
@@ -812,6 +921,56 @@
     </div>
   </div>
 </footer>
+
+<script>
+  (function () {
+    const footer = document.querySelector('.ai-footer-{{ ai_gen_id }}');
+    if (!footer) return;
+
+    const accordions = footer.querySelectorAll('[data-footer-accordion]');
+    if (!accordions.length) return;
+
+    const mobileQuery = window.matchMedia('(max-width: 749px)');
+
+    accordions.forEach((accordion) => {
+      const toggle = accordion.querySelector('.ai-footer-accordion__toggle');
+      const content = accordion.querySelector('[data-footer-accordion-content]');
+      if (!toggle || !content) return;
+
+      toggle.addEventListener('click', () => {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isExpanded));
+        content.hidden = isExpanded;
+      });
+    });
+
+    const syncAccordions = (event) => {
+      const isMobile = event.matches;
+
+      accordions.forEach((accordion) => {
+        const toggle = accordion.querySelector('.ai-footer-accordion__toggle');
+        const content = accordion.querySelector('[data-footer-accordion-content]');
+        if (!toggle || !content) return;
+
+        if (isMobile) {
+          const expanded = toggle.getAttribute('aria-expanded') === 'true';
+          content.hidden = !expanded;
+        } else {
+          toggle.setAttribute('aria-expanded', 'true');
+          content.hidden = false;
+        }
+      });
+    };
+
+    syncAccordions(mobileQuery);
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+      mobileQuery.addEventListener('change', syncAccordions);
+    } else if (typeof mobileQuery.addListener === 'function') {
+      mobileQuery.addListener(syncAccordions);
+    }
+  })();
+</script>
 
 {% schema %}
 {
