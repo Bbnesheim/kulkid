@@ -108,6 +108,8 @@
   {% assign newsletter_success = newsletter_success_translation %}
 {% endif %}
 
+{% assign newsletter_margin_top = block.settings.newsletter_margin_top | default: 0 | plus: 0 %}
+
 {% style %}
   .ai-footer-{{ ai_gen_id }} {
     {% if block.settings.enable_gradient_animation %}
@@ -250,7 +252,11 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     padding: 0 15px 15px;
-    margin-top: {{ block.settings.newsletter_margin_top }}px;
+    {% if newsletter_margin_top > 10 %}
+      margin-top: {{ newsletter_margin_top | minus: 10 }}px;
+    {% else %}
+      margin-top: 0;
+    {% endif %}
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
