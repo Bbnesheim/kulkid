@@ -238,8 +238,8 @@
         "product_pqWbbq": {
           "type": "product",
           "settings": {
-            "product": "t-shirt-i-bomull-kulkid-basic",
-            "second_image": false
+            "product": "kulkid-basic-hoodie-barn-svart",
+            "second_image": true
           }
         },
         "collection_fHUPUR": {
