@@ -51,7 +51,7 @@
     width: 100%;
     background-color: {{ block.settings.header_bg_color }};
     border-bottom: {{ block.settings.header_border_thickness }}px solid {{ block.settings.header_border_color }};
-    z-index: 1000;
+    z-index: 1100;
   }
 
   .ai-overlay-header-container-{{ ai_gen_id }} {
@@ -63,12 +63,14 @@
     max-width: {{ settings.page_width }}px;
     margin: 0 auto;
     position: relative;
-    z-index: 1002;
+    z-index: 1110;
     background-color: inherit;
   }
 
   .ai-overlay-header-logo-{{ ai_gen_id }} {
     flex-shrink: 0;
+    position: relative;
+    z-index: 1120;
   }
 
   .ai-overlay-header-logo-{{ ai_gen_id }} a {
@@ -106,9 +108,19 @@
     font-size: {{ block.settings.nav_font_size_desktop }}px;
     font-weight: {{ block.settings.nav_font_weight }};
     padding: {{ block.settings.nav_item_padding_desktop }}px;
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    gap: {{ block.settings.caret_spacing }}px;
     position: relative;
     transition: all 0.3s ease;
+  }
+
+  .ai-overlay-header-desktop-caret-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: {{ block.settings.caret_margin }}px;
+    line-height: 1;
   }
 
   .ai-overlay-header-nav-link-{{ ai_gen_id }}:hover {
@@ -120,18 +132,30 @@
     animation: ai-rainbow-underline-{{ ai_gen_id }} 0.5s ease-in-out;
   }
 
-  .ai-overlay-header-nav-link-{{ ai_gen_id }}::after {
+  .ai-overlay-header-nav-link-{{ ai_gen_id }}:hover .ai-overlay-header-nav-label-{{ ai_gen_id }} {
+    background: inherit;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ai-overlay-header-nav-label-{{ ai_gen_id }} {
+    position: relative;
+    display: inline-block;
+  }
+
+  .ai-overlay-header-nav-label-{{ ai_gen_id }}::after {
     content: '';
     position: absolute;
-    bottom: 0;
     left: 0;
+    bottom: -2px;
     width: 0;
     height: 2px;
     background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080);
     transition: width 0.3s ease;
   }
 
-  .ai-overlay-header-nav-link-{{ ai_gen_id }}:hover::after {
+  .ai-overlay-header-nav-link-{{ ai_gen_id }}:hover .ai-overlay-header-nav-label-{{ ai_gen_id }}::after {
     width: 100%;
   }
 
@@ -222,7 +246,7 @@
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 1002;
+    z-index: 1120;
     position: relative;
   }
 
@@ -248,12 +272,12 @@
 
   .ai-overlay-header-mobile-overlay-{{ ai_gen_id }} {
     position: fixed;
-    top: var(--ai-overlay-offset-{{ ai_gen_id }}, 0);
+    top: var(--ai-overlay-offset-{{ ai_gen_id }}, calc({{ block.settings.header_height_mobile }}px + {{ block.settings.header_margin_mobile | times: 2 }}px));
     left: 0;
     width: 100%;
-    height: calc(100vh - var(--ai-overlay-offset-{{ ai_gen_id }}, 0));
+    height: calc(100vh - var(--ai-overlay-offset-{{ ai_gen_id }}, calc({{ block.settings.header_height_mobile }}px + {{ block.settings.header_margin_mobile | times: 2 }}px)));
     background-color: {{ block.settings.overlay_bg_color }};
-    z-index: 1001;
+    z-index: 1100;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -326,6 +350,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    font-weight: 700;
   }
 
   .ai-overlay-header-caret-{{ ai_gen_id }} img,
@@ -470,6 +495,29 @@
       color: inherit;
     }
 
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }} {
+      position: relative;
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080);
+      transition: width 0.3s ease;
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}:hover::after {
+      width: 100%;
+    }
+
+    .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-cart-icon-{{ ai_gen_id }}:hover {
+      animation: ai-rainbow-underline-{{ ai_gen_id }} 0.5s ease-in-out;
+    }
+
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg path,
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg circle,
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg rect,
@@ -517,7 +565,16 @@
         {% for link in linklists[block.settings.menu].links %}
           <li class="ai-overlay-header-nav-item-{{ ai_gen_id }}">
             <a href="{{ link.url }}" class="ai-overlay-header-nav-link-{{ ai_gen_id }}">
-              {{ link.title }}
+              <span class="ai-overlay-header-nav-label-{{ ai_gen_id }}">{{ link.title }}</span>
+              {% if link.links.size > 0 %}
+                <span class="ai-overlay-header-desktop-caret-{{ ai_gen_id }}" aria-hidden="true">
+                  {% if block.settings.custom_caret_icon %}
+                    <img src="{{ block.settings.custom_caret_icon | image_url: width: 20 }}" alt="" role="presentation">
+                  {% else %}
+                    <span class="ai-overlay-header-caret-symbol-{{ ai_gen_id }}">▼</span>
+                  {% endif %}
+                </span>
+              {% endif %}
             </a>
             {% if link.links.size > 0 %}
               <div class="ai-overlay-header-dropdown-{{ ai_gen_id }}">
@@ -667,11 +724,13 @@
         this.updateOverlayOffset();
         window.addEventListener('resize', this.updateOverlayOffset);
         window.addEventListener('scroll', this.updateOverlayOffset, { passive: true });
+        window.addEventListener('load', this.updateOverlayOffset);
       }
 
       disconnectedCallback() {
         window.removeEventListener('resize', this.updateOverlayOffset);
         window.removeEventListener('scroll', this.updateOverlayOffset);
+        window.removeEventListener('load', this.updateOverlayOffset);
       }
 
       setupEventListeners() {
@@ -709,6 +768,7 @@
         this.overlay.classList.toggle('active', isActive);
         this.hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
         this.updateOverlayOffset();
+        requestAnimationFrame(() => this.updateOverlayOffset());
         document.body.style.overflow = isActive ? 'hidden' : '';
       }
 
@@ -717,6 +777,7 @@
         this.overlay.classList.remove('active');
         this.hamburger.setAttribute('aria-expanded', 'false');
         this.updateOverlayOffset();
+        requestAnimationFrame(() => this.updateOverlayOffset());
         document.body.style.overflow = '';
       }
 
