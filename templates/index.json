@@ -88,51 +88,42 @@
         "padding_bottom": 36
       }
     },
-    "featured_product_kaWUBP": {
-      "type": "featured-product",
+    "collage_UyGffd": {
+      "type": "collage",
       "blocks": {
-        "text_cfCPGx": {
-          "type": "text",
+        "product_H8xCmH": {
+          "type": "product",
           "settings": {
-            "text": "{{ section.settings.product.vendor }}",
-            "text_style": "uppercase"
+            "product": "cool-kid-baby-long-sleeve-organic-bodysuit-cute-infant-outfit-eco-friendly-baby-clothes-baby-shower-gift-newborn-essentials",
+            "second_image": false
           }
         },
-        "title_Gt8ehh": {
-          "type": "title",
+        "collection_63HdpJ": {
+          "type": "collection",
           "settings": {
-            "heading_size": "h1"
+            "collection": "halloween"
           }
         },
-        "price_km4CXM": {
-          "type": "price",
-          "settings": {}
-        },
-        "share_Mqtij3": {
-          "type": "share",
+        "image_qFKtwa": {
+          "type": "image",
           "settings": {
-            "share_label": "Del"
+            "image": "shopify://shop_images/10904105977640800792_2048.jpg"
           }
         }
       },
       "block_order": [
-        "text_cfCPGx",
-        "title_Gt8ehh",
-        "price_km4CXM",
-        "share_Mqtij3"
+        "product_H8xCmH",
+        "collection_63HdpJ",
+        "image_qFKtwa"
       ],
-      "name": "t:sections.featured-product.presets.name",
+      "name": "t:sections.collage.presets.name",
       "settings": {
-        "product": "cool-kid-baby-long-sleeve-organic-bodysuit-cute-infant-outfit-eco-friendly-baby-clothes-baby-shower-gift-newborn-essentials",
+        "heading": "Halloween for de minste",
+        "heading_size": "h1",
+        "desktop_layout": "right",
+        "mobile_layout": "column",
+        "card_styles": "product-card-wrapper",
         "color_scheme": "",
-        "secondary_background": false,
-        "media_size": "medium",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": false,
-        "enable_video_looping": false,
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -303,7 +294,7 @@
   "order": [
     "image_banner",
     "featured_collection",
-    "featured_product_kaWUBP",
+    "collage_UyGffd",
     "collection_list_gTXynP",
     "collage_qdRyxk",
     "image_with_text_m3GQHy",
