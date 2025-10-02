@@ -82,7 +82,7 @@
             "search_icon_color_mobile": "#fd0000",
             "search_icon_hover_color_mobile": "#00b42b",
             "search_icon_color_desktop": "#121212",
-            "search_icon_hover_color_desktop": "#666666",
+            "search_icon_hover_color_desktop": "rgba(0,0,0,0)",
             "account_icon_color_mobile": "#f7ff00",
             "account_icon_hover_color_mobile": "#d67c00",
             "account_icon_color_desktop": "#121212",
@@ -90,7 +90,7 @@
             "cart_icon_color_mobile": "#4b7aef",
             "cart_icon_hover_color_mobile": "#ad55c4",
             "cart_icon_color_desktop": "#121212",
-            "cart_icon_hover_color_desktop": "#00b42b",
+            "cart_icon_hover_color_desktop": "rgba(0,0,0,0)",
             "caret_size": 14,
             "caret_spacing": 4,
             "caret_margin": 2
