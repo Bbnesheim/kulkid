@@ -128,6 +128,46 @@
         "padding_bottom": 36
       }
     },
+    "collage_DM3cc7": {
+      "type": "collage",
+      "blocks": {
+        "product_egMeiK": {
+          "type": "product",
+          "settings": {
+            "product": "cool-kid-baby-long-sleeve-organic-bodysuit-cute-infant-outfit-eco-friendly-baby-clothes-baby-shower-gift-newborn-essentials",
+            "second_image": false
+          }
+        },
+        "collection_wc336X": {
+          "type": "collection",
+          "settings": {
+            "collection": "halloween"
+          }
+        },
+        "image_bEL7Nw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/all-over-print-kids-leggings-white-left-front-68de9dc5438e0.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "product_egMeiK",
+        "collection_wc336X",
+        "image_bEL7Nw"
+      ],
+      "name": "t:sections.collage.presets.name",
+      "settings": {
+        "heading": "Halloween for de minste",
+        "heading_size": "h1",
+        "desktop_layout": "right",
+        "mobile_layout": "column",
+        "card_styles": "product-card-wrapper",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "collection_list_gTXynP": {
       "type": "collection-list",
       "blocks": {
@@ -149,7 +189,7 @@
           "type": "featured_collection",
           "name": "Halloween",
           "settings": {
-            "collection": "halloween"
+            "collection": "superhelter"
           }
         }
       },
@@ -295,6 +335,7 @@
     "image_banner",
     "featured_collection",
     "collage_UyGffd",
+    "collage_DM3cc7",
     "collection_list_gTXynP",
     "collage_qdRyxk",
     "image_with_text_m3GQHy",
