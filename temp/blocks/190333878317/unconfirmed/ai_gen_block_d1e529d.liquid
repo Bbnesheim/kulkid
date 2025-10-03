@@ -1,6 +1,1726 @@
+{% doc %}
+  @prompt
+    Create a responsive hero section for a kids' clothing store with a 3-column grid layout on desktop (seasonal highlight, accessories focus, kids/parents collection) and mobile slider. Include category navigation with round thumbnails below the hero. Each hero column should have full-height background images with overlay text and CTA buttons. The section should be customizable through Shopify's section settings for titles, descriptions, CTA text/links, and background images. Category icons should dynamically link to Shopify collections. Include settings for brand colors and support for 8 categories: Baby, T-Shirts, Pants, Dresses, Outerwear, Accessories, Toys, and Home/Interior. Mobile layout should display hero images as a swiper/slider with horizontal scrollable category icons., Make the swipe ui more modern, make it possible to drag swipe in smaller than desktop view, Make the Category collections swipeable in the same manner, Make the swipe function smoother, Category collections stops swiping at outerwear, Connect the Category collections with the stores collections directory, custom margin on Category collections
+    , category collections do not update accordingly, I want to choose what picture to show in category collection word underneath circle and set link, make the categories in lines vertically and option to add more categories, for category 9 and upward, make it go next to onefurtheste most right and just tighten the margins, make the categories responsible when adding on two horizontal lines of circles, make it swipeable when exceeding the space of two lines, make the categories a horizontal swipe instead, /* Container: 2-row horizontal scroller on ALL breakpoints */
+    .category-scroller {
+      --gap-y: 24px;
+      --gap-x: 32px;
+      display: grid;
+      grid-auto-flow: column;              /* flow sideways */
+      grid-template-rows: repeat(2, auto); /* ALWAYS two rows */
+      grid-auto-columns: min-content;      /* each item sizes to content */
+      gap: var(--gap-y) var(--gap-x);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 8px 0;
+    }
+    .category-scroller::-webkit-scrollbar { display: none; }
+    
+    .category-item {
+      scroll-snap-align: start;
+      display: grid;
+      place-items: center;
+      width: var(--item-size, 96px);
+    }
+    
+    .category-item__img {
+      width: var(--item-size, 96px);
+      height: var(--item-size, 96px);
+      border-radius: 9999px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: #f6f6f6;
+    }
+    
+    .category-item__img img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    
+    .category-item__label {
+      margin-top: 8px;
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    /* Keep TWO rows on mobile; only shrink the bubble size if needed */
+    @media (max-width: 480px) {
+      .category-scroller { --gap-y: 20px; --gap-x: 20px; }
+      .category-item, .category-item__img { --item-size: 80px; }
+    }
+    , Update my Kids hero section → Category bubbles so it behaves exactly like Quince:
+    
+    Replace the current slider/carousel with a native horizontal scroller using CSS Grid with two rows on all breakpoints (desktop + mobile).
+    
+    Disable any theme slider init (no dots/pagination, no vertical snapping).
+    
+    Ensure each bubble has a fixed column width so they don’t compress on desktop.
+    
+    Enable horizontal touch scroll on mobile and left/right arrows on desktop.
+    
+    Add scroll-snap for clean alignment, and increase gaps so the layout isn’t dense.
+    
+    Technical requirements
+    
+    Wrap class: .kk-category-scroller
+    
+    Items: .kk-category-item
+    
+    Two rows always: grid-template-rows: repeat(2, auto)
+    
+    Fixed auto-columns so bubbles never shrink: grid-auto-columns: var(--col-width)
+    
+    Horizontal overflow: overflow-x: auto; -webkit-overflow-scrolling: touch;
+    
+    Remove any theme slider classes/data-attributes (.slider, data-slider, .swiper, .slick) from this block so it doesn’t initialize.
+    
+    If any parent has overflow:hidden, set it to overflow:visible for this block., /* Ensure theme sliders are NOT initialized on this block and add arrow nudges */
+    document.querySelectorAll('.kk-category-scroller').forEach(scroller => {
+      // Remove slider classes/data that might auto-init
+      scroller.classList.remove('slider','swiper','slick');
+      scroller.removeAttribute('data-slider');
+    
+      // Optional arrow controls if present:
+      const left = scroller.parentElement.querySelector('.kk-scroll-left');
+      const right = scroller.parentElement.querySelector('.kk-scroll-right');
+      const step = parseInt(getComputedStyle(scroller).getPropertyValue('--col-width')) + 36; // approx one item + gap
+    
+      const nudge = (dx) => scroller.scrollBy({ left: dx, behavior: 'smooth' });
+      left && left.addEventListener('click', () => nudge(-step * 3));   // scroll 3 items
+      right && right.addEventListener('click', () => nudge(step * 3));
+    });
+    , /* Container: two-row horizontal scroller on ALL viewports */
+    .kk-category-scroller {
+      /* tune these from theme settings if you like */
+      --col-width: 128px;  /* fixed column width so items don't squeeze */
+      --gap-x: 36px;
+      --gap-y: 28px;
+    
+      display: grid;
+      grid-auto-flow: column;                 /* flow sideways */
+      grid-template-rows: repeat(2, auto);    /* ALWAYS 2 rows */
+      grid-auto-columns: var(--col-width);    /* fixed width columns */
+      gap: var(--gap-y) var(--gap-x);
+    
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    
+      padding: 8px 8px 2px;
+    }
+    
+    /* In case any theme wrapper clips the scroller */
+    .kk-category-scroller,
+    .kk-category-scroller * { /* allow child elements to show fully */
+      contain: content;
+    }
+    
+    .kk-category-item {
+      scroll-snap-align: start;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      text-decoration: none;
+    }
+    
+    .kk-category-item__img {
+      width: 112px;            /* can be smaller than --col-width to add label space */
+      height: 112px;
+      border-radius: 9999px;
+      overflow: hidden;
+      background: #f6f6f6;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      display: grid;
+      place-items: center;
+    }
+    
+    .kk-category-item__img img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    
+    .kk-category-item__label {
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.2;
+      max-width: 120px;
+    }
+    
+    /* Mobile: keep TWO rows, just scale down size/gaps */
+    @media (max-width: 600px) {
+      .kk-category-scroller {
+        --col-width: 104px;
+        --gap-x: 24px;
+        --gap-y: 22px;
+      }
+      .kk-category-item__img { width: 96px; height: 96px; }
+      .kk-category-item__label { font-size: 13px; max-width: 104px; }
+    }
+    
+    /* Hide any theme slider dots if they still render somewhere */
+    .kk-category-scroller .slick-dots,
+    .kk-category-scroller .swiper-pagination,
+    .kk-category-scroller .slider__dots { display: none !important; }
+    /* Ensure theme sliders are NOT initialized on this block and add arrow nudges */
+    doc, /* Your two-row scroller */
+    .kk-category-scroller{
+      overflow-x:auto !important;
+      overflow-y:hidden;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x !important;      /* <— key for mobile swipe */
+      scroll-snap-type:x mandatory;
+      overscroll-behavior-x: contain;
+    }
+    
+    /* ensure it actually overflows horizontally */
+    .kk-category-scroller{
+      --col-width:128px;
+      display:grid;
+      grid-auto-flow:column;
+      grid-template-rows:repeat(2,auto);
+      grid-auto-columns:var(--col-width);   /* fixed width columns */
+      gap:28px 32px;
+    }
+    
+    /* bubble sizing */
+    .kk-category-item{ scroll-snap-align:start; width:var(--col-width); }
+    .kk-category-item__img{ width:112px; height:112px; border-radius:9999px; overflow:hidden; }
+    , /* Ensure full-width on desktop pages that use a grid/containers */
+    .kk-category-scroller-wrap {       /* parent wrapper of the scroller */
+      width: 100%;
+    }
+    @media (min-width: 992px){
+      .kk-category-scroller-wrap{
+        grid-column: 1 / -1 !important;   /* take whole row if inside a page grid */
+        max-width: var(--page-width, 1200px);
+        margin-inline: auto;               /* center within page width */
+      }
+    }
+    /* Always two rows, horizontal scroll */
+    .kk-category-scroller{
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(2, auto);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Desktop: balanced sizes so more than 2 are visible */
+    @media (min-width: 992px){
+      .kk-category-scroller{
+        --item-size: 120px;   /* circle */
+        --col-width: 136px;   /* column width (circle + label room) */
+        --gap-x: 28px;
+        --gap-y: 24px;
+        grid-auto-columns: var(--col-width);
+        gap: var(--gap-y) var(--gap-x);
+      }
+      .kk-category-item{ width: var(--col-width); scroll-snap-align:start; }
+      .kk-category-item__img{ width: var(--item-size); height: var(--item-size); }
+    }
+    
+    /* Mobile kept as you have it (still two rows) */
+    @media (max-width: 991px){
+      .kk-category-scroller{
+        --item-size: 96px;
+        --col-width: 110px;
+        --gap-x: 22px;
+        --gap-y: 20px;
+        grid-auto-columns: var(--col-width);
+        gap: var(--gap-y) var(--gap-x);
+      }
+      .kk-category-item{ width: var(--col-width); }
+      .kk-category-item__img{ width: var(--item-size); height: var(--item-size); }
+    }
+    , replace the three dot scrolls with more modern design when scrolling the hero columns, replace it with scroll dots, Replace #shopify-section-template--1234567890__slideshow_kids with your real id.
+    /* MOBILE: make Kids hero < 100% width (centered) */
+    @media (max-width: 749px) {
+      /* Replace this ID with your hero's section id */
+      #shopify-section-template--1234567890__slideshow_kids .slideshow,
+      #shopify-section-template--1234567890__slideshow_kids .banner,
+      #shopify-section-template--1234567890__slideshow_kids .slideshow__slide,
+      #shopify-section-template--1234567890__slideshow_kids .banner__media {
+        width: calc(100% - 32px);     /* side gutters: 16px + 16px */
+        max-width: 640px;             /* optional cap; adjust or remove */
+        margin-inline: auto;
+        border-radius: 16px;          /* like Quince */
+        overflow: hidden;
+      }
+    
+      /* Make the navigation dots/arrows match the new width */
+      #shopify-section-template--1234567890__slideshow_kids .slideshow__controls,
+      #shopify-section-template--1234567890__slideshow_kids .slider-buttons {
+        width: calc(100% - 32px);
+        margin-inline: auto;
+      }
+    
+      /* Some themes force slides to 100vw — neutralize that */
+      #shopify-section-template--1234567890__slideshow_kids .slideshow__slides,
+      #shopify-section-template--1234567890__slideshow_kids .slideshow__slide {
+        max-width: 100%;
+      }
+    }
+    , 1) HERO (3 tiles)
+    
+    Mobile behavior (scroll-snap with edge peek):
+    
+    Container class: .kk-hero-track
+    
+    Styles:
+    
+    display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; touch-action:pan-x;
+    
+    padding-inline:16px; scroll-padding-inline:16px;
+    
+    Hide scrollbar (optional): ::-webkit-scrollbar{display:none}
+    
+    Edge fade (optional): mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+    
+    Slide class: .kk-hero-slide
+    
+    flex:0 0 calc(100% - 48px); ← shows ~24px peek on each side
+    
+    scroll-snap-align:start; border-radius:16px; overflow:hidden;
+    
+    Image fills: img{width:100%; height:100%; object-fit:cover;}
+    
+    Desktop behavior:
+    
+    Turn off horizontal scroll, show 3 columns:
+    
+    .kk-hero-track{overflow:visible; gap:24px; padding:0;}
+    
+    .kk-hero-slide{flex:1 1 0;}
+    
+    Overlay (both viewports):
+    
+    Bottom-left stack with safe padding: position:absolute; inset:auto 0 24px 24px;
+    
+    Title/subtitle/CTA styles remain as is.
+    
+    2) CATEGORY BUBBLES (always 2 rows, native horizontal scroll, edge peek)
+    
+    Container: .kk-category-scroller
+    
+    display:grid; grid-auto-flow:column; grid-template-rows:repeat(2,auto);
+    
+    grid-auto-columns: var(--col-width,136px);
+    
+    gap: var(--gap-y,24px) var(--gap-x,28px);
+    
+    overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; touch-action:pan-x;
+    
+    padding-inline:16px; scroll-padding-inline:16px;
+    
+    Edge peek: set a slightly wider column than the viewport can fit → the padding creates the peek.
+    
+    Hide any theme slider UI: ensure no .slider/.slick/.swiper classes or data-slider* attributes are present in this block. Remove their dot containers if injected.
+    
+    Items: .kk-category-item
+    
+    width: var(--col-width,136px); scroll-snap-align:start; text-align:center;
+    
+    Bubble: .kk-category-item__img{width:120px; height:120px; border-radius:9999px; overflow:hidden;}
+    
+    Label: font-size:14px; margin-top:8px;, In mobile view:
+    There should be 0 peek margin on the left side of image. Border radius on images do not go to zero. I need 0 border radius on images, Update the Kids hero section so that on mobile:
+    
+    The hero track has side padding/gutter (no edge-to-edge).
+    
+    Each hero slide is an inset card with rounded corners and overflow hidden (so the image follows the radius).
+    
+    Keep native scroll-snap swipe. No arrows or dots.
+    
+    Desktop stays as 3 static columns.
+    
+    Please apply these styles (use my class names or adapt to the section’s classes):/* MOBILE: inset cards with rounded corners */
+    @media (max-width: 767px){
+      .kk-hero-track{
+        display: flex;
+        gap: 16px;                            /* spacing between cards */
+        padding-inline: 16px;                 /* side gutter */
+        scroll-padding-inline: 16px;          /* snap aligns to gutter */
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x;
+      }
+      .kk-hero-slide{
+        flex: 0 0 calc(100% - 32px);          /* full width minus both gutters */
+        scroll-snap-align: start;
+        border-radius: 16px;                   /* match right-side look */
+        overflow: hidden;                      /* image respects radius */
+        background: #fff;                      /* optional card bg */
+      }
+      .kk-hero-slide img{
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0;                      /* radius comes from the container */
+      }
+    }
+    
+    /* DESKTOP: keep three columns */
+    @media (min-width: 768px){
+      .kk-hero-track{
+        overflow: visible;
+        padding: 0;
+        gap: 24px;
+      }
+      .kk-hero-slide{ flex: 1 1 0; border-radius: 16px; overflow: hidden; }
+    }
+    Notes
+    
+    If your section wrapper adds extra padding that breaks alignment, keep only the track’s padding-inline:16px and remove outer padding on mobile.
+    
+    Ensure no theme slider classes (.slick, .swiper, .carousel) are attached to this hero; we rely on native scrolling., Update my Kids hero section (hero track + slides):
+    
+    Mobile (≤767px)
+    
+    Left side: 0 padding (image flush with screen edge).
+    
+    Right side: keep a small gutter so the next slide peeks.
+    
+    No rounded corners on images by default, but add a section setting to control radius (0–24px).
+    
+    Keep native scroll-snap swipe. No arrows, no dots
+    @media (max-width: 767px){
+      .kk-hero-track{
+        display:flex;
+        gap:16px;                       /* space between slides */
+        padding-left:0;                 /* flush left edge */
+        padding-right:16px;             /* right gutter for peek */
+        scroll-padding-left:0;          /* snap to left edge */
+        scroll-padding-right:16px;      /* snap respects right gutter */
+        overflow-x:auto;
+        scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling:touch;
+        touch-action:pan-x;
+      }
+    
+      /* tune the right-side peek with --peek-right (visible next card ≈ --peek-right - gap) */
+      .kk-hero-track { --peek-right: 40px; } /* ~24px peek with 16px gap */
+    
+      .kk-hero-slide{
+        flex:0 0 calc(100% - var(--peek-right));  /* full width minus right peek */
+        scroll-snap-align:start;
+        border-radius: var(--hero-radius, 0px);    /* default 0, controlled by setting */
+        overflow: hidden;                          /* needed when radius > 0 */
+        background:#fff;
+      }
+      .kk-hero-slide img{
+        width:100%; height:100%; object-fit:cover;
+        border-radius:0;                           /* image itself stays square */
+      }
+    }
+    
+    /* Desktop behavior unchanged (3 static tiles) */
+    @media (min-width: 768px){
+      .kk-hero-track{ overflow:visible; gap:24px; padding:0; }
+      .kk-hero-slide{ flex:1 1 0; border-radius: var(--hero-radius, 0px); }
+    }
+    Section setting to add
+    
+    Name: “Hero corner radius”
+    
+    ID: hero_radius
+    
+    Type: range (min 0, max 24, step 2, default 0)
+    
+    Plumb it into CSS: set --hero-radius: {{ section.settings.hero_radius }}px on the section wrapper.
+    Important
+    Remove any slider/plugin hooks in this hero (.slick, .swiper, .carousel, data-slider*) for native scroll, Update the categories scroller so that on desktop (≥ 992px) it looks like this layout:
+    
+    Two rows, horizontally scrollable.
+    ~7–8 bubbles visible at once.
+    Generous spacing between bubbles.
+    Scroller spans the page width (centered within the page container).
+    
+    Arrows
+    Show left/right round arrows (white, subtle shadow) vertically centered beside the scroller.
+    
+    Arrows nudge the scroller by one viewport width minus a gutter.
+    
+    Hide arrows on mobile; desktop only.
+    
+    Keep mobile exactly as it is now. No dots anywhere., Tweak the desktop (≥ 992px) styles of my category scroller to match this:
+    
+    Layout & Sizing
+    
+    Keep 2 rows + horizontal scroll.
+    
+    Set bubble diameter to 160px (adjustable), column width to 176px, and gaps to 40px (x) / 32px (y).
+    
+    Labels: one line; if too long, ellipsis.
+    
+    Light shadow on bubbles; no hover scale.
+    
+    Containment
+    
+    Wrap width: max-width: 1280px; margin-inline: auto;
+    
+    Scroller padding: padding-inline: 24px; scroll-padding-inline: 24px;
+    
+    Scroll/Snap
+    
+    scroll-snap-type: x mandatory;
+    
+    Items: scroll-snap-align: start;
+    
+    No vertical scroll: overflow-y: hidden;
+    
+    Arrows
+    
+    White circular arrows outside the grid edges, vertically centered between the two rows.
+    
+    Offset: -8px from left/right content edge (overlap slightly).
+    
+    Show/hide logic:
+    
+    Hide left arrow at start (≤ 8px).
+    
+    Hide right arrow when fully scrolled (within 8px of max).
+    
+    Click nudge: one “page” → scroller.clientWidth - 2 * gapX.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-kids-hero-{{ ai_gen_id }} {
+    width: 100%;
+    position: relative;
+    overflow: visible;
+    --hero-radius: {{ block.settings.hero_radius }}px;
+  }
+
+  .kk-hero-track {
+    display: flex;
+    gap: 24px;
+    overflow: visible;
+    padding: 0;
+    margin-bottom: {{ block.settings.categories_margin_top }}px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .kk-hero-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .kk-hero-slide {
+    flex: 1 1 0;
+    border-radius: var(--hero-radius, 0px);
+    overflow: hidden;
+    position: relative;
+    min-height: {{ block.settings.hero_height }}px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .kk-hero-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+  }
+
+  .ai-hero-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, {{ block.settings.overlay_opacity | divided_by: 100.0 }}) 100%
+    );
+  }
+
+  .ai-hero-content-{{ ai_gen_id }} {
+    position: absolute;
+    inset: auto 0 24px 24px;
+    color: {{ block.settings.text_color }};
+    z-index: 2;
+  }
+
+  .ai-hero-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+  }
+
+  .ai-hero-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+    opacity: 0.9;
+  }
+
+  .ai-hero-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ai-hero-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+    transform: translateY(-2px);
+  }
+
+  .ai-categories-section-{{ ai_gen_id }} {
+    margin-top: {{ block.settings.categories_margin_top }}px;
+    margin-bottom: {{ block.settings.categories_margin_bottom }}px;
+    overflow: visible;
+    position: relative;
+  }
+
+  .ai-categories-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .kk-category-scroller {
+    --col-width: 136px;
+    --gap-y: 24px;
+    --gap-x: 28px;
+    
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, auto);
+    grid-auto-columns: var(--col-width);
+    gap: var(--gap-y) var(--gap-x);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+  }
+
+  .kk-category-scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  .kk-category-item {
+    width: var(--col-width);
+    scroll-snap-align: start;
+    text-align: center;
+    text-decoration: none;
+    color: {{ block.settings.category_text_color }};
+    transition: transform 0.3s ease;
+    display: grid;
+    place-items: center;
+  }
+
+  .kk-category-item:hover {
+    transform: translateY(-4px);
+  }
+
+  .kk-category-item__img {
+    width: 120px;
+    height: 120px;
+    border-radius: 9999px;
+    overflow: hidden;
+    background: {{ block.settings.category_bg_color }};
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    display: grid;
+    place-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all 0.3s ease;
+  }
+
+  .kk-category-item:hover .kk-category-item__img {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+  }
+
+  .kk-category-item__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-category-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-category-placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.5;
+  }
+
+  .kk-category-item__label {
+    font-size: 14px;
+    margin-top: 8px;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  .ai-scroll-arrow-{{ ai_gen_id }} {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background: #ffffff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-scroll-arrow-{{ ai_gen_id }}:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .ai-scroll-arrow-{{ ai_gen_id }}:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .ai-scroll-arrow-left-{{ ai_gen_id }} {
+    left: -24px;
+  }
+
+  .ai-scroll-arrow-right-{{ ai_gen_id }} {
+    right: -24px;
+  }
+
+  .ai-scroll-arrow-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+    color: #333;
+  }
+
+  .kk-category-scroller .slick-dots,
+  .kk-category-scroller .swiper-pagination,
+  .kk-category-scroller .slider__dots {
+    display: none !important;
+  }
+
+  @media (max-width: 767px) {
+    .kk-hero-track {
+      display: flex;
+      gap: 16px;
+      padding-left: 0;
+      padding-right: 16px;
+      scroll-padding-left: 0;
+      scroll-padding-right: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x;
+      --peek-right: 40px;
+    }
+
+    .kk-hero-slide {
+      flex: 0 0 calc(100% - var(--peek-right));
+      scroll-snap-align: start;
+      border-radius: var(--hero-radius, 0px);
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .kk-hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+    }
+
+    .ai-hero-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-hero-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.description_size | times: 0.9 }}px;
+    }
+
+    .ai-hero-content-{{ ai_gen_id }} {
+      inset: auto 0 16px 16px;
+    }
+
+    .kk-category-scroller {
+      --col-width: 110px;
+      --gap-y: 20px;
+      --gap-x: 22px;
+    }
+
+    .kk-category-item__img {
+      width: 96px;
+      height: 96px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .kk-hero-track {
+      overflow: visible;
+      gap: 24px;
+      padding: 0;
+    }
+
+    .kk-hero-slide {
+      flex: 1 1 0;
+      border-radius: var(--hero-radius, 0px);
+    }
+
+    .kk-category-scroller {
+      --col-width: 136px;
+      --gap-y: 24px;
+      --gap-x: 28px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .kk-category-scroller {
+      --col-width: 176px;
+      --gap-y: 32px;
+      --gap-x: 40px;
+      padding-inline: 24px;
+      scroll-padding-inline: 24px;
+      overflow-y: hidden;
+    }
+
+    .kk-category-item {
+      width: var(--col-width);
+    }
+
+    .kk-category-item__img {
+      width: 160px;
+      height: 160px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .kk-category-item:hover {
+      transform: none;
+    }
+
+    .kk-category-item:hover .kk-category-item__img {
+      transform: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .kk-category-item__label {
+      font-size: 15px;
+      margin-top: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: var(--col-width);
+    }
+
+    .ai-scroll-arrow-{{ ai_gen_id }} {
+      display: flex;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .ai-scroll-arrow-left-{{ ai_gen_id }} {
+      left: -8px;
+    }
+
+    .ai-scroll-arrow-right-{{ ai_gen_id }} {
+      right: -8px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .ai-hero-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+    }
+
+    .ai-hero-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.description_size | times: 0.8 }}px;
+    }
+
+    .ai-hero-content-{{ ai_gen_id }} {
+      inset: auto 0 12px 12px;
+    }
+
+    .kk-category-scroller {
+      --col-width: 100px;
+      --gap-y: 18px;
+      --gap-x: 20px;
+    }
+
+    .kk-category-item__img {
+      width: 80px;
+      height: 80px;
+    }
+
+    .kk-category-item__label {
+      font-size: 13px;
+    }
+  }
+{% endstyle %}
+
+<kids-hero-{{ ai_gen_id }} class="ai-kids-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="kk-hero-track">
+    {% for i in (1..3) %}
+      {% liquid
+        assign image_key = 'hero_image_' | append: i
+        assign title_key = 'hero_title_' | append: i
+        assign description_key = 'hero_description_' | append: i
+        assign button_text_key = 'hero_button_text_' | append: i
+        assign button_link_key = 'hero_button_link_' | append: i
+
+        assign hero_image = block.settings[image_key]
+        assign hero_title = block.settings[title_key]
+        assign hero_description = block.settings[description_key]
+        assign hero_button_text = block.settings[button_text_key]
+        assign hero_button_link = block.settings[button_link_key]
+      %}
+
+      <div 
+        class="kk-hero-slide"
+        {% if hero_image %}
+          style="background-image: url('{{ hero_image | image_url: width: 800 }}');"
+        {% else %}
+          style="background-color: #f4f4f4;"
+        {% endif %}
+      >
+        {% if hero_image %}
+          <img 
+            src="{{ hero_image | image_url: width: 800 }}" 
+            alt="{{ hero_image.alt | escape }}"
+            loading="lazy"
+            width="{{ hero_image.width }}"
+            height="{{ hero_image.height }}"
+          >
+        {% endif %}
+        <div class="ai-hero-overlay-{{ ai_gen_id }}"></div>
+        <div class="ai-hero-content-{{ ai_gen_id }}">
+          {% if hero_title != blank %}
+            <h2 class="ai-hero-title-{{ ai_gen_id }}">{{ hero_title }}</h2>
+          {% endif %}
+          {% if hero_description != blank %}
+            <p class="ai-hero-description-{{ ai_gen_id }}">{{ hero_description }}</p>
+          {% endif %}
+          {% if hero_button_text != blank and hero_button_link != blank %}
+            <a href="{{ hero_button_link }}" class="ai-hero-button-{{ ai_gen_id }}">
+              {{ hero_button_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="ai-categories-section-{{ ai_gen_id }}">
+    <div class="ai-categories-wrapper-{{ ai_gen_id }}">
+      <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-left-{{ ai_gen_id }}" aria-label="Scroll left">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <div class="kk-category-scroller">
+        {% for i in (1..20) %}
+          {% liquid
+            assign category_name_key = 'category_' | append: i | append: '_name'
+            assign category_image_key = 'category_' | append: i | append: '_image'
+            assign category_link_key = 'category_' | append: i | append: '_link'
+
+            assign category_name = block.settings[category_name_key]
+            assign category_image = block.settings[category_image_key]
+            assign category_link = block.settings[category_link_key]
+          %}
+
+          {% if category_name != blank %}
+            <a href="{{ category_link | default: '#' }}" class="kk-category-item">
+              <div class="kk-category-item__img"
+                {% if category_image %}
+                  style="background-image: url('{{ category_image | image_url: width: 200 }}');"
+                {% endif %}
+              >
+                {% unless category_image %}
+                  <div class="ai-category-placeholder-{{ ai_gen_id }}">
+                    {{ 'image' | placeholder_svg_tag }}
+                  </div>
+                {% endunless %}
+              </div>
+              <span class="kk-category-item__label">{{ category_name }}</span>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-right-{{ ai_gen_id }}" aria-label="Scroll right">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</kids-hero-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class KidsHero{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        this.setupCategoryScroller();
+        this.removeSliderHooks();
+        this.setupScrollArrows();
+      }
+
+      setupCategoryScroller() {
+        const scroller = this.querySelector('.kk-category-scroller');
+        if (!scroller) return;
+
+        scroller.classList.remove('slider', 'swiper', 'slick');
+        scroller.removeAttribute('data-slider');
+        
+        const existingDots = scroller.parentElement.querySelectorAll('.slick-dots, .swiper-pagination, .slider__dots');
+        existingDots.forEach(dots => dots.remove());
+      }
+
+      setupScrollArrows() {
+        const scroller = this.querySelector('.kk-category-scroller');
+        const leftArrow = this.querySelector('.ai-scroll-arrow-left-{{ ai_gen_id }}');
+        const rightArrow = this.querySelector('.ai-scroll-arrow-right-{{ ai_gen_id }}');
+
+        if (!scroller || !leftArrow || !rightArrow) return;
+
+        const getScrollAmount = () => {
+          const scrollerWidth = scroller.clientWidth;
+          const gapX = window.innerWidth >= 992 ? 40 : (window.innerWidth >= 768 ? 28 : 22);
+          return scrollerWidth - (2 * gapX);
+        };
+
+        leftArrow.addEventListener('click', () => {
+          const scrollAmount = getScrollAmount();
+          scroller.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        rightArrow.addEventListener('click', () => {
+          const scrollAmount = getScrollAmount();
+          scroller.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+
+        const updateArrowVisibility = () => {
+          const { scrollLeft, scrollWidth, clientWidth } = scroller;
+          
+          leftArrow.style.opacity = scrollLeft <= 8 ? '0' : '1';
+          leftArrow.style.pointerEvents = scrollLeft <= 8 ? 'none' : 'auto';
+          leftArrow.style.visibility = scrollLeft <= 8 ? 'hidden' : 'visible';
+          
+          const maxScroll = scrollWidth - clientWidth;
+          const isAtEnd = scrollLeft >= maxScroll - 8;
+          
+          rightArrow.style.opacity = isAtEnd ? '0' : '1';
+          rightArrow.style.pointerEvents = isAtEnd ? 'none' : 'auto';
+          rightArrow.style.visibility = isAtEnd ? 'hidden' : 'visible';
+        };
+
+        scroller.addEventListener('scroll', updateArrowVisibility);
+        window.addEventListener('resize', updateArrowVisibility);
+        updateArrowVisibility();
+      }
+
+      removeSliderHooks() {
+        const heroTrack = this.querySelector('.kk-hero-track');
+        if (!heroTrack) return;
+
+        heroTrack.classList.remove('slider', 'swiper', 'slick', 'carousel');
+        heroTrack.removeAttribute('data-slider');
+        heroTrack.removeAttribute('data-slick');
+        heroTrack.removeAttribute('data-swiper');
+        heroTrack.removeAttribute('data-carousel');
+
+        const existingDots = heroTrack.parentElement.querySelectorAll('.slick-dots, .swiper-pagination, .slider__dots, .carousel-dots');
+        existingDots.forEach(dots => dots.remove());
+
+        const existingArrows = heroTrack.parentElement.querySelectorAll('.slick-arrow, .swiper-button-prev, .swiper-button-next, .carousel-arrow');
+        existingArrows.forEach(arrow => arrow.remove());
+      }
+    }
+
+    customElements.define('kids-hero-{{ ai_gen_id }}', KidsHero{{ ai_gen_id }});
+
+    document.querySelectorAll('.kk-category-scroller').forEach(scroller => {
+      scroller.classList.remove('slider','swiper','slick');
+      scroller.removeAttribute('data-slider');
+      
+      const existingDots = scroller.parentElement.querySelectorAll('.slick-dots, .swiper-pagination, .slider__dots');
+      existingDots.forEach(dots => dots.remove());
+    });
+
+    document.querySelectorAll('.kk-hero-track').forEach(track => {
+      track.classList.remove('slider','swiper','slick','carousel');
+      track.removeAttribute('data-slider');
+      track.removeAttribute('data-slick');
+      track.removeAttribute('data-swiper');
+      track.removeAttribute('data-carousel');
+      
+      const existingDots = track.parentElement.querySelectorAll('.slick-dots, .swiper-pagination, .slider__dots, .carousel-dots');
+      existingDots.forEach(dots => dots.remove());
+
+      const existingArrows = track.parentElement.querySelectorAll('.slick-arrow, .swiper-button-prev, .swiper-button-next, .carousel-arrow');
+      existingArrows.forEach(arrow => arrow.remove());
+    });
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Kids hero section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Hero height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "hero_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Hero corner radius",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Hero column 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_1",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_1",
+      "label": "Title",
+      "default": "Seasonal Highlights"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description_1",
+      "label": "Description",
+      "default": "Discover our latest seasonal collection for kids"
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text_1",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link_1",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Hero column 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_2",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_2",
+      "label": "Title",
+      "default": "Accessories Focus"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description_2",
+      "label": "Description",
+      "default": "Complete the look with our fun accessories"
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text_2",
+      "label": "Button text",
+      "default": "Explore"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link_2",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Hero column 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_3",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_3",
+      "label": "Title",
+      "default": "Kids & Parents"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description_3",
+      "label": "Description",
+      "default": "Matching styles for the whole family"
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text_3",
+      "label": "Button text",
+      "default": "View All"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link_3",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Content styling"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 18,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button styling"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#334fb4"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Categories layout"
+    },
+    {
+      "type": "range",
+      "id": "categories_margin_top",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "categories_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "category_bg_color",
+      "label": "Circle background",
+      "default": "#f6f6f6"
+    },
+    {
+      "type": "color",
+      "id": "category_text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Category 1"
+    },
+    {
+      "type": "text",
+      "id": "category_1_name",
+      "label": "Name",
+      "default": "Baby"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 2"
+    },
+    {
+      "type": "text",
+      "id": "category_2_name",
+      "label": "Name",
+      "default": "T-Shirts"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 3"
+    },
+    {
+      "type": "text",
+      "id": "category_3_name",
+      "label": "Name",
+      "default": "Pants"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_3_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 4"
+    },
+    {
+      "type": "text",
+      "id": "category_4_name",
+      "label": "Name",
+      "default": "Dresses"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_4_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 5"
+    },
+    {
+      "type": "text",
+      "id": "category_5_name",
+      "label": "Name",
+      "default": "Outerwear"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_5_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 6"
+    },
+    {
+      "type": "text",
+      "id": "category_6_name",
+      "label": "Name",
+      "default": "Accessories"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_6_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 7"
+    },
+    {
+      "type": "text",
+      "id": "category_7_name",
+      "label": "Name",
+      "default": "Toys"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_7_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_7_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 8"
+    },
+    {
+      "type": "text",
+      "id": "category_8_name",
+      "label": "Name",
+      "default": "Home/Interior"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_8_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_8_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 9"
+    },
+    {
+      "type": "text",
+      "id": "category_9_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_9_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_9_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 10"
+    },
+    {
+      "type": "text",
+      "id": "category_10_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_10_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_10_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 11"
+    },
+    {
+      "type": "text",
+      "id": "category_11_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_11_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_11_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 12"
+    },
+    {
+      "type": "text",
+      "id": "category_12_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_12_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_12_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 13"
+    },
+    {
+      "type": "text",
+      "id": "category_13_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_13_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_13_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 14"
+    },
+    {
+      "type": "text",
+      "id": "category_14_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_14_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_14_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 15"
+    },
+    {
+      "type": "text",
+      "id": "category_15_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_15_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_15_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 16"
+    },
+    {
+      "type": "text",
+      "id": "category_16_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_16_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_16_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 17"
+    },
+    {
+      "type": "text",
+      "id": "category_17_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_17_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_17_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 18"
+    },
+    {
+      "type": "text",
+      "id": "category_18_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_18_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_18_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 19"
+    },
+    {
+      "type": "text",
+      "id": "category_19_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_19_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_19_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Category 20"
+    },
+    {
+      "type": "text",
+      "id": "category_20_name",
+      "label": "Name"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_20_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "category_20_link",
+      "label": "Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kids hero section"
+    }
+  ]
+}
 {% endschema %}
