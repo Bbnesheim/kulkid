@@ -1,6 +1,1212 @@
+{% doc %}
+  @prompt
+    Create a responsive hero section for a kids' clothing store with a 3-column grid layout on desktop (seasonal highlight, accessories focus, kids/parents collection) and mobile slider. Include category navigation with round thumbnails below the hero. Each hero column should have full-height background images with overlay text and CTA buttons. The section should be customizable through Shopify's section settings for titles, descriptions, CTA text/links, and background images. Category icons should dynamically link to Shopify collections. Include settings for brand colors and support for 8 categories: Baby, T-Shirts, Pants, Dresses, Outerwear, Accessories, Toys, and Home/Interior. Mobile layout should display hero images as a swiper/slider with horizontal scrollable category icons., Make the swipe ui more modern, make it possible to drag swipe in smaller than desktop view, Make the Category collections swipeable in the same manner
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-kids-hero-{{ ai_gen_id }} {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-kids-hero-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+    min-height: {{ block.settings.hero_height }}px;
+  }
+
+  .ai-kids-hero-column-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    padding: 30px;
+  }
+
+  .ai-kids-hero-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, {{ block.settings.overlay_opacity | divided_by: 100.0 }}),
+      transparent 60%
+    );
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-kids-hero-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    color: {{ block.settings.text_color }};
+    text-align: {{ block.settings.text_alignment }};
+    width: 100%;
+  }
+
+  .ai-kids-hero-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    line-height: 1.2;
+  }
+
+  .ai-kids-hero-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    margin: 0 0 20px;
+    opacity: 0.9;
+    line-height: 1.4;
+  }
+
+  .ai-kids-hero-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: 2px solid {{ block.settings.button_bg_color }};
+  }
+
+  .ai-kids-hero-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_bg_color }};
+    transform: translateY(-2px);
+  }
+
+  .ai-kids-hero-mobile-slider-{{ ai_gen_id }} {
+    display: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-kids-hero-slider-container-{{ ai_gen_id }} {
+    display: flex;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .ai-kids-hero-slide-{{ ai_gen_id }} {
+    flex: 0 0 100%;
+    position: relative;
+    min-height: {{ block.settings.mobile_hero_height }}px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    padding: 30px 20px;
+  }
+
+  .ai-kids-hero-dots-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 0 20px;
+  }
+
+  .ai-kids-hero-dot-{{ ai_gen_id }} {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .ai-kids-hero-dot-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.accent_color }};
+    transform: scale(1.2);
+  }
+
+  .ai-kids-categories-{{ ai_gen_id }} {
+    margin-top: {{ block.settings.categories_spacing }}px;
+    padding: 0 20px;
+  }
+
+  .ai-kids-categories-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-items: center;
+  }
+
+  .ai-kids-category-item-{{ ai_gen_id }} {
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-kids-category-item-{{ ai_gen_id }}:hover {
+    transform: translateY(-5px);
+  }
+
+  .ai-kids-category-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.category_icon_size }}px;
+    height: {{ block.settings.category_icon_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.category_bg_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .ai-kids-category-item-{{ ai_gen_id }}:hover .ai-kids-category-icon-{{ ai_gen_id }} {
+    background-color: {{ block.settings.category_hover_bg_color }};
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-kids-category-icon-{{ ai_gen_id }} svg {
+    width: 24px;
+    height: 24px;
+    fill: {{ block.settings.category_icon_color }};
+  }
+
+  .ai-kids-category-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.category_text_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.category_text_color }};
+  }
+
+  .ai-kids-categories-mobile-{{ ai_gen_id }} {
+    display: none;
+    position: relative;
+    margin-top: {{ block.settings.categories_spacing }}px;
+    padding: 0 20px;
+  }
+
+  .ai-kids-categories-mobile-container-{{ ai_gen_id }} {
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .ai-kids-categories-mobile-slider-{{ ai_gen_id }} {
+    display: flex;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+    touch-action: pan-y pinch-zoom;
+    gap: 20px;
+    padding: 20px 0;
+  }
+
+  .ai-kids-category-mobile-item-{{ ai_gen_id }} {
+    flex: 0 0 auto;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    width: 80px;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-kids-category-mobile-item-{{ ai_gen_id }}:hover {
+    transform: translateY(-3px);
+  }
+
+  .ai-kids-categories-mobile-dots-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 15px;
+  }
+
+  .ai-kids-categories-mobile-dot-{{ ai_gen_id }} {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .ai-kids-categories-mobile-dot-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.accent_color }};
+    transform: scale(1.3);
+  }
+
+  @media screen and (max-width: 990px) {
+    .ai-kids-hero-grid-{{ ai_gen_id }} {
+      display: none;
+    }
+
+    .ai-kids-hero-mobile-slider-{{ ai_gen_id }} {
+      display: block;
+    }
+
+    .ai-kids-categories-grid-{{ ai_gen_id }} {
+      display: none;
+    }
+
+    .ai-kids-categories-mobile-{{ ai_gen_id }} {
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-kids-hero-slide-{{ ai_gen_id }} {
+      padding: 20px 15px;
+    }
+
+    .ai-kids-hero-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-kids-hero-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.description_size | times: 0.9 }}px;
+    }
+
+    .ai-kids-categories-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .ai-kids-category-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.category_icon_size | times: 0.8 }}px;
+      height: {{ block.settings.category_icon_size | times: 0.8 }}px;
+    }
+
+    .ai-kids-category-name-{{ ai_gen_id }} {
+      font-size: {{ block.settings.category_text_size | times: 0.9 }}px;
+    }
+
+    .ai-kids-category-mobile-item-{{ ai_gen_id }} {
+      width: 70px;
+    }
+  }
+{% endstyle %}
+
+<kids-hero-{{ ai_gen_id }} class="ai-kids-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-kids-hero-grid-{{ ai_gen_id }}">
+    {% for i in (1..3) %}
+      {% liquid
+        assign image_key = 'hero_image_' | append: i
+        assign title_key = 'hero_title_' | append: i
+        assign description_key = 'hero_description_' | append: i
+        assign button_text_key = 'hero_button_text_' | append: i
+        assign button_link_key = 'hero_button_link_' | append: i
+        
+        assign hero_image = block.settings[image_key]
+        assign hero_title = block.settings[title_key]
+        assign hero_description = block.settings[description_key]
+        assign hero_button_text = block.settings[button_text_key]
+        assign hero_button_link = block.settings[button_link_key]
+      %}
+      
+      <div 
+        class="ai-kids-hero-column-{{ ai_gen_id }}"
+        {% if hero_image %}
+          style="background-image: url('{{ hero_image | image_url: width: 800 }}');"
+        {% else %}
+          style="background-color: #f5f5f5;"
+        {% endif %}
+      >
+        <div class="ai-kids-hero-overlay-{{ ai_gen_id }}"></div>
+        <div class="ai-kids-hero-content-{{ ai_gen_id }}">
+          {% if hero_title != blank %}
+            <h2 class="ai-kids-hero-title-{{ ai_gen_id }}">{{ hero_title }}</h2>
+          {% endif %}
+          {% if hero_description != blank %}
+            <p class="ai-kids-hero-description-{{ ai_gen_id }}">{{ hero_description }}</p>
+          {% endif %}
+          {% if hero_button_text != blank and hero_button_link != blank %}
+            <a href="{{ hero_button_link }}" class="ai-kids-hero-button-{{ ai_gen_id }}">
+              {{ hero_button_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="ai-kids-hero-mobile-slider-{{ ai_gen_id }}">
+    <div class="ai-kids-hero-slider-container-{{ ai_gen_id }}" data-hero-slider-container>
+      {% for i in (1..3) %}
+        {% liquid
+          assign image_key = 'hero_image_' | append: i
+          assign title_key = 'hero_title_' | append: i
+          assign description_key = 'hero_description_' | append: i
+          assign button_text_key = 'hero_button_text_' | append: i
+          assign button_link_key = 'hero_button_link_' | append: i
+          
+          assign hero_image = block.settings[image_key]
+          assign hero_title = block.settings[title_key]
+          assign hero_description = block.settings[description_key]
+          assign hero_button_text = block.settings[button_text_key]
+          assign hero_button_link = block.settings[button_link_key]
+        %}
+        
+        <div 
+          class="ai-kids-hero-slide-{{ ai_gen_id }}"
+          {% if hero_image %}
+            style="background-image: url('{{ hero_image | image_url: width: 800 }}');"
+          {% else %}
+            style="background-color: #f5f5f5;"
+          {% endif %}
+        >
+          <div class="ai-kids-hero-overlay-{{ ai_gen_id }}"></div>
+          <div class="ai-kids-hero-content-{{ ai_gen_id }}">
+            {% if hero_title != blank %}
+              <h2 class="ai-kids-hero-title-{{ ai_gen_id }}">{{ hero_title }}</h2>
+            {% endif %}
+            {% if hero_description != blank %}
+              <p class="ai-kids-hero-description-{{ ai_gen_id }}">{{ hero_description }}</p>
+            {% endif %}
+            {% if hero_button_text != blank and hero_button_link != blank %}
+              <a href="{{ hero_button_link }}" class="ai-kids-hero-button-{{ ai_gen_id }}">
+                {{ hero_button_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <div class="ai-kids-hero-dots-{{ ai_gen_id }}">
+      {% for i in (1..3) %}
+        <div class="ai-kids-hero-dot-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}" data-hero-slide="{{ forloop.index0 }}"></div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="ai-kids-categories-{{ ai_gen_id }}">
+    <div class="ai-kids-categories-grid-{{ ai_gen_id }}">
+      {% assign categories = 'baby,t_shirts,pants,dresses,outerwear,accessories,toys,home_interior' | split: ',' %}
+      {% assign category_names = 'Baby,T-Shirts,Pants,Dresses,Outerwear,Accessories,Toys,Home & Interior' | split: ',' %}
+      
+      {% for category in categories %}
+        {% liquid
+          assign collection_key = 'category_' | append: category | append: '_collection'
+          assign collection = block.settings[collection_key]
+          assign category_name = category_names[forloop.index0]
+        %}
+        
+        <a 
+          href="{% if collection %}{{ collection.url }}{% else %}#{% endif %}" 
+          class="ai-kids-category-item-{{ ai_gen_id }}"
+        >
+          <div class="ai-kids-category-icon-{{ ai_gen_id }}">
+            {% case category %}
+              {% when 'baby' %}
+                <svg viewBox="0 0 24 24"><path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 5.5V7.5L12 8.5L9 7.5V5.5L3 7V9L9 10.5V19C9 20.1 9.9 21 11 21H13C14.1 21 15 20.1 15 19V10.5L21 9Z"/></svg>
+              {% when 't_shirts' %}
+                <svg viewBox="0 0 24 24"><path d="M16,21H8A1,1 0 0,1 7,20V12L4.5,10.5L5.5,9L7,10V8A1,1 0 0,1 8,7H16A1,1 0 0,1 17,7V10L18.5,9L19.5,10.5L17,12V20A1,1 0 0,1 16,21M9,19H15V11.5L16.5,10.5L16,10V9H8V10L7.5,10.5L9,11.5V19Z"/></svg>
+              {% when 'pants' %}
+                <svg viewBox="0 0 24 24"><path d="M8,2A1,1 0 0,0 7,3V4H6V6H7V21A1,1 0 0,0 8,22H10A1,1 0 0,0 11,21V12H13V21A1,1 0 0,0 14,22H16A1,1 0 0,0 17,21V6H18V4H17V3A1,1 0 0,0 16,2H8M9,4H15V6H9V4Z"/></svg>
+              {% when 'dresses' %}
+                <svg viewBox="0 0 24 24"><path d="M12,2A3,3 0 0,1 15,5C15,6.32 14.25,7.5 13.16,8.16L18,21H16L11.67,9H12.33L8,21H6L10.84,8.16C9.75,7.5 9,6.32 9,5A3,3 0 0,1 12,2M12,4A1,1 0 0,0 11,5A1,1 0 0,0 12,6A1,1 0 0,0 13,5A1,1 0 0,0 12,4Z"/></svg>
+              {% when 'outerwear' %}
+                <svg viewBox="0 0 24 24"><path d="M6.5,2C5.89,2 5.39,2.5 5.39,3.11L5.5,4H4.5C3.67,4 3,4.67 3,5.5V19.5C3,20.33 3.67,21 4.5,21H19.5C20.33,21 21,20.33 21,19.5V5.5C21,4.67 20.33,4 19.5,4H18.5L18.61,3.11C18.61,2.5 18.11,2 17.5,2H6.5M7,6H17V19H7V6Z"/></svg>
+              {% when 'accessories' %}
+                <svg viewBox="0 0 24 24"><path d="M12,2A7,7 0 0,1 19,9C19,10.38 18.5,11.65 17.64,12.64L12,18.28L6.36,12.64C5.5,11.65 5,10.38 5,9A7,7 0 0,1 12,2M12,7A2,2 0 0,0 10,9A2,2 0 0,0 12,11A2,2 0 0,0 14,9A2,2 0 0,0 12,7Z"/></svg>
+              {% when 'toys' %}
+                <svg viewBox="0 0 24 24"><path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M12,4A1,1 0 0,0 11,5V11A1,1 0 0,0 12,12A1,1 0 0,0 13,11V5A1,1 0 0,0 12,4M7,9V15A4,4 0 0,0 11,19H13A4,4 0 0,0 17,15V9H15V15A2,2 0 0,1 13,17H11A2,2 0 0,1 9,15V9H7Z"/></svg>
+              {% when 'home_interior' %}
+                <svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg>
+            {% endcase %}
+          </div>
+          <div class="ai-kids-category-name-{{ ai_gen_id }}">{{ category_name }}</div>
+        </a>
+      {% endfor %}
+    </div>
+
+    <div class="ai-kids-categories-mobile-{{ ai_gen_id }}">
+      <div class="ai-kids-categories-mobile-container-{{ ai_gen_id }}">
+        <div class="ai-kids-categories-mobile-slider-{{ ai_gen_id }}" data-categories-slider-container>
+          {% assign categories = 'baby,t_shirts,pants,dresses,outerwear,accessories,toys,home_interior' | split: ',' %}
+          {% assign category_names = 'Baby,T-Shirts,Pants,Dresses,Outerwear,Accessories,Toys,Home & Interior' | split: ',' %}
+          
+          {% for category in categories %}
+            {% liquid
+              assign collection_key = 'category_' | append: category | append: '_collection'
+              assign collection = block.settings[collection_key]
+              assign category_name = category_names[forloop.index0]
+            %}
+            
+            <a 
+              href="{% if collection %}{{ collection.url }}{% else %}#{% endif %}" 
+              class="ai-kids-category-mobile-item-{{ ai_gen_id }}"
+            >
+              <div class="ai-kids-category-icon-{{ ai_gen_id }}">
+                {% case category %}
+                  {% when 'baby' %}
+                    <svg viewBox="0 0 24 24"><path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 5.5V7.5L12 8.5L9 7.5V5.5L3 7V9L9 10.5V19C9 20.1 9.9 21 11 21H13C14.1 21 15 20.1 15 19V10.5L21 9Z"/></svg>
+                  {% when 't_shirts' %}
+                    <svg viewBox="0 0 24 24"><path d="M16,21H8A1,1 0 0,1 7,20V12L4.5,10.5L5.5,9L7,10V8A1,1 0 0,1 8,7H16A1,1 0 0,1 17,7V10L18.5,9L19.5,10.5L17,12V20A1,1 0 0,1 16,21M9,19H15V11.5L16.5,10.5L16,10V9H8V10L7.5,10.5L9,11.5V19Z"/></svg>
+                  {% when 'pants' %}
+                    <svg viewBox="0 0 24 24"><path d="M8,2A1,1 0 0,0 7,3V4H6V6H7V21A1,1 0 0,0 8,22H10A1,1 0 0,0 11,21V12H13V21A1,1 0 0,0 14,22H16A1,1 0 0,0 17,21V6H18V4H17V3A1,1 0 0,0 16,2H8M9,4H15V6H9V4Z"/></svg>
+                  {% when 'dresses' %}
+                    <svg viewBox="0 0 24 24"><path d="M12,2A3,3 0 0,1 15,5C15,6.32 14.25,7.5 13.16,8.16L18,21H16L11.67,9H12.33L8,21H6L10.84,8.16C9.75,7.5 9,6.32 9,5A3,3 0 0,1 12,2M12,4A1,1 0 0,0 11,5A1,1 0 0,0 12,6A1,1 0 0,0 13,5A1,1 0 0,0 12,4Z"/></svg>
+                  {% when 'outerwear' %}
+                    <svg viewBox="0 0 24 24"><path d="M6.5,2C5.89,2 5.39,2.5 5.39,3.11L5.5,4H4.5C3.67,4 3,4.67 3,5.5V19.5C3,20.33 3.67,21 4.5,21H19.5C20.33,21 21,20.33 21,19.5V5.5C21,4.67 20.33,4 19.5,4H18.5L18.61,3.11C18.61,2.5 18.11,2 17.5,2H6.5M7,6H17V19H7V6Z"/></svg>
+                  {% when 'accessories' %}
+                    <svg viewBox="0 0 24 24"><path d="M12,2A7,7 0 0,1 19,9C19,10.38 18.5,11.65 17.64,12.64L12,18.28L6.36,12.64C5.5,11.65 5,10.38 5,9A7,7 0 0,1 12,2M12,7A2,2 0 0,0 10,9A2,2 0 0,0 12,11A2,2 0 0,0 14,9A2,2 0 0,0 12,7Z"/></svg>
+                  {% when 'toys' %}
+                    <svg viewBox="0 0 24 24"><path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M12,4A1,1 0 0,0 11,5V11A1,1 0 0,0 12,12A1,1 0 0,0 13,11V5A1,1 0 0,0 12,4M7,9V15A4,4 0 0,0 11,19H13A4,4 0 0,0 17,15V9H15V15A2,2 0 0,1 13,17H11A2,2 0 0,1 9,15V9H7Z"/></svg>
+                  {% when 'home_interior' %}
+                    <svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg>
+                {% endcase %}
+              </div>
+              <div class="ai-kids-category-name-{{ ai_gen_id }}">{{ category_name }}</div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="ai-kids-categories-mobile-dots-{{ ai_gen_id }}">
+        {% assign total_pages = 8 | divided_by: 4.0 | ceil %}
+        {% for i in (1..total_pages) %}
+          <div class="ai-kids-categories-mobile-dot-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}" data-categories-page="{{ forloop.index0 }}"></div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</kids-hero-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class KidsHero{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentHeroSlide = 0;
+        this.totalHeroSlides = 3;
+        this.isHeroTransitioning = false;
+        this.heroStartX = 0;
+        this.heroCurrentX = 0;
+        this.isHeroDragging = false;
+        this.heroThreshold = 50;
+
+        this.currentCategoriesPage = 0;
+        this.totalCategoriesPages = 2;
+        this.itemsPerPage = 4;
+        this.isCategoriesTransitioning = false;
+        this.categoriesStartX = 0;
+        this.categoriesCurrentX = 0;
+        this.isCategoriesDragging = false;
+        this.categoriesThreshold = 50;
+      }
+
+      connectedCallback() {
+        this.heroSlider = this.querySelector('[data-hero-slider-container]');
+        this.heroDots = this.querySelectorAll('.ai-kids-hero-dot-{{ ai_gen_id }}');
+        this.categoriesSlider = this.querySelector('[data-categories-slider-container]');
+        this.categoriesDots = this.querySelectorAll('.ai-kids-categories-mobile-dot-{{ ai_gen_id }}');
+        
+        if (this.heroSlider) {
+          this.setupHeroEventListeners();
+          this.autoSlideHero();
+        }
+
+        if (this.categoriesSlider) {
+          this.setupCategoriesEventListeners();
+          this.updateCategoriesPosition();
+        }
+      }
+
+      setupHeroEventListeners() {
+        // Touch events for mobile swipe
+        this.heroSlider.addEventListener('touchstart', this.handleHeroTouchStart.bind(this), { passive: true });
+        this.heroSlider.addEventListener('touchmove', this.handleHeroTouchMove.bind(this), { passive: false });
+        this.heroSlider.addEventListener('touchend', this.handleHeroTouchEnd.bind(this), { passive: true });
+
+        // Mouse events for desktop drag
+        this.heroSlider.addEventListener('mousedown', this.handleHeroMouseDown.bind(this));
+        this.heroSlider.addEventListener('mousemove', this.handleHeroMouseMove.bind(this));
+        this.heroSlider.addEventListener('mouseup', this.handleHeroMouseUp.bind(this));
+        this.heroSlider.addEventListener('mouseleave', this.handleHeroMouseUp.bind(this));
+
+        // Prevent default drag behavior
+        this.heroSlider.addEventListener('dragstart', (e) => e.preventDefault());
+
+        // Dot navigation
+        this.heroDots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            if (!this.isHeroTransitioning) {
+              this.goToHeroSlide(index);
+            }
+          });
+        });
+
+        // Pause auto-slide on hover
+        this.addEventListener('mouseenter', () => {
+          this.pauseHeroAutoSlide();
+        });
+
+        this.addEventListener('mouseleave', () => {
+          this.resumeHeroAutoSlide();
+        });
+      }
+
+      setupCategoriesEventListeners() {
+        // Touch events for mobile swipe
+        this.categoriesSlider.addEventListener('touchstart', this.handleCategoriesTouchStart.bind(this), { passive: true });
+        this.categoriesSlider.addEventListener('touchmove', this.handleCategoriesTouchMove.bind(this), { passive: false });
+        this.categoriesSlider.addEventListener('touchend', this.handleCategoriesTouchEnd.bind(this), { passive: true });
+
+        // Mouse events for desktop drag
+        this.categoriesSlider.addEventListener('mousedown', this.handleCategoriesMouseDown.bind(this));
+        this.categoriesSlider.addEventListener('mousemove', this.handleCategoriesMouseMove.bind(this));
+        this.categoriesSlider.addEventListener('mouseup', this.handleCategoriesMouseUp.bind(this));
+        this.categoriesSlider.addEventListener('mouseleave', this.handleCategoriesMouseUp.bind(this));
+
+        // Prevent default drag behavior
+        this.categoriesSlider.addEventListener('dragstart', (e) => e.preventDefault());
+
+        // Dot navigation
+        this.categoriesDots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            if (!this.isCategoriesTransitioning) {
+              this.goToCategoriesPage(index);
+            }
+          });
+        });
+      }
+
+      // Hero slider methods
+      handleHeroTouchStart(e) {
+        this.heroStartX = e.touches[0].clientX;
+        this.heroCurrentX = this.heroStartX;
+        this.isHeroDragging = true;
+        this.pauseHeroAutoSlide();
+      }
+
+      handleHeroTouchMove(e) {
+        if (!this.isHeroDragging) return;
+        
+        this.heroCurrentX = e.touches[0].clientX;
+        const deltaX = this.heroCurrentX - this.heroStartX;
+        
+        const resistance = this.getHeroResistance(deltaX);
+        const translateX = -this.currentHeroSlide * 100 + (deltaX * resistance) / this.heroSlider.offsetWidth * 100;
+        
+        this.heroSlider.style.transform = `translateX(${translateX}%)`;
+        
+        if (Math.abs(deltaX) > 10) {
+          e.preventDefault();
+        }
+      }
+
+      handleHeroTouchEnd(e) {
+        if (!this.isHeroDragging) return;
+        
+        this.isHeroDragging = false;
+        const deltaX = this.heroCurrentX - this.heroStartX;
+        
+        if (Math.abs(deltaX) > this.heroThreshold) {
+          if (deltaX > 0) {
+            this.previousHeroSlide();
+          } else {
+            this.nextHeroSlide();
+          }
+        } else {
+          this.goToHeroSlide(this.currentHeroSlide);
+        }
+        
+        this.resumeHeroAutoSlide();
+      }
+
+      handleHeroMouseDown(e) {
+        e.preventDefault();
+        this.heroStartX = e.clientX;
+        this.heroCurrentX = this.heroStartX;
+        this.isHeroDragging = true;
+        this.pauseHeroAutoSlide();
+        this.heroSlider.style.cursor = 'grabbing';
+      }
+
+      handleHeroMouseMove(e) {
+        if (!this.isHeroDragging) return;
+        
+        e.preventDefault();
+        this.heroCurrentX = e.clientX;
+        const deltaX = this.heroCurrentX - this.heroStartX;
+        
+        const resistance = this.getHeroResistance(deltaX);
+        const translateX = -this.currentHeroSlide * 100 + (deltaX * resistance) / this.heroSlider.offsetWidth * 100;
+        
+        this.heroSlider.style.transform = `translateX(${translateX}%)`;
+      }
+
+      handleHeroMouseUp(e) {
+        if (!this.isHeroDragging) return;
+        
+        this.isHeroDragging = false;
+        const deltaX = this.heroCurrentX - this.heroStartX;
+        
+        if (Math.abs(deltaX) > this.heroThreshold) {
+          if (deltaX > 0) {
+            this.previousHeroSlide();
+          } else {
+            this.nextHeroSlide();
+          }
+        } else {
+          this.goToHeroSlide(this.currentHeroSlide);
+        }
+        
+        this.heroSlider.style.cursor = 'grab';
+        this.resumeHeroAutoSlide();
+      }
+
+      getHeroResistance(deltaX) {
+        const isAtStart = this.currentHeroSlide === 0 && deltaX > 0;
+        const isAtEnd = this.currentHeroSlide === this.totalHeroSlides - 1 && deltaX < 0;
+        
+        if (isAtStart || isAtEnd) {
+          return 0.3;
+        }
+        return 1;
+      }
+
+      goToHeroSlide(index) {
+        if (this.isHeroTransitioning || index === this.currentHeroSlide) return;
+        
+        this.isHeroTransitioning = true;
+        this.currentHeroSlide = index;
+        
+        this.heroSlider.style.transform = `translateX(-${this.currentHeroSlide * 100}%)`;
+        
+        this.heroDots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === this.currentHeroSlide);
+        });
+        
+        setTimeout(() => {
+          this.isHeroTransitioning = false;
+        }, 300);
+      }
+
+      nextHeroSlide() {
+        const nextIndex = (this.currentHeroSlide + 1) % this.totalHeroSlides;
+        this.goToHeroSlide(nextIndex);
+      }
+
+      previousHeroSlide() {
+        const prevIndex = (this.currentHeroSlide - 1 + this.totalHeroSlides) % this.totalHeroSlides;
+        this.goToHeroSlide(prevIndex);
+      }
+
+      autoSlideHero() {
+        this.heroAutoSlideInterval = setInterval(() => {
+          if (!this.isHeroDragging && !this.isHeroTransitioning) {
+            this.nextHeroSlide();
+          }
+        }, 5000);
+      }
+
+      pauseHeroAutoSlide() {
+        if (this.heroAutoSlideInterval) {
+          clearInterval(this.heroAutoSlideInterval);
+        }
+      }
+
+      resumeHeroAutoSlide() {
+        this.pauseHeroAutoSlide();
+        this.autoSlideHero();
+      }
+
+      // Categories slider methods
+      handleCategoriesTouchStart(e) {
+        this.categoriesStartX = e.touches[0].clientX;
+        this.categoriesCurrentX = this.categoriesStartX;
+        this.isCategoriesDragging = true;
+      }
+
+      handleCategoriesTouchMove(e) {
+        if (!this.isCategoriesDragging) return;
+        
+        this.categoriesCurrentX = e.touches[0].clientX;
+        const deltaX = this.categoriesCurrentX - this.categoriesStartX;
+        
+        const resistance = this.getCategoriesResistance(deltaX);
+        const translateX = -this.currentCategoriesPage * (100 / this.totalCategoriesPages) + (deltaX * resistance) / this.categoriesSlider.offsetWidth * 100;
+        
+        this.categoriesSlider.style.transform = `translateX(${translateX}%)`;
+        
+        if (Math.abs(deltaX) > 10) {
+          e.preventDefault();
+        }
+      }
+
+      handleCategoriesTouchEnd(e) {
+        if (!this.isCategoriesDragging) return;
+        
+        this.isCategoriesDragging = false;
+        const deltaX = this.categoriesCurrentX - this.categoriesStartX;
+        
+        if (Math.abs(deltaX) > this.categoriesThreshold) {
+          if (deltaX > 0) {
+            this.previousCategoriesPage();
+          } else {
+            this.nextCategoriesPage();
+          }
+        } else {
+          this.goToCategoriesPage(this.currentCategoriesPage);
+        }
+      }
+
+      handleCategoriesMouseDown(e) {
+        e.preventDefault();
+        this.categoriesStartX = e.clientX;
+        this.categoriesCurrentX = this.categoriesStartX;
+        this.isCategoriesDragging = true;
+        this.categoriesSlider.style.cursor = 'grabbing';
+      }
+
+      handleCategoriesMouseMove(e) {
+        if (!this.isCategoriesDragging) return;
+        
+        e.preventDefault();
+        this.categoriesCurrentX = e.clientX;
+        const deltaX = this.categoriesCurrentX - this.categoriesStartX;
+        
+        const resistance = this.getCategoriesResistance(deltaX);
+        const translateX = -this.currentCategoriesPage * (100 / this.totalCategoriesPages) + (deltaX * resistance) / this.categoriesSlider.offsetWidth * 100;
+        
+        this.categoriesSlider.style.transform = `translateX(${translateX}%)`;
+      }
+
+      handleCategoriesMouseUp(e) {
+        if (!this.isCategoriesDragging) return;
+        
+        this.isCategoriesDragging = false;
+        const deltaX = this.categoriesCurrentX - this.categoriesStartX;
+        
+        if (Math.abs(deltaX) > this.categoriesThreshold) {
+          if (deltaX > 0) {
+            this.previousCategoriesPage();
+          } else {
+            this.nextCategoriesPage();
+          }
+        } else {
+          this.goToCategoriesPage(this.currentCategoriesPage);
+        }
+        
+        this.categoriesSlider.style.cursor = 'grab';
+      }
+
+      getCategoriesResistance(deltaX) {
+        const isAtStart = this.currentCategoriesPage === 0 && deltaX > 0;
+        const isAtEnd = this.currentCategoriesPage === this.totalCategoriesPages - 1 && deltaX < 0;
+        
+        if (isAtStart || isAtEnd) {
+          return 0.3;
+        }
+        return 1;
+      }
+
+      goToCategoriesPage(index) {
+        if (this.isCategoriesTransitioning || index === this.currentCategoriesPage) return;
+        
+        this.isCategoriesTransitioning = true;
+        this.currentCategoriesPage = index;
+        
+        this.updateCategoriesPosition();
+        
+        this.categoriesDots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === this.currentCategoriesPage);
+        });
+        
+        setTimeout(() => {
+          this.isCategoriesTransitioning = false;
+        }, 300);
+      }
+
+      updateCategoriesPosition() {
+        const translateX = -this.currentCategoriesPage * (100 / this.totalCategoriesPages);
+        this.categoriesSlider.style.transform = `translateX(${translateX}%)`;
+      }
+
+      nextCategoriesPage() {
+        const nextIndex = (this.currentCategoriesPage + 1) % this.totalCategoriesPages;
+        this.goToCategoriesPage(nextIndex);
+      }
+
+      previousCategoriesPage() {
+        const prevIndex = (this.currentCategoriesPage - 1 + this.totalCategoriesPages) % this.totalCategoriesPages;
+        this.goToCategoriesPage(prevIndex);
+      }
+
+      disconnectedCallback() {
+        this.pauseHeroAutoSlide();
+      }
+    }
+
+    customElements.define('kids-hero-{{ ai_gen_id }}', KidsHero{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Kids hero section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop hero height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "mobile_hero_height",
+      "min": 250,
+      "max": 600,
+      "step": 25,
+      "unit": "px",
+      "label": "Mobile hero height",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Grid gap",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Hero 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_1",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_1",
+      "label": "Title",
+      "default": "Seasonal Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description_1",
+      "label": "Description",
+      "default": "Discover our latest seasonal styles for kids"
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text_1",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link_1",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Hero 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_2",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_2",
+      "label": "Title",
+      "default": "Accessories"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description_2",
+      "label": "Description",
+      "default": "Complete the look with our fun accessories"
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text_2",
+      "label": "Button text",
+      "default": "Explore"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link_2",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Hero 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_3",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_3",
+      "label": "Title",
+      "default": "Family Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description_3",
+      "label": "Description",
+      "default": "Matching styles for kids and parents"
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text_3",
+      "label": "Button text",
+      "default": "Shop Family"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link_3",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background color",
+      "default": "#334fb4"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#334fb4"
+    },
+    {
+      "type": "header",
+      "content": "Categories"
+    },
+    {
+      "type": "range",
+      "id": "categories_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Categories spacing",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "category_icon_size",
+      "min": 40,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "category_bg_color",
+      "label": "Icon background color",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "category_hover_bg_color",
+      "label": "Icon hover background color",
+      "default": "#334fb4"
+    },
+    {
+      "type": "color",
+      "id": "category_icon_color",
+      "label": "Icon color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "category_text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "category_text_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Category collections"
+    },
+    {
+      "type": "collection",
+      "id": "category_baby_collection",
+      "label": "Baby collection"
+    },
+    {
+      "type": "collection",
+      "id": "category_t_shirts_collection",
+      "label": "T-Shirts collection"
+    },
+    {
+      "type": "collection",
+      "id": "category_pants_collection",
+      "label": "Pants collection"
+    },
+    {
+      "type": "collection",
+      "id": "category_dresses_collection",
+      "label": "Dresses collection"
+    },
+    {
+      "type": "collection",
+      "id": "category_outerwear_collection",
+      "label": "Outerwear collection"
+    },
+    {
+      "type": "collection",
+      "id": "category_accessories_collection",
+      "label": "Accessories collection"
+    },
+    {
+      "type": "collection",
+      "id": "category_toys_collection",
+      "label": "Toys collection"
+    },
+    {
+      "type": "collection",
+      "id": "category_home_interior_collection",
+      "label": "Home & Interior collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kids hero section"
+    }
+  ]
+}
 {% endschema %}
