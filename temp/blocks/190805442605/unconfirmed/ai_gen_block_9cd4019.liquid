@@ -26,7 +26,7 @@
     “Send melding 🚀”
     
     Bekreftelse:
-    “Takk! Vi svarer så fort vi kan – som regel samme dag 💌.”, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles
+    “Takk! Vi svarer så fort vi kan – som regel samme dag 💌.”, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
@@ -370,9 +370,15 @@
     font-style: {{ block.settings.body_font.style }};
   }
 
-  .ai-contact-form-{{ ai_gen_id }} {
+  .ai-contact-form-grid-{{ ai_gen_id }} {
     display: grid;
     gap: 16px;
+  }
+
+  .ai-contact-form-row-{{ ai_gen_id }} {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
   }
 
   .ai-contact-form-field-{{ ai_gen_id }} {
@@ -415,18 +421,20 @@
   }
 
   .ai-contact-form-button-{{ ai_gen_id }} {
-    padding: 16px 32px;
     background-color: {{ block.settings.button_background }};
     color: {{ block.settings.button_text_color }};
     border: none;
+    padding: 16px 32px;
     border-radius: {{ block.settings.button_border_radius }}px;
-    font-size: {{ block.settings.button_text_size }}px;
+    font-size: {{ block.settings.body_text_size }}px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: {{ block.settings.button_font.family }}, {{ block.settings.button_font.fallback_families }};
-    font-style: {{ block.settings.button_font.style }};
-    justify-self: start;
+    font-family: {{ block.settings.label_font.family }}, {{ block.settings.label_font.fallback_families }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
 
   .ai-contact-form-button-{{ ai_gen_id }}:hover {
@@ -436,24 +444,22 @@
 
   .ai-contact-form-success-{{ ai_gen_id }} {
     background-color: {{ block.settings.success_background }};
-    color: {{ block.settings.success_text_color }};
+    color: {{ block.settings.success_text }};
     padding: 16px;
     border-radius: {{ block.settings.card_radius }}px;
     margin-top: 16px;
     text-align: center;
-    font-weight: 500;
-    border-left: 4px solid {{ block.settings.success_border_color }};
+    border-left: 4px solid {{ block.settings.success_accent }};
     font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
   }
 
   .ai-contact-form-error-{{ ai_gen_id }} {
     background-color: {{ block.settings.error_background }};
-    color: {{ block.settings.error_text_color }};
-    padding: 12px 16px;
-    border-radius: {{ block.settings.input_border_radius }}px;
-    margin-top: 8px;
-    font-size: 14px;
-    border-left: 4px solid {{ block.settings.error_border_color }};
+    color: {{ block.settings.error_text }};
+    padding: 16px;
+    border-radius: {{ block.settings.card_radius }}px;
+    margin-top: 16px;
+    border-left: 4px solid {{ block.settings.error_accent }};
     font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
   }
 
@@ -484,7 +490,11 @@
       grid-column: 1 / -1;
     }
 
-    .ai-contact-form-section-{{ ai_gen_id }} {
+    .ai-contact-form-row-{{ ai_gen_id }} {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .ai-contact-form-field-full-{{ ai_gen_id }} {
       grid-column: 1 / -1;
     }
   }
@@ -535,7 +545,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
           </svg>
           <div class="ai-contact-info-content-{{ ai_gen_id }}">
-            <p class="ai-contact-info-label-{{ ai_gen_id }}">E-post 📧</p>
+            <p class="ai-contact-info-label-{{ ai_gen_id }}">E-post</p>
             <p class="ai-contact-info-value-{{ ai_gen_id }}">
               <a href="mailto:{{ block.settings.email_address }}" class="ai-contact-email-link-{{ ai_gen_id }}">
                 {{ block.settings.email_address }}
@@ -549,7 +559,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <div class="ai-contact-info-content-{{ ai_gen_id }}">
-            <p class="ai-contact-info-label-{{ ai_gen_id }}">Åpningstider ⏰</p>
+            <p class="ai-contact-info-label-{{ ai_gen_id }}">Åpningstider</p>
             <p class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.opening_hours }}</p>
             <p class="ai-contact-hours-note-{{ ai_gen_id }}">{{ block.settings.weekend_note }}</p>
           </div>
@@ -571,7 +581,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           <div class="ai-contact-info-content-{{ ai_gen_id }}">
-            <p class="ai-contact-info-label-{{ ai_gen_id }}">Organisasjonsnummer 📋</p>
+            <p class="ai-contact-info-label-{{ ai_gen_id }}">Organisasjonsnummer</p>
             <p class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.org_number }}</p>
           </div>
         </div>
@@ -582,7 +592,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
           <div class="ai-contact-info-content-{{ ai_gen_id }}">
-            <p class="ai-contact-info-label-{{ ai_gen_id }}">Adresse 🏠</p>
+            <p class="ai-contact-info-label-{{ ai_gen_id }}">Adresse</p>
             <p class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.company_address }}</p>
           </div>
         </div>
@@ -602,113 +612,103 @@
       </div>
 
       {% form 'contact' %}
-        <div class="ai-contact-form-{{ ai_gen_id }}">
-          <div class="ai-contact-form-field-{{ ai_gen_id }}">
-            <label for="contact-name-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-              Navn 👤
-            </label>
-            <input
-              type="text"
-              id="contact-name-{{ ai_gen_id }}"
-              name="contact[name]"
-              class="ai-contact-form-input-{{ ai_gen_id }}"
-              value="{{ form.name }}"
-              required
-              {% if form.errors contains 'name' %}
-                aria-invalid="true"
-                aria-describedby="contact-name-error-{{ ai_gen_id }}"
-              {% endif %}
-            >
-            {% if form.errors contains 'name' %}
-              <div id="contact-name-error-{{ ai_gen_id }}" class="ai-contact-form-error-{{ ai_gen_id }}">
-                {{ form.errors.messages.name }}
-              </div>
-            {% endif %}
+        <div class="ai-contact-form-grid-{{ ai_gen_id }}">
+          <div class="ai-contact-form-row-{{ ai_gen_id }}">
+            <div class="ai-contact-form-field-{{ ai_gen_id }}">
+              <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-name-{{ ai_gen_id }}">
+                Navn *
+              </label>
+              <input
+                type="text"
+                id="contact-name-{{ ai_gen_id }}"
+                name="contact[name]"
+                class="ai-contact-form-input-{{ ai_gen_id }}"
+                value="{{ form.name }}"
+                required
+              >
+            </div>
+
+            <div class="ai-contact-form-field-{{ ai_gen_id }}">
+              <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-email-{{ ai_gen_id }}">
+                E-post *
+              </label>
+              <input
+                type="email"
+                id="contact-email-{{ ai_gen_id }}"
+                name="contact[email]"
+                class="ai-contact-form-input-{{ ai_gen_id }}"
+                value="{{ form.email }}"
+                required
+              >
+            </div>
           </div>
 
-          <div class="ai-contact-form-field-{{ ai_gen_id }}">
-            <label for="contact-email-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-              E-post 📧
-            </label>
-            <input
-              type="email"
-              id="contact-email-{{ ai_gen_id }}"
-              name="contact[email]"
-              class="ai-contact-form-input-{{ ai_gen_id }}"
-              value="{{ form.email }}"
-              required
-              {% if form.errors contains 'email' %}
-                aria-invalid="true"
-                aria-describedby="contact-email-error-{{ ai_gen_id }}"
-              {% endif %}
-            >
-            {% if form.errors contains 'email' %}
-              <div id="contact-email-error-{{ ai_gen_id }}" class="ai-contact-form-error-{{ ai_gen_id }}">
-                {{ form.errors.messages.email }}
-              </div>
-            {% endif %}
+          <div class="ai-contact-form-row-{{ ai_gen_id }}">
+            <div class="ai-contact-form-field-{{ ai_gen_id }}">
+              <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-order-{{ ai_gen_id }}">
+                Ordrenummer (valgfritt)
+              </label>
+              <input
+                type="text"
+                id="contact-order-{{ ai_gen_id }}"
+                name="contact[order_number]"
+                class="ai-contact-form-input-{{ ai_gen_id }}"
+                value="{{ form.order_number }}"
+              >
+            </div>
+
+            <div class="ai-contact-form-field-{{ ai_gen_id }}">
+              <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-subject-{{ ai_gen_id }}">
+                Velg emne *
+              </label>
+              <select
+                id="contact-subject-{{ ai_gen_id }}"
+                name="contact[subject]"
+                class="ai-contact-form-select-{{ ai_gen_id }}"
+                required
+              >
+                <option value="">Velg emne...</option>
+                <option value="Retur">🔄 Retur</option>
+                <option value="Feil størrelse">📏 Feil størrelse</option>
+                <option value="Spørsmål om levering">🚚 Spørsmål om levering</option>
+                <option value="Annet">💬 Annet</option>
+              </select>
+            </div>
           </div>
 
-          <div class="ai-contact-form-field-{{ ai_gen_id }}">
-            <label for="contact-order-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-              Ordrenummer (valgfritt) 📦
-            </label>
-            <input
-              type="text"
-              id="contact-order-{{ ai_gen_id }}"
-              name="contact[order_number]"
-              class="ai-contact-form-input-{{ ai_gen_id }}"
-              value="{{ form.order_number }}"
-            >
-          </div>
-
-          <div class="ai-contact-form-field-{{ ai_gen_id }}">
-            <label for="contact-subject-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-              Velg emne 🎯
-            </label>
-            <select
-              id="contact-subject-{{ ai_gen_id }}"
-              name="contact[subject]"
-              class="ai-contact-form-select-{{ ai_gen_id }}"
-              required
-            >
-              <option value="">Velg et emne...</option>
-              <option value="Retur" {% if form.subject == 'Retur' %}selected{% endif %}>Retur 🔄</option>
-              <option value="Feil størrelse" {% if form.subject == 'Feil størrelse' %}selected{% endif %}>Feil størrelse 📏</option>
-              <option value="Spørsmål om levering" {% if form.subject == 'Spørsmål om levering' %}selected{% endif %}>Spørsmål om levering 🚚</option>
-              <option value="Annet" {% if form.subject == 'Annet' %}selected{% endif %}>Annet 💬</option>
-            </select>
-          </div>
-
-          <div class="ai-contact-form-field-{{ ai_gen_id }}">
-            <label for="contact-message-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-              Melding 💌
+          <div class="ai-contact-form-field-{{ ai_gen_id }} ai-contact-form-field-full-{{ ai_gen_id }}">
+            <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-message-{{ ai_gen_id }}">
+              Melding *
             </label>
             <textarea
               id="contact-message-{{ ai_gen_id }}"
               name="contact[body]"
               class="ai-contact-form-textarea-{{ ai_gen_id }}"
               required
-              {% if form.errors contains 'body' %}
-                aria-invalid="true"
-                aria-describedby="contact-message-error-{{ ai_gen_id }}"
-              {% endif %}
+              placeholder="Beskriv ditt spørsmål eller problem..."
             >{{ form.body }}</textarea>
-            {% if form.errors contains 'body' %}
-              <div id="contact-message-error-{{ ai_gen_id }}" class="ai-contact-form-error-{{ ai_gen_id }}">
-                {{ form.errors.messages.body }}
-              </div>
-            {% endif %}
           </div>
 
-          <button type="submit" class="ai-contact-form-button-{{ ai_gen_id }}">
-            {{ block.settings.form_button_text }}
-          </button>
+          <div class="ai-contact-form-field-{{ ai_gen_id }} ai-contact-form-field-full-{{ ai_gen_id }}">
+            <button type="submit" class="ai-contact-form-button-{{ ai_gen_id }}">
+              {{ block.settings.form_button_text }}
+              <span>🚀</span>
+            </button>
+          </div>
         </div>
 
         {% if form.posted_successfully? %}
           <div class="ai-contact-form-success-{{ ai_gen_id }}">
             {{ block.settings.form_success_message }}
+          </div>
+        {% endif %}
+
+        {% if form.errors %}
+          <div class="ai-contact-form-error-{{ ai_gen_id }}">
+            <strong>Feil:</strong>
+            {% for field in form.errors %}
+              <p>{{ field | capitalize }}: {{ form.errors.messages[field] }}</p>
+            {% endfor %}
           </div>
         {% endif %}
       {% endform %}
@@ -835,7 +835,7 @@
     {
       "type": "text",
       "id": "form_title",
-      "label": "Skjematittel",
+      "label": "Skjema tittel",
       "default": "Trenger du hjelp med bestilling eller produkt?"
     },
     {
@@ -847,13 +847,13 @@
     {
       "type": "text",
       "id": "form_button_text",
-      "label": "Knappetekst",
-      "default": "Send melding 🚀"
+      "label": "Knapp tekst",
+      "default": "Send melding"
     },
     {
       "type": "richtext",
       "id": "form_success_message",
-      "label": "Suksessmelding",
+      "label": "Suksess melding",
       "default": "<p>Takk! Vi svarer så fort vi kan – som regel samme dag 💌.</p>"
     },
     {
@@ -867,8 +867,14 @@
       "max": 32,
       "step": 2,
       "unit": "px",
-      "label": "Ikonstørrelse",
+      "label": "Ikon størrelse",
       "default": 20
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Ikon farge",
+      "default": "#334fb4"
     },
     {
       "type": "checkbox",
@@ -883,7 +889,7 @@
       "max": 5,
       "step": 1,
       "unit": "s",
-      "label": "Animasjonshastighet",
+      "label": "Animasjon hastighet",
       "default": 2
     },
     {
@@ -893,7 +899,7 @@
       "max": 10,
       "step": 1,
       "unit": "px",
-      "label": "Sprett høyde",
+      "label": "Sprette høyde",
       "default": 4
     },
     {
@@ -902,14 +908,14 @@
       "min": 1,
       "max": 1.5,
       "step": 0.1,
-      "label": "Sprett skala",
+      "label": "Sprette skala",
       "default": 1.1
     },
     {
       "type": "checkbox",
       "id": "enable_icon_glow",
       "label": "Aktiver ikon glød",
-      "default": true
+      "default": false
     },
     {
       "type": "range",
@@ -940,7 +946,7 @@
       "max": 10,
       "step": 1,
       "unit": "s",
-      "label": "Rotasjonshastighet",
+      "label": "Rotasjon hastighet",
       "default": 4
     },
     {
@@ -1094,12 +1100,6 @@
       "default": "quicksand_n5"
     },
     {
-      "type": "font_picker",
-      "id": "button_font",
-      "label": "Knapp font",
-      "default": "nunito_sans_n6"
-    },
-    {
       "type": "header",
       "content": "Farger"
     },
@@ -1144,12 +1144,6 @@
       "id": "static_border_color",
       "label": "Statisk kantfarge",
       "default": "#e5e5e5"
-    },
-    {
-      "type": "color",
-      "id": "icon_color",
-      "label": "Ikonfarge",
-      "default": "#334fb4"
     },
     {
       "type": "color",
@@ -1200,10 +1194,6 @@
       "default": "#334fb4"
     },
     {
-      "type": "header",
-      "content": "Skjema farger"
-    },
-    {
       "type": "color",
       "id": "input_background",
       "label": "Input bakgrunn",
@@ -1229,15 +1219,15 @@
     },
     {
       "type": "color",
-      "id": "button_hover_background",
-      "label": "Knapp hover bakgrunn",
-      "default": "#242833"
-    },
-    {
-      "type": "color",
       "id": "button_text_color",
       "label": "Knapp tekstfarge",
       "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Knapp hover bakgrunn",
+      "default": "#242833"
     },
     {
       "type": "color",
@@ -1247,14 +1237,14 @@
     },
     {
       "type": "color",
-      "id": "success_text_color",
-      "label": "Suksess tekstfarge",
+      "id": "success_text",
+      "label": "Suksess tekst",
       "default": "#155724"
     },
     {
       "type": "color",
-      "id": "success_border_color",
-      "label": "Suksess kantfarge",
+      "id": "success_accent",
+      "label": "Suksess aksent",
       "default": "#28a745"
     },
     {
@@ -1265,14 +1255,14 @@
     },
     {
       "type": "color",
-      "id": "error_text_color",
-      "label": "Feil tekstfarge",
+      "id": "error_text",
+      "label": "Feil tekst",
       "default": "#721c24"
     },
     {
       "type": "color",
-      "id": "error_border_color",
-      "label": "Feil kantfarge",
+      "id": "error_accent",
+      "label": "Feil aksent",
       "default": "#dc3545"
     },
     {
@@ -1317,16 +1307,6 @@
       "step": 1,
       "unit": "px",
       "label": "Brødtekst størrelse",
-      "default": 16
-    },
-    {
-      "type": "range",
-      "id": "button_text_size",
-      "min": 14,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "label": "Knapp tekststørrelse",
       "default": 16
     },
     {
@@ -1387,7 +1367,7 @@
       "type": "range",
       "id": "input_border_radius",
       "min": 0,
-      "max": 16,
+      "max": 20,
       "step": 2,
       "unit": "px",
       "label": "Input kant radius",
