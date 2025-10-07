@@ -1,6 +1,758 @@
+{% doc %}
+  @prompt
+    Create a contact form section for Kulkid with animated rainbow border effect. Include title "Trenger du hjelp med bestilling eller produkt?", subtitle "Vi svarer vanligvis innen 24 timer (unntatt helger). Du kan også finne svar i vår FAQ-side." Form fields: Name, Email, Order number (optional), Subject dropdown (Retur/Feil størrelse/Spørsmål om levering/Annet), Message box. Submit button "Send melding". Success message "Takk! Vi svarer så fort vi kan – som regel samme dag 💌." Style with round fields, pastel colors, animated rainbow border around the section (not spinning, but flowing around edges with blur effect), font customization options. Use Shopify's built-in contact form functionality.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-contact-form-{{ ai_gen_id }} {
+    position: relative;
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: {{ block.settings.padding }}px;
+    background: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-contact-form-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(
+      45deg,
+      {{ block.settings.rainbow_color_1 }},
+      {{ block.settings.rainbow_color_2 }},
+      {{ block.settings.rainbow_color_3 }},
+      {{ block.settings.rainbow_color_4 }},
+      {{ block.settings.rainbow_color_5 }},
+      {{ block.settings.rainbow_color_6 }},
+      {{ block.settings.rainbow_color_1 }}
+    );
+    background-size: 400% 400%;
+    border-radius: {{ block.settings.border_radius | plus: 4 }}px;
+    filter: blur({{ block.settings.blur_intensity }}px);
+    z-index: -1;
+    animation: ai-rainbow-flow-{{ ai_gen_id }} {{ block.settings.animation_speed }}s ease-in-out infinite;
+  }
+
+  @keyframes ai-rainbow-flow-{{ ai_gen_id }} {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    25% {
+      background-position: 100% 50%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    75% {
+      background-position: 0% 100%;
+    }
+  }
+
+  .ai-contact-form__content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ai-contact-form__header-{{ ai_gen_id }} {
+    text-align: {{ block.settings.text_alignment }};
+    margin-bottom: 32px;
+  }
+
+  .ai-contact-form__title-{{ ai_gen_id }} {
+    font-family: {{ block.settings.title_font.family }}, {{ block.settings.title_font.fallback_families }};
+    font-weight: {{ block.settings.title_font.weight }};
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 16px;
+    line-height: 1.3;
+  }
+
+  .ai-contact-form__subtitle-{{ ai_gen_id }} {
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-weight: {{ block.settings.body_font.weight }};
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .ai-contact-form__form-{{ ai_gen_id }} {
+    display: grid;
+    gap: 20px;
+  }
+
+  .ai-contact-form__field-group-{{ ai_gen_id }} {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .ai-contact-form__field-group-{{ ai_gen_id }}--two-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ai-contact-form__field-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-contact-form__label-{{ ai_gen_id }} {
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-weight: {{ block.settings.body_font.weight }};
+    font-size: {{ block.settings.label_size }}px;
+    color: {{ block.settings.label_color }};
+    margin: 0;
+  }
+
+  .ai-contact-form__input-{{ ai_gen_id }},
+  .ai-contact-form__select-{{ ai_gen_id }},
+  .ai-contact-form__textarea-{{ ai_gen_id }} {
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-weight: {{ block.settings.body_font.weight }};
+    font-size: {{ block.settings.input_size }}px;
+    padding: {{ block.settings.input_padding }}px;
+    border: {{ block.settings.input_border_width }}px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    background-color: {{ block.settings.input_background }};
+    color: {{ block.settings.input_text_color }};
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ai-contact-form__input-{{ ai_gen_id }}:focus,
+  .ai-contact-form__select-{{ ai_gen_id }}:focus,
+  .ai-contact-form__textarea-{{ ai_gen_id }}:focus {
+    outline: none;
+    border-color: {{ block.settings.input_focus_border_color }};
+    box-shadow: 0 0 0 3px {{ block.settings.input_focus_border_color }}33;
+  }
+
+  .ai-contact-form__input-{{ ai_gen_id }}::placeholder,
+  .ai-contact-form__textarea-{{ ai_gen_id }}::placeholder {
+    color: {{ block.settings.placeholder_color }};
+    opacity: 1;
+  }
+
+  .ai-contact-form__textarea-{{ ai_gen_id }} {
+    min-height: {{ block.settings.textarea_height }}px;
+    resize: vertical;
+  }
+
+  .ai-contact-form__select-{{ ai_gen_id }} {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+  }
+
+  .ai-contact-form__button-{{ ai_gen_id }} {
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-weight: {{ block.settings.body_font.weight }};
+    font-size: {{ block.settings.button_size }}px;
+    padding: {{ block.settings.button_padding }}px {{ block.settings.button_padding | times: 1.5 }}px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: {{ block.settings.button_max_width }}px;
+    margin: 0 auto;
+    justify-self: {{ block.settings.text_alignment }};
+  }
+
+  .ai-contact-form__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px {{ block.settings.button_background }}40;
+  }
+
+  .ai-contact-form__message-{{ ai_gen_id }} {
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-weight: {{ block.settings.body_font.weight }};
+    font-size: {{ block.settings.input_size }}px;
+    padding: 16px;
+    border-radius: {{ block.settings.input_border_radius }}px;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .ai-contact-form__success-{{ ai_gen_id }} {
+    background-color: {{ block.settings.success_background }};
+    color: {{ block.settings.success_text_color }};
+    border: 1px solid {{ block.settings.success_border_color }};
+  }
+
+  .ai-contact-form__error-{{ ai_gen_id }} {
+    background-color: {{ block.settings.error_background }};
+    color: {{ block.settings.error_text_color }};
+    border: 1px solid {{ block.settings.error_border_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-contact-form-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding | times: 0.75 }}px;
+    }
+
+    .ai-contact-form__field-group-{{ ai_gen_id }}--two-columns {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-contact-form__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.85 }}px;
+    }
+
+    .ai-contact-form__subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-contact-form-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-contact-form__content-{{ ai_gen_id }}">
+    <div class="ai-contact-form__header-{{ ai_gen_id }}">
+      <h2 class="ai-contact-form__title-{{ ai_gen_id }}">
+        {{ block.settings.title }}
+      </h2>
+      {% if block.settings.subtitle != blank %}
+        <p class="ai-contact-form__subtitle-{{ ai_gen_id }}">
+          {{ block.settings.subtitle }}
+        </p>
+      {% endif %}
+    </div>
+
+    {% form 'contact' %}
+      <div class="ai-contact-form__form-{{ ai_gen_id }}">
+        <div class="ai-contact-form__field-group-{{ ai_gen_id }} ai-contact-form__field-group-{{ ai_gen_id }}--two-columns">
+          <div class="ai-contact-form__field-{{ ai_gen_id }}">
+            <label for="ai-contact-name-{{ ai_gen_id }}" class="ai-contact-form__label-{{ ai_gen_id }}">
+              Navn *
+            </label>
+            <input
+              type="text"
+              id="ai-contact-name-{{ ai_gen_id }}"
+              name="contact[name]"
+              class="ai-contact-form__input-{{ ai_gen_id }}"
+              value="{{ form.name }}"
+              placeholder="Ditt fulle navn"
+              required
+              aria-required="true"
+            >
+          </div>
+
+          <div class="ai-contact-form__field-{{ ai_gen_id }}">
+            <label for="ai-contact-email-{{ ai_gen_id }}" class="ai-contact-form__label-{{ ai_gen_id }}">
+              E-post *
+            </label>
+            <input
+              type="email"
+              id="ai-contact-email-{{ ai_gen_id }}"
+              name="contact[email]"
+              class="ai-contact-form__input-{{ ai_gen_id }}"
+              value="{{ form.email }}"
+              placeholder="din@epost.no"
+              required
+              aria-required="true"
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <div class="ai-contact-form__field-group-{{ ai_gen_id }} ai-contact-form__field-group-{{ ai_gen_id }}--two-columns">
+          <div class="ai-contact-form__field-{{ ai_gen_id }}">
+            <label for="ai-contact-order-{{ ai_gen_id }}" class="ai-contact-form__label-{{ ai_gen_id }}">
+              Ordrenummer (valgfritt)
+            </label>
+            <input
+              type="text"
+              id="ai-contact-order-{{ ai_gen_id }}"
+              name="contact[order_number]"
+              class="ai-contact-form__input-{{ ai_gen_id }}"
+              value="{{ form.order_number }}"
+              placeholder="#1001"
+            >
+          </div>
+
+          <div class="ai-contact-form__field-{{ ai_gen_id }}">
+            <label for="ai-contact-subject-{{ ai_gen_id }}" class="ai-contact-form__label-{{ ai_gen_id }}">
+              Emne *
+            </label>
+            <select
+              id="ai-contact-subject-{{ ai_gen_id }}"
+              name="contact[subject]"
+              class="ai-contact-form__select-{{ ai_gen_id }}"
+              required
+              aria-required="true"
+            >
+              <option value="">Velg emne</option>
+              <option value="Retur" {% if form.subject == 'Retur' %}selected{% endif %}>Retur</option>
+              <option value="Feil størrelse" {% if form.subject == 'Feil størrelse' %}selected{% endif %}>Feil størrelse</option>
+              <option value="Spørsmål om levering" {% if form.subject == 'Spørsmål om levering' %}selected{% endif %}>Spørsmål om levering</option>
+              <option value="Annet" {% if form.subject == 'Annet' %}selected{% endif %}>Annet</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="ai-contact-form__field-{{ ai_gen_id }}">
+          <label for="ai-contact-message-{{ ai_gen_id }}" class="ai-contact-form__label-{{ ai_gen_id }}">
+            Melding *
+          </label>
+          <textarea
+            id="ai-contact-message-{{ ai_gen_id }}"
+            name="contact[body]"
+            class="ai-contact-form__textarea-{{ ai_gen_id }}"
+            placeholder="Beskriv ditt spørsmål eller problem..."
+            required
+            aria-required="true"
+          >{{ form.body }}</textarea>
+        </div>
+
+        <button type="submit" class="ai-contact-form__button-{{ ai_gen_id }}">
+          {{ block.settings.button_text }}
+        </button>
+
+        {% if form.posted_successfully? %}
+          <div class="ai-contact-form__message-{{ ai_gen_id }} ai-contact-form__success-{{ ai_gen_id }}">
+            {{ block.settings.success_message }}
+          </div>
+        {% endif %}
+
+        {% if form.errors %}
+          <div class="ai-contact-form__message-{{ ai_gen_id }} ai-contact-form__error-{{ ai_gen_id }}">
+            {% for field in form.errors %}
+              <p>{{ field | capitalize }} {{ form.errors.messages[field] }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endform %}
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Regnbue kontaktskjema",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Innhold"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Tittel",
+      "default": "Trenger du hjelp med bestilling eller produkt?"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Undertekst",
+      "default": "Vi svarer vanligvis innen 24 timer (unntatt helger). Du kan også finne svar i vår FAQ-side."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Knappetekst",
+      "default": "Send melding"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Suksessmelding",
+      "default": "Takk! Vi svarer så fort vi kan – som regel samme dag 💌"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 400,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Maksimal bredde",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Innvendig avstand",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Tekstjustering",
+      "options": [
+        {
+          "value": "left",
+          "label": "Venstre"
+        },
+        {
+          "value": "center",
+          "label": "Senter"
+        },
+        {
+          "value": "right",
+          "label": "Høyre"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Regnbue animasjon"
+    },
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Animasjonshastighet",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "blur_intensity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Uskarphet",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "rainbow_color_1",
+      "label": "Regnbue farge 1",
+      "default": "#ff6b6b"
+    },
+    {
+      "type": "color",
+      "id": "rainbow_color_2",
+      "label": "Regnbue farge 2",
+      "default": "#feca57"
+    },
+    {
+      "type": "color",
+      "id": "rainbow_color_3",
+      "label": "Regnbue farge 3",
+      "default": "#48dbfb"
+    },
+    {
+      "type": "color",
+      "id": "rainbow_color_4",
+      "label": "Regnbue farge 4",
+      "default": "#ff9ff3"
+    },
+    {
+      "type": "color",
+      "id": "rainbow_color_5",
+      "label": "Regnbue farge 5",
+      "default": "#54a0ff"
+    },
+    {
+      "type": "color",
+      "id": "rainbow_color_6",
+      "label": "Regnbue farge 6",
+      "default": "#5f27cd"
+    },
+    {
+      "type": "header",
+      "content": "Farger"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Bakgrunnsfarge",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Tittelfarge",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Undertekstfarge",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Etikettfarge",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Skjemafelt"
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Feltbakgrunn",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Felttekstfarge",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Feltkantfarge",
+      "default": "#e1e1e1"
+    },
+    {
+      "type": "color",
+      "id": "input_focus_border_color",
+      "label": "Fokus kantfarge",
+      "default": "#48dbfb"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color",
+      "label": "Plassholdertekstfarge",
+      "default": "#999999"
+    },
+    {
+      "type": "range",
+      "id": "input_border_width",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Feltkanttykkelse",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Felthjørneradius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "input_padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Feltinnvendig avstand",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "textarea_height",
+      "min": 80,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Meldingsfelt høyde",
+      "default": 120
+    },
+    {
+      "type": "header",
+      "content": "Knapp"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Knappbakgrunn",
+      "default": "#48dbfb"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Knapp hover bakgrunn",
+      "default": "#0abde3"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Knapptekstfarge",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Knapphjørneradius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Knappinnvendig avstand",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_max_width",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Knapp maksimal bredde",
+      "default": 200
+    },
+    {
+      "type": "header",
+      "content": "Meldinger"
+    },
+    {
+      "type": "color",
+      "id": "success_background",
+      "label": "Suksess bakgrunn",
+      "default": "#d4edda"
+    },
+    {
+      "type": "color",
+      "id": "success_text_color",
+      "label": "Suksess tekstfarge",
+      "default": "#155724"
+    },
+    {
+      "type": "color",
+      "id": "success_border_color",
+      "label": "Suksess kantfarge",
+      "default": "#c3e6cb"
+    },
+    {
+      "type": "color",
+      "id": "error_background",
+      "label": "Feil bakgrunn",
+      "default": "#f8d7da"
+    },
+    {
+      "type": "color",
+      "id": "error_text_color",
+      "label": "Feil tekstfarge",
+      "default": "#721c24"
+    },
+    {
+      "type": "color",
+      "id": "error_border_color",
+      "label": "Feil kantfarge",
+      "default": "#f5c6cb"
+    },
+    {
+      "type": "header",
+      "content": "Typografi"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Tittelfont",
+      "default": "nunito_sans_n4"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 18,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Tittelstørrelse",
+      "default": 28
+    },
+    {
+      "type": "font_picker",
+      "id": "body_font",
+      "label": "Brødtekstfont",
+      "default": "quicksand_n5"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Undertekststørrelse",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Etikettstørrelse",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "input_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Felttekststørrelse",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Knapptekststørrelse",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Hovedhjørneradius",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Regnbue kontaktskjema"
+    }
+  ]
+}
 {% endschema %}
