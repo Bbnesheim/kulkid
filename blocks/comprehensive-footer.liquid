@@ -696,13 +696,10 @@
               {% assign default_error_message = 'is invalid or already subscribed.' %}
 
               {% capture footer_newsletter_form %}
-                {% form
-                  'customer',
-                  id: 'FooterNewsletterForm',
-                  class: 'kk-newsletter__form',
-                  data-cptcha: 'true'
+              {% form 'customer', id: 'FooterNewsletterForm', class: 'kk-newsletter__form' %}
+                <input type="hidden" name="contact[tags]" value="newsletter,kul-kid-klubben">
                 %}
-                  <input type="hidden" name="contact[tags]" value="newsletter,kul-kid-klubben">
+                  <input type="hidden" name="contact[tags]" value="newsletter,kul-kid-kundeklubb">
 
                   <div class="kk-field">
                     <label class="visually-hidden" for="FooterNewsletterEmail">{{ newsletter_placeholder }}</label>
