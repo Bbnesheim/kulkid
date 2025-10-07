@@ -26,7 +26,7 @@
     “Send melding 🚀”
     
     Bekreftelse:
-    “Takk! Vi svarer så fort vi kan – som regel samme dag 💌.”, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles
+    “Takk! Vi svarer så fort vi kan – som regel samme dag 💌.”, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
@@ -183,7 +183,7 @@
     margin: 0 0 16px 0;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
     font-style: {{ block.settings.heading_font.style }};
   }
@@ -192,27 +192,22 @@
     width: 24px;
     height: 24px;
     flex-shrink: 0;
-    animation: ai-icon-vibe-{{ ai_gen_id }} {{ block.settings.icon_animation_speed }}s ease-in-out infinite;
-    transform-origin: center;
-    filter: drop-shadow(0 0 8px rgba(51, 79, 180, 0.4));
+    animation: ai-icon-bounce-{{ ai_gen_id }} 2s ease-in-out infinite;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 
-  @keyframes ai-icon-vibe-{{ ai_gen_id }} {
-    0%, 100% {
-      transform: scale(1) rotate(0deg);
-      filter: drop-shadow(0 0 8px rgba(51, 79, 180, 0.4)) hue-rotate(0deg);
+  @keyframes ai-icon-bounce-{{ ai_gen_id }} {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0) rotate(0deg) scale(1);
     }
-    25% {
-      transform: scale(1.15) rotate(-8deg);
-      filter: drop-shadow(0 0 12px rgba(255, 0, 128, 0.6)) hue-rotate(90deg);
+    10% {
+      transform: translateY(-3px) rotate(5deg) scale(1.1);
     }
-    50% {
-      transform: scale(1.1) rotate(0deg);
-      filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5)) hue-rotate(180deg);
+    30% {
+      transform: translateY(-2px) rotate(-3deg) scale(1.05);
     }
-    75% {
-      transform: scale(1.15) rotate(8deg);
-      filter: drop-shadow(0 0 12px rgba(255, 255, 0, 0.6)) hue-rotate(270deg);
+    60% {
+      transform: translateY(-1px) rotate(2deg) scale(1.02);
     }
   }
 
@@ -303,22 +298,13 @@
   .ai-contact-service-item-{{ ai_gen_id }}::before {
     content: "🎯";
     font-size: 16px;
-    animation: ai-emoji-bounce-{{ ai_gen_id }} 2s ease-in-out infinite;
+    animation: ai-emoji-wiggle-{{ ai_gen_id }} 3s ease-in-out infinite;
   }
 
-  @keyframes ai-emoji-bounce-{{ ai_gen_id }} {
-    0%, 100% {
-      transform: translateY(0) rotate(0deg);
-    }
-    25% {
-      transform: translateY(-3px) rotate(-5deg);
-    }
-    50% {
-      transform: translateY(-1px) rotate(0deg);
-    }
-    75% {
-      transform: translateY(-3px) rotate(5deg);
-    }
+  @keyframes ai-emoji-wiggle-{{ ai_gen_id }} {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
   }
 
   .ai-contact-response-time-{{ ai_gen_id }} {
@@ -342,20 +328,12 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
-    animation: ai-lightning-flash-{{ ai_gen_id }} 1.5s ease-in-out infinite;
+    animation: ai-lightning-flash-{{ ai_gen_id }} 2s ease-in-out infinite;
   }
 
   @keyframes ai-lightning-flash-{{ ai_gen_id }} {
-    0%, 100% {
-      opacity: 1;
-      transform: translateY(-50%) scale(1) rotate(0deg);
-      filter: drop-shadow(0 0 4px rgba(255, 255, 0, 0.6));
-    }
-    50% {
-      opacity: 0.7;
-      transform: translateY(-50%) scale(1.2) rotate(10deg);
-      filter: drop-shadow(0 0 8px rgba(255, 255, 0, 0.8));
-    }
+    0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+    50% { opacity: 0.7; transform: translateY(-50%) scale(1.2); }
   }
 
   .ai-contact-form-{{ ai_gen_id }} {
@@ -379,29 +357,20 @@
 
   .ai-contact-form-title-{{ ai_gen_id }}::before {
     content: "🤝";
-    font-size: 24px;
-    animation: ai-handshake-wiggle-{{ ai_gen_id }} 3s ease-in-out infinite;
+    font-size: 20px;
+    animation: ai-handshake-{{ ai_gen_id }} 3s ease-in-out infinite;
   }
 
-  @keyframes ai-handshake-wiggle-{{ ai_gen_id }} {
-    0%, 100% {
-      transform: rotate(0deg) scale(1);
-    }
-    25% {
-      transform: rotate(-10deg) scale(1.05);
-    }
-    50% {
-      transform: rotate(0deg) scale(1.1);
-    }
-    75% {
-      transform: rotate(10deg) scale(1.05);
-    }
+  @keyframes ai-handshake-{{ ai_gen_id }} {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
   }
 
-  .ai-contact-form-description-{{ ai_gen_id }} {
-    font-size: {{ block.settings.body_text_size }}px;
-    color: {{ block.settings.text_color }};
-    margin-bottom: 24px;
+  .ai-contact-form-subtitle-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.note_color }};
+    margin: 0 0 20px 0;
     line-height: 1.5;
     font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
   }
@@ -430,11 +399,11 @@
     padding: 12px 16px;
     border: 2px solid {{ block.settings.input_border_color }};
     border-radius: {{ block.settings.input_border_radius }}px;
-    font-size: {{ block.settings.body_text_size }}px;
+    font-size: 14px;
     font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
     background-color: {{ block.settings.input_background }};
     color: {{ block.settings.text_color }};
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s ease;
   }
 
   .ai-contact-form-input-{{ ai_gen_id }}:focus,
@@ -451,16 +420,16 @@
   }
 
   .ai-contact-form-button-{{ ai_gen_id }} {
-    background-color: {{ block.settings.button_background }};
+    background-color: {{ block.settings.button_color }};
     color: {{ block.settings.button_text_color }};
     border: none;
     padding: 16px 32px;
     border-radius: {{ block.settings.button_border_radius }}px;
-    font-size: {{ block.settings.body_text_size }}px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -469,31 +438,29 @@
   }
 
   .ai-contact-form-button-{{ ai_gen_id }}:hover {
-    background-color: {{ block.settings.button_hover_background }};
+    background-color: {{ block.settings.button_hover_color }};
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .ai-contact-form-success-{{ ai_gen_id }} {
     background-color: {{ block.settings.success_background }};
-    color: {{ block.settings.success_text_color }};
+    color: {{ block.settings.success_text }};
     padding: 16px;
     border-radius: {{ block.settings.card_radius }}px;
     margin-top: 16px;
     text-align: center;
-    font-weight: 500;
-    border: 2px solid {{ block.settings.success_border_color }};
+    border: 2px solid {{ block.settings.success_border }};
     font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
   }
 
   .ai-contact-form-error-{{ ai_gen_id }} {
     background-color: {{ block.settings.error_background }};
-    color: {{ block.settings.error_text_color }};
-    padding: 12px 16px;
-    border-radius: {{ block.settings.input_border_radius }}px;
-    margin-top: 8px;
-    font-size: 14px;
-    border: 2px solid {{ block.settings.error_border_color }};
+    color: {{ block.settings.error_text }};
+    padding: 16px;
+    border-radius: {{ block.settings.card_radius }}px;
+    margin-top: 16px;
+    border: 2px solid {{ block.settings.error_border }};
     font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
   }
 
@@ -570,21 +537,13 @@
 
       {% if block.settings.enable_contact_form %}
         <div class="ai-contact-form-{{ ai_gen_id }}">
-          <h3 class="ai-contact-form-title-{{ ai_gen_id }}">{{ block.settings.form_title }}</h3>
-          <p class="ai-contact-form-description-{{ ai_gen_id }}">{{ block.settings.form_description }}</p>
-          
           {% form 'contact' %}
-            {% if form.posted_successfully? %}
-              <div class="ai-contact-form-success-{{ ai_gen_id }}">
-                {{ block.settings.success_message }}
-              </div>
-            {% endif %}
+            <h3 class="ai-contact-form-title-{{ ai_gen_id }}">{{ block.settings.form_title }}</h3>
+            <p class="ai-contact-form-subtitle-{{ ai_gen_id }}">{{ block.settings.form_subtitle }}</p>
 
             <div class="ai-contact-form-grid-{{ ai_gen_id }}">
               <div class="ai-contact-form-field-{{ ai_gen_id }}">
-                <label for="contact-name-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-                  Navn *
-                </label>
+                <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-name-{{ ai_gen_id }}">Navn *</label>
                 <input
                   type="text"
                   id="contact-name-{{ ai_gen_id }}"
@@ -592,22 +551,12 @@
                   class="ai-contact-form-input-{{ ai_gen_id }}"
                   value="{{ form.name }}"
                   required
-                  {% if form.errors contains 'name' %}
-                    aria-invalid="true"
-                    aria-describedby="contact-name-error-{{ ai_gen_id }}"
-                  {% endif %}
+                  placeholder="Ditt fulle navn"
                 >
-                {% if form.errors contains 'name' %}
-                  <div id="contact-name-error-{{ ai_gen_id }}" class="ai-contact-form-error-{{ ai_gen_id }}">
-                    {{ form.errors.messages.name }}
-                  </div>
-                {% endif %}
               </div>
 
               <div class="ai-contact-form-field-{{ ai_gen_id }}">
-                <label for="contact-email-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-                  E-post *
-                </label>
+                <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-email-{{ ai_gen_id }}">E-post *</label>
                 <input
                   type="email"
                   id="contact-email-{{ ai_gen_id }}"
@@ -615,35 +564,27 @@
                   class="ai-contact-form-input-{{ ai_gen_id }}"
                   value="{{ form.email }}"
                   required
-                  {% if form.errors contains 'email' %}
+                  placeholder="din@epost.no"
+                  {% if form.errors %}
                     aria-invalid="true"
                     aria-describedby="contact-email-error-{{ ai_gen_id }}"
                   {% endif %}
                 >
-                {% if form.errors contains 'email' %}
-                  <div id="contact-email-error-{{ ai_gen_id }}" class="ai-contact-form-error-{{ ai_gen_id }}">
-                    {{ form.errors.messages.email }}
-                  </div>
-                {% endif %}
               </div>
 
               <div class="ai-contact-form-field-{{ ai_gen_id }}">
-                <label for="contact-order-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-                  Ordrenummer (valgfritt)
-                </label>
+                <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-order-{{ ai_gen_id }}">Ordrenummer (valgfritt)</label>
                 <input
                   type="text"
                   id="contact-order-{{ ai_gen_id }}"
                   name="contact[order_number]"
                   class="ai-contact-form-input-{{ ai_gen_id }}"
-                  value="{{ form.order_number }}"
+                  placeholder="#12345"
                 >
               </div>
 
               <div class="ai-contact-form-field-{{ ai_gen_id }}">
-                <label for="contact-subject-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-                  Velg emne *
-                </label>
+                <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-subject-{{ ai_gen_id }}">Velg emne *</label>
                 <select
                   id="contact-subject-{{ ai_gen_id }}"
                   name="contact[subject]"
@@ -651,40 +592,45 @@
                   required
                 >
                   <option value="">Velg et emne...</option>
-                  <option value="Retur" {% if form.subject == 'Retur' %}selected{% endif %}>Retur</option>
-                  <option value="Feil størrelse" {% if form.subject == 'Feil størrelse' %}selected{% endif %}>Feil størrelse</option>
-                  <option value="Spørsmål om levering" {% if form.subject == 'Spørsmål om levering' %}selected{% endif %}>Spørsmål om levering</option>
-                  <option value="Annet" {% if form.subject == 'Annet' %}selected{% endif %}>Annet</option>
+                  <option value="Retur">🔄 Retur</option>
+                  <option value="Feil størrelse">📏 Feil størrelse</option>
+                  <option value="Spørsmål om levering">🚚 Spørsmål om levering</option>
+                  <option value="Annet">💬 Annet</option>
                 </select>
               </div>
 
               <div class="ai-contact-form-field-{{ ai_gen_id }} full-width">
-                <label for="contact-message-{{ ai_gen_id }}" class="ai-contact-form-label-{{ ai_gen_id }}">
-                  Melding *
-                </label>
+                <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-message-{{ ai_gen_id }}">Melding *</label>
                 <textarea
                   id="contact-message-{{ ai_gen_id }}"
                   name="contact[body]"
                   class="ai-contact-form-textarea-{{ ai_gen_id }}"
                   required
-                  {% if form.errors contains 'body' %}
-                    aria-invalid="true"
-                    aria-describedby="contact-message-error-{{ ai_gen_id }}"
-                  {% endif %}
+                  placeholder="Beskriv ditt spørsmål eller problem..."
                 >{{ form.body }}</textarea>
-                {% if form.errors contains 'body' %}
-                  <div id="contact-message-error-{{ ai_gen_id }}" class="ai-contact-form-error-{{ ai_gen_id }}">
-                    {{ form.errors.messages.body }}
-                  </div>
-                {% endif %}
-              </div>
-
-              <div class="ai-contact-form-field-{{ ai_gen_id }} full-width">
-                <button type="submit" class="ai-contact-form-button-{{ ai_gen_id }}">
-                  {{ block.settings.form_button_text }}
-                </button>
               </div>
             </div>
+
+            <button type="submit" class="ai-contact-form-button-{{ ai_gen_id }}">
+              {{ block.settings.form_button_text }}
+            </button>
+
+            {% if form.posted_successfully? %}
+              <div class="ai-contact-form-success-{{ ai_gen_id }}">
+                {{ block.settings.form_success_message }}
+              </div>
+            {% endif %}
+
+            {% if form.errors %}
+              <div class="ai-contact-form-error-{{ ai_gen_id }}">
+                <h4>Vennligst rett følgende feil:</h4>
+                <ul>
+                  {% for field in form.errors %}
+                    <li>{{ field | capitalize }}: {{ form.errors.messages[field] }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
           {% endform %}
         </div>
       {% endif %}
@@ -839,10 +785,10 @@
       "default": "Trenger du hjelp med bestilling eller produkt?"
     },
     {
-      "type": "text",
-      "id": "form_description",
-      "label": "Skjemabeskrivelse",
-      "default": "Vi svarer vanligvis innen 24 timer (unntatt helger). Du kan også finne svar i vår FAQ-side."
+      "type": "richtext",
+      "id": "form_subtitle",
+      "label": "Skjema undertekst",
+      "default": "<p>Vi svarer vanligvis innen 24 timer (unntatt helger). Du kan også finne svar i vår FAQ-side.</p>"
     },
     {
       "type": "text",
@@ -851,10 +797,10 @@
       "default": "Send melding 🚀"
     },
     {
-      "type": "text",
-      "id": "success_message",
+      "type": "richtext",
+      "id": "form_success_message",
       "label": "Suksessmelding",
-      "default": "Takk! Vi svarer så fort vi kan – som regel samme dag 💌."
+      "default": "<p>Takk! Vi svarer så fort vi kan – som regel samme dag 💌.</p>"
     },
     {
       "type": "header",
@@ -905,20 +851,6 @@
       "id": "company_address",
       "label": "Bedriftsadresse",
       "default": "Lille Bislett 16, 0170, Oslo, Norge"
-    },
-    {
-      "type": "header",
-      "content": "Animasjoner"
-    },
-    {
-      "type": "range",
-      "id": "icon_animation_speed",
-      "min": 1,
-      "max": 5,
-      "step": 1,
-      "unit": "s",
-      "label": "Ikon animasjonshastighet",
-      "default": 3
     },
     {
       "type": "header",
@@ -1143,38 +1075,32 @@
     {
       "type": "color",
       "id": "form_background",
-      "label": "Skjemabakgrunn",
+      "label": "Skjema bakgrunn",
       "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "form_border_color",
-      "label": "Skjemakant farge",
+      "label": "Skjema kantfarge",
       "default": "#e5e5e5"
     },
     {
       "type": "color",
       "id": "input_background",
-      "label": "Inputbakgrunn",
+      "label": "Input bakgrunn",
       "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "input_border_color",
-      "label": "Inputkant farge",
+      "label": "Input kantfarge",
       "default": "#cccccc"
     },
     {
       "type": "color",
-      "id": "button_background",
-      "label": "Knappebakgrunn",
+      "id": "button_color",
+      "label": "Knappefarge",
       "default": "#334fb4"
-    },
-    {
-      "type": "color",
-      "id": "button_hover_background",
-      "label": "Knappe hover bakgrunn",
-      "default": "#242833"
     },
     {
       "type": "color",
@@ -1184,20 +1110,26 @@
     },
     {
       "type": "color",
+      "id": "button_hover_color",
+      "label": "Knapp hover farge",
+      "default": "#242833"
+    },
+    {
+      "type": "color",
       "id": "success_background",
       "label": "Suksess bakgrunn",
       "default": "#d4edda"
     },
     {
       "type": "color",
-      "id": "success_text_color",
-      "label": "Suksess tekst farge",
+      "id": "success_text",
+      "label": "Suksess tekst",
       "default": "#155724"
     },
     {
       "type": "color",
-      "id": "success_border_color",
-      "label": "Suksess kant farge",
+      "id": "success_border",
+      "label": "Suksess kant",
       "default": "#c3e6cb"
     },
     {
@@ -1208,14 +1140,14 @@
     },
     {
       "type": "color",
-      "id": "error_text_color",
-      "label": "Feil tekst farge",
+      "id": "error_text",
+      "label": "Feil tekst",
       "default": "#721c24"
     },
     {
       "type": "color",
-      "id": "error_border_color",
-      "label": "Feil kant farge",
+      "id": "error_border",
+      "label": "Feil kant",
       "default": "#f5c6cb"
     },
     {
@@ -1333,7 +1265,7 @@
       "max": 20,
       "step": 2,
       "unit": "px",
-      "label": "Knappe kant radius",
+      "label": "Knapp kant radius",
       "default": 8
     }
   ],
