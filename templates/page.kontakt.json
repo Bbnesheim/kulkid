@@ -1,1 +1,126 @@
-{"sections":{"main":{"type":"main-page","settings":{"padding_top":28,"padding_bottom":28}}},"order":["main"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "175986453435532efe": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_70769b6_Cm3fy4": {
+          "type": "ai_gen_block_70769b6",
+          "settings": {
+            "page_title": "Kontakt oss | Kulkid kundeservice",
+            "page_subtitle": "Vi svarer raskt.",
+            "main_section_title": "Kundeservice",
+            "main_description": "<p>Vårt kundeserviceteam er her for å hjelpe deg med alle spørsmål relatert til bestillinger, levering, returer og personalisering. Vi jobber hardt for å gi deg den beste opplevelsen.</p>",
+            "service_1": "Bestillinger og ordrestatus",
+            "service_2": "Levering og frakt",
+            "service_3": "Returer og bytter",
+            "service_4": "Personalisering og tilpasning",
+            "response_time_text": "Vi svarer vanligvis innen 24 timer på hverdager",
+            "contact_section_title": "Kontakt oss",
+            "email_address": "kontakt@kulkid.no",
+            "opening_hours": "Mandag-Fredag 09:00–16:00",
+            "weekend_note": "Begrenset support i helger",
+            "company_section_title": "Bedriftsinformasjon",
+            "org_number": "936 235 670",
+            "company_address": "Lille Bislett 16, 0170, Oslo, Norge",
+            "enable_rainbow_border": true,
+            "border_width": 4,
+            "animation_speed": 15,
+            "blur_amount": 6,
+            "brightness_level": 140,
+            "saturation_level": 200,
+            "contrast_level": 110,
+            "border_opacity": 0.5,
+            "inner_border_offset": 0.3,
+            "gradient_angle": 345,
+            "gradient_size": 300,
+            "color_1": "#ff0040",
+            "color_2": "#ff4000",
+            "color_3": "#ff8000",
+            "color_4": "#ffff00",
+            "color_5": "#80ff00",
+            "color_6": "#00ff40",
+            "color_7": "#00ff80",
+            "color_8": "#00ffff",
+            "color_9": "#0080ff",
+            "color_10": "#0040ff",
+            "color_11": "#4000ff",
+            "color_12": "#8000ff",
+            "color_13": "#ff00ff",
+            "color_14": "#ff0080",
+            "enable_glow_effect": true,
+            "glow_size": 5,
+            "glow_speed": 1,
+            "glow_intensity": 1.5,
+            "glow_color_1": "rgba(255, 0, 255, 0.4)",
+            "glow_color_2": "rgba(0, 255, 255, 0.3)",
+            "glow_color_3": "rgba(255, 255, 0, 0.2)",
+            "enable_border_pulse": true,
+            "pulse_speed": 6,
+            "pulse_scale": 1.2,
+            "pulse_blur_multiplier": 1.5,
+            "pulse_brightness_multiplier": 1.2,
+            "pulse_saturation_multiplier": 1.3,
+            "pulse_contrast_multiplier": 1.1,
+            "title_font": "nunito_sans_n7",
+            "subtitle_font": "quicksand_n5",
+            "heading_font": "nunito_sans_n6",
+            "body_font": "quicksand_n4",
+            "label_font": "nunito_sans_n6",
+            "highlight_font": "quicksand_n5",
+            "background_color": "#ffffff",
+            "text_color": "#121212",
+            "title_color": "#121212",
+            "subtitle_color": "#666666",
+            "section_title_color": "#121212",
+            "card_background": "#f9f9f9",
+            "static_border_color": "#e5e5e5",
+            "icon_color": "#334fb4",
+            "label_color": "#121212",
+            "link_color": "#334fb4",
+            "link_hover_color": "#242833",
+            "note_color": "#888888",
+            "checkmark_color": "#00a86b",
+            "highlight_background": "#f0f7ff",
+            "highlight_text": "#334fb4",
+            "accent_color": "#334fb4",
+            "title_size": 32,
+            "subtitle_size": 18,
+            "section_title_size": 20,
+            "body_text_size": 16,
+            "section_padding": 40,
+            "section_spacing": 48,
+            "content_spacing": 24,
+            "card_padding": 24,
+            "card_radius": 8
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_70769b6_Cm3fy4"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "175986453435532efe"
+  ]
+}
