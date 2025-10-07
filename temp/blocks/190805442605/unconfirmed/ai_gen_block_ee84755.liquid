@@ -26,7 +26,7 @@
     “Send melding 🚀”
     
     Bekreftelse:
-    “Takk! Vi svarer så fort vi kan – som regel samme dag 💌.”, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner
+    “Takk! Vi svarer så fort vi kan – som regel samme dag 💌.”, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
@@ -39,6 +39,27 @@
     font-weight: {{ block.settings.body_font.weight }};
     color: {{ block.settings.text_color }};
     background-color: {{ block.settings.background_color }};
+    position: relative;
+  }
+
+  .ai-contact-page-{{ ai_gen_id }}::before {
+    content: "🎈";
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    animation: ai-float-left-{{ ai_gen_id }} 4s ease-in-out infinite;
+    z-index: 1;
+  }
+
+  .ai-contact-page-{{ ai_gen_id }}::after {
+    content: "🎪";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    animation: ai-float-right-{{ ai_gen_id }} 3s ease-in-out infinite;
+    z-index: 1;
   }
 
   .ai-contact-header-{{ ai_gen_id }} {
@@ -129,6 +150,15 @@
     opacity: {{ block.settings.border_opacity | divided_by: 100.0 }};
   }
 
+  .ai-contact-main-content-{{ ai_gen_id }}::after {
+    content: "🎯";
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 20px;
+    animation: ai-spin-slow-{{ ai_gen_id }} 4s linear infinite;
+  }
+
   .ai-contact-main-title-{{ ai_gen_id }} {
     font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
     font-weight: {{ block.settings.heading_font.weight }};
@@ -136,12 +166,14 @@
     color: {{ block.settings.heading_color }};
     margin: 0 0 24px 0;
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   .ai-contact-main-title-{{ ai_gen_id }}::before {
-    content: "🎯";
-    margin-right: 12px;
-    animation: ai-spin-slow-{{ ai_gen_id }} 4s linear infinite;
+    content: "🎪";
+    animation: ai-wiggle-{{ ai_gen_id }} 2s ease-in-out infinite;
   }
 
   .ai-contact-main-text-{{ ai_gen_id }} {
@@ -149,12 +181,13 @@
     line-height: 1.6;
     margin: 0;
     position: relative;
+    padding-left: 40px;
   }
 
   .ai-contact-main-text-{{ ai_gen_id }}::before {
     content: "🚀";
     position: absolute;
-    left: -30px;
+    left: 0;
     top: 0;
     animation: ai-float-{{ ai_gen_id }} 3s ease-in-out infinite;
   }
@@ -172,6 +205,7 @@
     border-radius: {{ block.settings.border_radius }}px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
+    overflow: hidden;
   }
 
   .ai-contact-card-{{ ai_gen_id }}:hover {
@@ -192,6 +226,24 @@
     animation: ai-rainbow-border-{{ ai_gen_id }} 3s linear infinite;
     filter: blur({{ block.settings.border_blur }}px);
     opacity: {{ block.settings.border_opacity | divided_by: 100.0 }};
+  }
+
+  .ai-contact-card-{{ ai_gen_id }}:first-child::after {
+    content: "🎈";
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 18px;
+    animation: ai-float-gentle-{{ ai_gen_id }} 3s ease-in-out infinite;
+  }
+
+  .ai-contact-card-{{ ai_gen_id }}:last-child::after {
+    content: "🏰";
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 18px;
+    animation: ai-pulse-{{ ai_gen_id }} 2s ease-in-out infinite;
   }
 
   .ai-contact-card-title-{{ ai_gen_id }} {
@@ -219,7 +271,7 @@
   .ai-contact-info-icon-{{ ai_gen_id }} {
     font-size: 20px;
     margin-top: 2px;
-    animation: ai-pulse-{{ ai_gen_id }} 2s ease-in-out infinite;
+    animation: ai-pulse-gentle-{{ ai_gen_id }} 2s ease-in-out infinite;
   }
 
   .ai-contact-info-text-{{ ai_gen_id }} {
@@ -246,6 +298,7 @@
     border-radius: {{ block.settings.border_radius }}px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     margin-top: 40px;
+    overflow: hidden;
   }
 
   .ai-contact-form-section-{{ ai_gen_id }}::before {
@@ -262,6 +315,15 @@
     animation: ai-rainbow-border-{{ ai_gen_id }} 3s linear infinite;
     filter: blur({{ block.settings.border_blur }}px);
     opacity: {{ block.settings.border_opacity | divided_by: 100.0 }};
+  }
+
+  .ai-contact-form-section-{{ ai_gen_id }}::after {
+    content: "🎭";
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 20px;
+    animation: ai-wiggle-{{ ai_gen_id }} 3s ease-in-out infinite;
   }
 
   .ai-contact-form-title-{{ ai_gen_id }} {
@@ -281,7 +343,7 @@
     margin: 0 0 32px 0;
     line-height: 1.5;
     position: relative;
-    padding-left: 30px;
+    padding-left: 40px;
   }
 
   .ai-contact-form-subtitle-{{ ai_gen_id }}::before {
@@ -309,6 +371,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
   }
 
   .ai-contact-form-label-{{ ai_gen_id }} {
@@ -399,6 +462,14 @@
     align-items: center;
     gap: 12px;
     font-weight: 600;
+    position: relative;
+  }
+
+  .ai-contact-form-success-{{ ai_gen_id }}::after {
+    content: "🎉";
+    position: absolute;
+    right: 15px;
+    animation: ai-celebrate-{{ ai_gen_id }} 1s ease-in-out infinite;
   }
 
   .ai-contact-form-error-{{ ai_gen_id }} {
@@ -411,6 +482,51 @@
     align-items: center;
     gap: 12px;
     font-weight: 600;
+  }
+
+  .ai-floating-icons-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }} {
+    position: absolute;
+    font-size: 16px;
+    opacity: 0.3;
+    animation: ai-float-random-{{ ai_gen_id }} 6s ease-in-out infinite;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(1) {
+    content: "🎨";
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(2) {
+    content: "🧸";
+    top: 20%;
+    right: 10%;
+    animation-delay: 1s;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(3) {
+    content: "🎪";
+    bottom: 30%;
+    left: 8%;
+    animation-delay: 2s;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(4) {
+    content: "🌈";
+    bottom: 15%;
+    right: 5%;
+    animation-delay: 3s;
   }
 
   @keyframes ai-rainbow-border-{{ ai_gen_id }} {
@@ -439,14 +555,52 @@
     50% { transform: translateY(-10px); }
   }
 
+  @keyframes ai-float-left-{{ ai_gen_id }} {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-15px) translateX(5px); }
+  }
+
+  @keyframes ai-float-right-{{ ai_gen_id }} {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-12px) translateX(-5px); }
+  }
+
+  @keyframes ai-float-gentle-{{ ai_gen_id }} {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
   @keyframes ai-pulse-{{ ai_gen_id }} {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
   }
 
+  @keyframes ai-pulse-gentle-{{ ai_gen_id }} {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
   @keyframes ai-glow-{{ ai_gen_id }} {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.7; }
+  }
+
+  @keyframes ai-wiggle-{{ ai_gen_id }} {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+  }
+
+  @keyframes ai-celebrate-{{ ai_gen_id }} {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(10deg); }
+  }
+
+  @keyframes ai-float-random-{{ ai_gen_id }} {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-10px) translateX(5px); }
+    50% { transform: translateY(-5px) translateX(-3px); }
+    75% { transform: translateY(-15px) translateX(2px); }
   }
 
   @media screen and (min-width: 768px) {
@@ -469,6 +623,11 @@
       padding: {{ block.settings.section_padding | divided_by: 2 }}px;
     }
 
+    .ai-contact-page-{{ ai_gen_id }}::before,
+    .ai-contact-page-{{ ai_gen_id }}::after {
+      display: none;
+    }
+
     .ai-contact-title-{{ ai_gen_id }}::before,
     .ai-contact-title-{{ ai_gen_id }}::after {
       display: none;
@@ -484,13 +643,36 @@
       grid-template-columns: 1fr;
     }
 
+    .ai-contact-main-text-{{ ai_gen_id }} {
+      padding-left: 0;
+    }
+
     .ai-contact-main-text-{{ ai_gen_id }}::before {
+      display: none;
+    }
+
+    .ai-contact-form-subtitle-{{ ai_gen_id }} {
+      padding-left: 0;
+    }
+
+    .ai-contact-form-subtitle-{{ ai_gen_id }}::before {
+      display: none;
+    }
+
+    .ai-floating-icons-{{ ai_gen_id }} {
       display: none;
     }
   }
 {% endstyle %}
 
 <div class="ai-contact-page-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-floating-icons-{{ ai_gen_id }}">
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🎨</span>
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🧸</span>
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🎪</span>
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🌈</span>
+  </div>
+
   <div class="ai-contact-header-{{ ai_gen_id }}">
     <h1 class="ai-contact-title-{{ ai_gen_id }}">{{ block.settings.page_title }}</h1>
     <p class="ai-contact-subtitle-{{ ai_gen_id }}">{{ block.settings.page_subtitle }}</p>
