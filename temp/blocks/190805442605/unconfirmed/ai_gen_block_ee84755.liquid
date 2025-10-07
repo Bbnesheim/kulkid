@@ -26,7 +26,7 @@
     “Send melding 🚀”
     
     Bekreftelse:
-    “Takk! Vi svarer så fort vi kan – som regel samme dag 💌.”, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner
+    “Takk! Vi svarer så fort vi kan – som regel samme dag 💌.”, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
@@ -68,6 +68,7 @@
   .ai-contact-header-{{ ai_gen_id }} {
     text-align: center;
     margin-bottom: 40px;
+    position: relative;
   }
 
   .ai-contact-title-{{ ai_gen_id }} {
@@ -80,7 +81,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 16px;
   }
 
   .ai-contact-subtitle-{{ ai_gen_id }} {
@@ -94,6 +95,28 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+  }
+
+  .ai-header-icon-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    animation: ai-bounce-{{ ai_gen_id }} 2s ease-in-out infinite;
+  }
+
+  .ai-subtitle-icon-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size | times: 1.2 }}px;
+    animation: ai-wiggle-{{ ai_gen_id }} 3s ease-in-out infinite;
+  }
+
+  @keyframes ai-bounce-{{ ai_gen_id }} {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+  }
+
+  @keyframes ai-wiggle-{{ ai_gen_id }} {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
   }
 
   .ai-contact-grid-{{ ai_gen_id }} {
@@ -239,7 +262,17 @@
     line-height: 1.3;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+  }
+
+  .ai-card-icon-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_heading_size | times: 1.2 }}px;
+    animation: ai-pulse-{{ ai_gen_id }} 2s ease-in-out infinite;
+  }
+
+  @keyframes ai-pulse-{{ ai_gen_id }} {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
   }
 
   .ai-card-text-{{ ai_gen_id }} {
@@ -254,7 +287,7 @@
   .ai-contact-info-item-{{ ai_gen_id }} {
     margin-bottom: 16px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
   }
 
@@ -263,7 +296,9 @@
     font-weight: 600;
     font-size: {{ block.settings.body_size }}px;
     color: {{ block.settings.body_color }};
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 4px;
   }
 
@@ -272,11 +307,17 @@
     font-weight: {{ block.settings.body_font.weight }};
     font-size: {{ block.settings.body_size }}px;
     color: {{ block.settings.body_color }};
-    text-decoration: none;
   }
 
-  .ai-contact-info-value-{{ ai_gen_id }}:hover {
+  .ai-info-icon-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_size | times: 1.3 }}px;
     color: {{ block.settings.accent_color }};
+    animation: ai-float-{{ ai_gen_id }} 3s ease-in-out infinite;
+  }
+
+  @keyframes ai-float-{{ ai_gen_id }} {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-3px); }
   }
 
   .ai-contact-form-{{ ai_gen_id }} {
@@ -303,7 +344,12 @@
     margin-bottom: 8px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+  }
+
+  .ai-form-icon-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_size | times: 1.2 }}px;
+    color: {{ block.settings.accent_color }};
   }
 
   .ai-form-input-{{ ai_gen_id }}, .ai-form-select-{{ ai_gen_id }}, .ai-form-textarea-{{ ai_gen_id }} {
@@ -350,6 +396,15 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
+  .ai-form-button-{{ ai_gen_id }}:hover .ai-button-icon-{{ ai_gen_id }} {
+    animation: ai-rocket-{{ ai_gen_id }} 0.5s ease-in-out;
+  }
+
+  @keyframes ai-rocket-{{ ai_gen_id }} {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+  }
+
   .ai-form-success-{{ ai_gen_id }} {
     background: #d4edda;
     color: #155724;
@@ -372,22 +427,39 @@
     font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
     font-size: {{ block.settings.body_size }}px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
   }
 
-  .ai-icon-{{ ai_gen_id }} {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    color: {{ block.settings.accent_color }};
+  .ai-decorative-icons-{{ ai_gen_id }} {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    opacity: 0.3;
   }
 
-  .ai-icon-large-{{ ai_gen_id }} {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    color: {{ block.settings.accent_color }};
+  .ai-decorative-icon-{{ ai_gen_id }} {
+    font-size: 24px;
+    animation: ai-spin-slow-{{ ai_gen_id }} 10s linear infinite;
+  }
+
+  .ai-decorative-icon-{{ ai_gen_id }}:nth-child(2) {
+    animation-delay: -3s;
+  }
+
+  .ai-decorative-icon-{{ ai_gen_id }}:nth-child(3) {
+    animation-delay: -6s;
+  }
+
+  .ai-decorative-icon-{{ ai_gen_id }}:nth-child(4) {
+    animation-delay: -9s;
+  }
+
+  @keyframes ai-spin-slow-{{ ai_gen_id }} {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
   .ai-floating-icons-{{ ai_gen_id }} {
@@ -403,37 +475,88 @@
 
   .ai-floating-icon-{{ ai_gen_id }} {
     position: absolute;
-    opacity: 0.08;
-    color: {{ block.settings.accent_color }};
-    animation: ai-float-{{ ai_gen_id }} 8s ease-in-out infinite;
-  }
-
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(1) { top: 5%; left: 3%; animation-delay: 0s; }
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(2) { top: 15%; right: 8%; animation-delay: 1.5s; }
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(3) { bottom: 25%; left: 5%; animation-delay: 3s; }
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(4) { bottom: 10%; right: 3%; animation-delay: 4.5s; }
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(5) { top: 45%; left: 2%; animation-delay: 6s; }
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(6) { top: 65%; right: 6%; animation-delay: 7.5s; }
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(7) { top: 30%; left: 90%; animation-delay: 1s; }
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(8) { bottom: 40%; right: 85%; animation-delay: 2.5s; }
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(9) { top: 80%; left: 15%; animation-delay: 4s; }
-  .ai-floating-icon-{{ ai_gen_id }}:nth-child(10) { top: 25%; right: 25%; animation-delay: 5.5s; }
-
-  @keyframes ai-float-{{ ai_gen_id }} {
-    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-    25% { transform: translateY(-15px) rotate(90deg) scale(1.1); }
-    50% { transform: translateY(-25px) rotate(180deg) scale(0.9); }
-    75% { transform: translateY(-10px) rotate(270deg) scale(1.05); }
-  }
-
-  .ai-emoji-icon-{{ ai_gen_id }} {
     font-size: 20px;
-    margin-right: 6px;
+    opacity: 0.1;
+    animation: ai-float-around-{{ ai_gen_id }} 15s linear infinite;
   }
 
-  .ai-emoji-large-{{ ai_gen_id }} {
-    font-size: 24px;
-    margin-right: 8px;
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(1) {
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(2) {
+    top: 20%;
+    right: 10%;
+    animation-delay: -3s;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(3) {
+    bottom: 30%;
+    left: 8%;
+    animation-delay: -6s;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(4) {
+    bottom: 15%;
+    right: 5%;
+    animation-delay: -9s;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(5) {
+    top: 50%;
+    left: 3%;
+    animation-delay: -12s;
+  }
+
+  .ai-floating-icon-{{ ai_gen_id }}:nth-child(6) {
+    top: 70%;
+    right: 15%;
+    animation-delay: -15s;
+  }
+
+  @keyframes ai-float-around-{{ ai_gen_id }} {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-20px) rotate(90deg); }
+    50% { transform: translateY(-10px) rotate(180deg); }
+    75% { transform: translateY(-30px) rotate(270deg); }
+  }
+
+  .ai-corner-icons-{{ ai_gen_id }} {
+    position: absolute;
+    font-size: 32px;
+    opacity: 0.2;
+    z-index: 1;
+  }
+
+  .ai-corner-icon-top-left-{{ ai_gen_id }} {
+    top: 15px;
+    left: 15px;
+    animation: ai-bounce-gentle-{{ ai_gen_id }} 4s ease-in-out infinite;
+  }
+
+  .ai-corner-icon-top-right-{{ ai_gen_id }} {
+    top: 15px;
+    right: 15px;
+    animation: ai-bounce-gentle-{{ ai_gen_id }} 4s ease-in-out infinite 1s;
+  }
+
+  .ai-corner-icon-bottom-left-{{ ai_gen_id }} {
+    bottom: 15px;
+    left: 15px;
+    animation: ai-bounce-gentle-{{ ai_gen_id }} 4s ease-in-out infinite 2s;
+  }
+
+  .ai-corner-icon-bottom-right-{{ ai_gen_id }} {
+    bottom: 15px;
+    right: 15px;
+    animation: ai-bounce-gentle-{{ ai_gen_id }} 4s ease-in-out infinite 3s;
+  }
+
+  @keyframes ai-bounce-gentle-{{ ai_gen_id }} {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-8px) scale(1.1); }
   }
 
   @media screen and (max-width: 768px) {
@@ -464,98 +587,59 @@
       text-align: center;
     }
 
+    .ai-decorative-icons-{{ ai_gen_id }} {
+      display: none;
+    }
+
     .ai-floating-icons-{{ ai_gen_id }} {
       display: none;
+    }
+
+    .ai-corner-icons-{{ ai_gen_id }} {
+      font-size: 24px;
     }
   }
 {% endstyle %}
 
 <div class="ai-contact-page-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
-  <div class="ai-floating-icons-{{ ai_gen_id }}">
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-      </svg>
-    </div>
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-      </svg>
-    </div>
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="38" height="38" viewBox="0 0 24 24" fill="currentColor">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-        <line x1="9" y1="9" x2="9.01" y2="9"/>
-        <line x1="15" y1="9" x2="15.01" y2="9"/>
-      </svg>
-    </div>
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-        <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
-        <line x1="12" y1="22.08" x2="12" y2="12"/>
-      </svg>
-    </div>
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-      </svg>
-    </div>
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-      </svg>
-    </div>
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="39" height="39" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-      </svg>
-    </div>
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="41" height="41" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2l2.09 6.26L20 10l-5.91 4.74L16.18 21 12 18.27 7.82 21l2.09-6.26L4 10l5.91-1.74L12 2z"/>
-      </svg>
-    </div>
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="37" height="37" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 6L12 10.5 8.5 8 12 5.5 15.5 8zM8.5 16L12 13.5 15.5 16 12 18.5 8.5 16z"/>
-      </svg>
-    </div>
-    <div class="ai-floating-icon-{{ ai_gen_id }}">
-      <svg width="43" height="43" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-      </svg>
-    </div>
+  <div class="ai-decorative-icons-{{ ai_gen_id }}">
+    <span class="ai-decorative-icon-{{ ai_gen_id }}">🎨</span>
+    <span class="ai-decorative-icon-{{ ai_gen_id }}">⭐</span>
+    <span class="ai-decorative-icon-{{ ai_gen_id }}">🌈</span>
+    <span class="ai-decorative-icon-{{ ai_gen_id }}">🎪</span>
   </div>
+
+  <div class="ai-floating-icons-{{ ai_gen_id }}">
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🎈</span>
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🎭</span>
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🎯</span>
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🎲</span>
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🎊</span>
+    <span class="ai-floating-icon-{{ ai_gen_id }}">🎁</span>
+  </div>
+
+  <span class="ai-corner-icons-{{ ai_gen_id }} ai-corner-icon-top-left-{{ ai_gen_id }}">🌟</span>
+  <span class="ai-corner-icons-{{ ai_gen_id }} ai-corner-icon-top-right-{{ ai_gen_id }}">🎉</span>
+  <span class="ai-corner-icons-{{ ai_gen_id }} ai-corner-icon-bottom-left-{{ ai_gen_id }}">🎈</span>
+  <span class="ai-corner-icons-{{ ai_gen_id }} ai-corner-icon-bottom-right-{{ ai_gen_id }}">🎪</span>
 
   <div class="ai-contact-header-{{ ai_gen_id }}">
     <h1 class="ai-contact-title-{{ ai_gen_id }}">
-      <span class="ai-emoji-large-{{ ai_gen_id }}">📞</span>
-      <svg class="ai-icon-large-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
+      <span class="ai-header-icon-{{ ai_gen_id }}">👋</span>
       {{ block.settings.main_heading }}
-      <span class="ai-emoji-large-{{ ai_gen_id }}">🎉</span>
+      <span class="ai-header-icon-{{ ai_gen_id }}">🎉</span>
     </h1>
     <p class="ai-contact-subtitle-{{ ai_gen_id }}">
-      <span class="ai-emoji-icon-{{ ai_gen_id }}">⚡</span>
-      <svg class="ai-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
-      </svg>
+      <span class="ai-subtitle-icon-{{ ai_gen_id }}">⚡</span>
       {{ block.settings.main_subtitle }}
-      <span class="ai-emoji-icon-{{ ai_gen_id }}">💫</span>
+      <span class="ai-subtitle-icon-{{ ai_gen_id }}">💫</span>
     </p>
   </div>
 
   <div class="ai-contact-grid-{{ ai_gen_id }}">
     <div class="ai-contact-main-content-{{ ai_gen_id }}">
       <h2 class="ai-card-title-{{ ai_gen_id }}">
-        <span class="ai-emoji-icon-{{ ai_gen_id }}">🌟</span>
-        <svg class="ai-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M9 11H5a2 2 0 0 0-2 2v3c0 1.1.9 2 2 2h4m6-6h4a2 2 0 0 1 2 2v3c0 1.1-.9 2-2 2h-4m-6 0V9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2z"/>
-        </svg>
+        <span class="ai-card-icon-{{ ai_gen_id }}">🏠</span>
         {{ block.settings.main_content_heading }}
       </h2>
       <div class="ai-card-text-{{ ai_gen_id }}">{{ block.settings.main_content_text }}</div>
@@ -564,60 +648,52 @@
     <div class="ai-contact-sidebar-{{ ai_gen_id }}">
       <div class="ai-contact-info-card-{{ ai_gen_id }}">
         <h3 class="ai-card-title-{{ ai_gen_id }}">
-          <span class="ai-emoji-icon-{{ ai_gen_id }}">📧</span>
-          <svg class="ai-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
+          <span class="ai-card-icon-{{ ai_gen_id }}">📞</span>
           {{ block.settings.contact_info_heading }}
         </h3>
         
         <div class="ai-contact-info-item-{{ ai_gen_id }}">
-          <span class="ai-emoji-icon-{{ ai_gen_id }}">💌</span>
-          <div>
-            <span class="ai-contact-info-label-{{ ai_gen_id }}">E-post:</span>
-            <a href="mailto:{{ block.settings.email }}" class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.email }}</a>
-          </div>
+          <span class="ai-contact-info-label-{{ ai_gen_id }}">
+            <span class="ai-info-icon-{{ ai_gen_id }}">📧</span>
+            E-post:
+          </span>
+          <a href="mailto:{{ block.settings.email }}" class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.email }}</a>
         </div>
 
         <div class="ai-contact-info-item-{{ ai_gen_id }}">
-          <span class="ai-emoji-icon-{{ ai_gen_id }}">⏰</span>
-          <div>
-            <span class="ai-contact-info-label-{{ ai_gen_id }}">Åpningstider:</span>
-            <div class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.opening_hours }}</div>
-          </div>
+          <span class="ai-contact-info-label-{{ ai_gen_id }}">
+            <span class="ai-info-icon-{{ ai_gen_id }}">🕐</span>
+            Åpningstider:
+          </span>
+          <div class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.opening_hours }}</div>
         </div>
 
         <div class="ai-contact-info-item-{{ ai_gen_id }}">
-          <span class="ai-emoji-icon-{{ ai_gen_id }}">🏖️</span>
+          <span class="ai-info-icon-{{ ai_gen_id }}">🌙</span>
           <div class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.weekend_note }}</div>
         </div>
       </div>
 
       <div class="ai-company-info-card-{{ ai_gen_id }}">
         <h3 class="ai-card-title-{{ ai_gen_id }}">
-          <span class="ai-emoji-icon-{{ ai_gen_id }}">🏢</span>
-          <svg class="ai-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9,22 9,12 15,12 15,22"/>
-          </svg>
+          <span class="ai-card-icon-{{ ai_gen_id }}">🏢</span>
           {{ block.settings.company_info_heading }}
         </h3>
         
         <div class="ai-contact-info-item-{{ ai_gen_id }}">
-          <span class="ai-emoji-icon-{{ ai_gen_id }}">📋</span>
-          <div>
-            <span class="ai-contact-info-label-{{ ai_gen_id }}">Organisasjonsnummer:</span>
-            <div class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.org_number }}</div>
-          </div>
+          <span class="ai-contact-info-label-{{ ai_gen_id }}">
+            <span class="ai-info-icon-{{ ai_gen_id }}">🔢</span>
+            Organisasjonsnummer:
+          </span>
+          <div class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.org_number }}</div>
         </div>
 
         <div class="ai-contact-info-item-{{ ai_gen_id }}">
-          <span class="ai-emoji-icon-{{ ai_gen_id }}">📍</span>
-          <div>
-            <span class="ai-contact-info-label-{{ ai_gen_id }}">Adresse:</span>
-            <div class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.address }}</div>
-          </div>
+          <span class="ai-contact-info-label-{{ ai_gen_id }}">
+            <span class="ai-info-icon-{{ ai_gen_id }}">📍</span>
+            Adresse:
+          </span>
+          <div class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.address }}</div>
         </div>
       </div>
     </div>
@@ -625,10 +701,7 @@
 
   <div class="ai-contact-form-section-{{ ai_gen_id }}">
     <h2 class="ai-card-title-{{ ai_gen_id }}">
-      <span class="ai-emoji-icon-{{ ai_gen_id }}">🤝</span>
-      <svg class="ai-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      </svg>
+      <span class="ai-card-icon-{{ ai_gen_id }}">🤝</span>
       {{ block.settings.form_heading }}
     </h2>
     <p class="ai-card-text-{{ ai_gen_id }}">{{ block.settings.form_description }}</p>
@@ -638,7 +711,7 @@
         <div class="ai-form-row-{{ ai_gen_id }}">
           <div class="ai-form-field-{{ ai_gen_id }}">
             <label for="contact_name_{{ ai_gen_id }}" class="ai-form-label-{{ ai_gen_id }}">
-              <span class="ai-emoji-icon-{{ ai_gen_id }}">👤</span>
+              <span class="ai-form-icon-{{ ai_gen_id }}">👤</span>
               Navn *
             </label>
             <input
@@ -653,7 +726,7 @@
 
           <div class="ai-form-field-{{ ai_gen_id }}">
             <label for="contact_email_{{ ai_gen_id }}" class="ai-form-label-{{ ai_gen_id }}">
-              <span class="ai-emoji-icon-{{ ai_gen_id }}">✉️</span>
+              <span class="ai-form-icon-{{ ai_gen_id }}">✉️</span>
               E-post *
             </label>
             <input
@@ -670,7 +743,7 @@
         <div class="ai-form-row-{{ ai_gen_id }}">
           <div class="ai-form-field-{{ ai_gen_id }}">
             <label for="contact_order_{{ ai_gen_id }}" class="ai-form-label-{{ ai_gen_id }}">
-              <span class="ai-emoji-icon-{{ ai_gen_id }}">📦</span>
+              <span class="ai-form-icon-{{ ai_gen_id }}">📦</span>
               Ordrenummer (valgfritt)
             </label>
             <input
@@ -684,7 +757,7 @@
 
           <div class="ai-form-field-{{ ai_gen_id }}">
             <label for="contact_subject_{{ ai_gen_id }}" class="ai-form-label-{{ ai_gen_id }}">
-              <span class="ai-emoji-icon-{{ ai_gen_id }}">🎯</span>
+              <span class="ai-form-icon-{{ ai_gen_id }}">🏷️</span>
               Velg emne *
             </label>
             <select
@@ -697,14 +770,14 @@
               <option value="Retur" {% if form.subject == 'Retur' %}selected{% endif %}>🔄 Retur</option>
               <option value="Feil størrelse" {% if form.subject == 'Feil størrelse' %}selected{% endif %}>📏 Feil størrelse</option>
               <option value="Spørsmål om levering" {% if form.subject == 'Spørsmål om levering' %}selected{% endif %}>🚚 Spørsmål om levering</option>
-              <option value="Annet" {% if form.subject == 'Annet' %}selected{% endif %}>💭 Annet</option>
+              <option value="Annet" {% if form.subject == 'Annet' %}selected{% endif %}>💬 Annet</option>
             </select>
           </div>
         </div>
 
         <div class="ai-form-field-{{ ai_gen_id }}">
           <label for="contact_message_{{ ai_gen_id }}" class="ai-form-label-{{ ai_gen_id }}">
-            <span class="ai-emoji-icon-{{ ai_gen_id }}">💬</span>
+            <span class="ai-form-icon-{{ ai_gen_id }}">💭</span>
             Melding *
           </label>
           <textarea
@@ -718,18 +791,19 @@
 
         <button type="submit" class="ai-form-button-{{ ai_gen_id }}">
           {{ block.settings.form_button_text }}
+          <span class="ai-button-icon-{{ ai_gen_id }}">🚀</span>
         </button>
 
         {% if form.posted_successfully? %}
           <div class="ai-form-success-{{ ai_gen_id }}">
-            <span class="ai-emoji-icon-{{ ai_gen_id }}">✅</span>
+            <span>🎉</span>
             {{ block.settings.form_success_message }}
           </div>
         {% endif %}
 
         {% if form.errors %}
           <div class="ai-form-error-{{ ai_gen_id }}">
-            <span class="ai-emoji-icon-{{ ai_gen_id }}">❌</span>
+            <span>⚠️</span>
             <div>
               <strong>Det oppstod en feil:</strong>
               <ul>
@@ -847,7 +921,7 @@
       "type": "text",
       "id": "form_button_text",
       "label": "Knappetekst",
-      "default": "Send melding 🚀"
+      "default": "Send melding"
     },
     {
       "type": "text",
