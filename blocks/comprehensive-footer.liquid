@@ -691,65 +691,71 @@
                 </div>
               {% endif %}
 
-              {% assign email_placeholder_text = block.settings.email_placeholder | default: 'newsletter.label' | t %}
-              {% assign button_text = block.settings.button_text | default: 'newsletter.button_label' | t %}
-              {% assign default_error_message = 'is invalid or already subscribed.' %}
+              <!-- Klaviyo-skjema som sender direkte til Klaviyo (ikke Shopify) og trigger velkomstrabatten for nye medlemmer av KUL KID Kundeklubb -->
+              <form
+                id="FooterNewsletterForm"
+                class="kk-newsletter__form"
+                action="https://manage.kmail-lists.com/subscriptions/subscribe?a=XkZSsU&amp;g=STQxPv"
+                method="POST"
+              >
+                <div class="kk-field">
+                  <label class="visually-hidden" for="FooterNewsletterEmail">Din e-postadresse</label>
+                  <input
+                    id="FooterNewsletterEmail"
+                    class="kk-input"
+                    type="email"
+                    name="email"
+                    placeholder="Din e-postadresse"
+                    autocapitalize="off"
+                    autocomplete="email"
+                    autocorrect="off"
+                    spellcheck="false"
+                    required
+                  >
+                </div>
 
-              {% capture footer_newsletter_form %}
-              {% form 'customer', id: 'FooterNewsletterForm', class: 'kk-newsletter__form' %}
-                <input type="hidden" name="contact[tags]" value="newsletter,kul-kid-klubben">
-                %}
-                  <input type="hidden" name="contact[tags]" value="newsletter,kul-kid-kundeklubb">
+                <button type="submit" class="kk-button">Få 15 % rabatt</button>
+              </form>
 
-                  <div class="kk-field">
-                    <label class="visually-hidden" for="FooterNewsletterEmail">{{ newsletter_placeholder }}</label>
-                    <input
-                      id="FooterNewsletterEmail"
-                      class="kk-input"
-                      type="email"
-                      name="contact[email]"
-                      placeholder="{{ newsletter_placeholder }}"
-                      value="{{ form.email | default: customer.email | escape }}"
-                      autocapitalize="off"
-                      autocomplete="email"
-                      autocorrect="off"
-                      spellcheck="false"
-                      required
-                      aria-describedby="FooterNewsletterMsg"
-                      {% if form.errors contains 'email' %}
-                        aria-invalid="true"
-                      {% endif %}
-                    >
-                  </div>
+              <div id="FooterNewsletterMsg" class="kk-msg"></div>
 
-                  <button type="submit" class="kk-button">{{ newsletter_cta }}</button>
+              <script>
+                (function() {
+                  var form = document.getElementById('FooterNewsletterForm');
+                  if (!form) return;
 
-                  <div id="FooterNewsletterMsg" class="kk-msg" role="status" aria-live="polite">
-                    {% if form.posted_successfully? %}
-                      <p class="kk-msg--success">{{ newsletter_success }}</p>
-                    {% elsif form.errors %}
-                      {% assign error_label = form.errors.translated_fields['email'] %}
-                      {% if error_label == blank %}
-                        {% assign error_label = 'newsletter.label' | t %}
-                        {% if error_label == 'newsletter.label' %}
-                          {% assign error_label = email_placeholder_text %}
-                        {% endif %}
-                      {% endif %}
+                  var messageContainer = document.getElementById('FooterNewsletterMsg');
 
-                      {% assign error_message = form.errors.messages['email'] %}
-                      {% if error_message == blank %}
-                        {% assign error_message = 'general.newsletter_form.error' | t %}
-                        {% if error_message == 'general.newsletter_form.error' %}
-                          {% assign error_message = default_error_message %}
-                        {% endif %}
-                      {% endif %}
+                  form.addEventListener('submit', function(event) {
+                    event.preventDefault();
 
-                      <p class="kk-msg--error">{{ error_label }} {{ error_message }}</p>
-                    {% endif %}
-                  </div>
-                {% endform %}
-              {% endcapture %}
-              {{ footer_newsletter_form | replace: 'name="form_type" value="customer"', 'name="form_type" value="newsletter"' }}
+                    if (typeof form.reportValidity === 'function' && !form.reportValidity()) {
+                      return;
+                    }
+
+                    if (messageContainer) {
+                      messageContainer.innerHTML = '';
+                    }
+
+                    fetch(form.action, {
+                      method: 'POST',
+                      body: new FormData(form),
+                      mode: 'no-cors'
+                    })
+                      .then(function() {
+                        if (messageContainer) {
+                          messageContainer.innerHTML = '<p class="kk-msg--success">🎉 Du er nå med i KUL KID Kundeklubb! Sjekk innboksen din for 15 % rabattkode.</p>';
+                        }
+                        form.reset();
+                      })
+                      .catch(function() {
+                        if (messageContainer) {
+                          messageContainer.innerHTML = '<p class="kk-msg--error">Noe gikk galt – prøv igjen.</p>';
+                        }
+                      });
+                  });
+                })();
+              </script>
             </div>
           </div>
         {% endif %}
