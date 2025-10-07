@@ -15,9 +15,9 @@
         "ai_gen_block_528a2b8_9cnTrL": {
           "type": "ai_gen_block_528a2b8",
           "settings": {
-            "hero_height": 550,
+            "hero_height": 600,
             "hero_radius": 0,
-            "overlay_opacity": 30,
+            "overlay_opacity": 80,
             "hero_image_1": "shopify://shop_images/all-over-print-kids-leggings-white-left-front-68de9dc5438e0.jpg",
             "hero_title_1": "SKUMMELT KUL HALLOWEEN!",
             "hero_description_1": "",
