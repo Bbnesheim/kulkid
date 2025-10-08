@@ -216,8 +216,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--kk-icon-size-mobile);
-    height: var(--kk-icon-size-mobile);
     cursor: pointer;
     margin: {{ block.settings.icon_margin }}px;
     overflow: visible;
@@ -241,9 +239,6 @@
   }
 
   .ai-overlay-header-icon-{{ ai_gen_id }} svg {
-    width: 100%;
-    height: 100%;
-    display: block;
     transition: transform var(--ai-overlay-header-rainbow-transition);
   }
 
@@ -257,39 +252,6 @@
 
   .ai-overlay-header-icon-{{ ai_gen_id }}::after {
     content: none !important;
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon::after {
-    display: none !important;
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 0;
-    padding: 2px;
-    box-sizing: content-box;
-    overflow: visible;
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg {
-    display: block;
-    overflow: visible;
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path {
-    fill: currentColor !important;
-    stroke: none !important;
-    vector-effect: non-scaling-stroke;
-    transition: fill 0.35s ease, color 0.35s ease;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg path {
@@ -308,6 +270,54 @@
       width: var(--kk-icon-size-mobile);
       height: var(--kk-icon-size-mobile);
     }
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .ai-overlay-header-actions-{{ ai_gen_id }},
+  .ai-overlay-header-{{ ai_gen_id }} .ai-overlay-header-actions-desktop,
+  .ai-overlay-header-{{ ai_gen_id }} .ai-overlay-header-actions-desktop-{{ ai_gen_id }},
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg {
+    overflow: visible !important;
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    min-width: max(var(--kk-icon-size-desktop), var(--kk-icon-size-mobile));
+    min-height: max(var(--kk-icon-size-desktop), var(--kk-icon-size-mobile));
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon::after {
+    display: none !important;
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon,
+  .ai-overlay-header-{{ ai_gen_id }} .icon-wrapper {
+    transform: none !important;
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    box-sizing: content-box;
+    padding: 0;
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg {
+    display: block;
+    vertical-align: middle;
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path {
+    fill: currentColor !important;
+    stroke: none !important;
+    vector-effect: non-scaling-stroke;
+    transition: fill 0.25s ease, color 0.25s ease;
   }
 
   .ai-overlay-header-hamburger-{{ ai_gen_id }} {
@@ -633,8 +643,10 @@
             {% if block.settings.custom_cart_icon %}
               <img src="{{ block.settings.custom_cart_icon | image_url: width: 30 }}" alt="Cart">
             {% else %}
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.19 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <g transform="translate(0.5,0.5) scale(0.96)">
+                  <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.19 2 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                </g>
               </svg>
             {% endif %}
           </span>
@@ -713,8 +725,10 @@
             {% if block.settings.custom_cart_icon %}
               <img src="{{ block.settings.custom_cart_icon | image_url: width: 30 }}" alt="Cart">
             {% else %}
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.19 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <g transform="translate(0.5,0.5) scale(0.96)">
+                  <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.19 2 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                </g>
               </svg>
             {% endif %}
           </span>
