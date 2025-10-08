@@ -195,7 +195,7 @@
     --ai-overlay-header-icon-base-color: {{ block.settings.search_icon_color_mobile }};
     color: var(--ai-overlay-header-icon-base-color);
     text-decoration: none;
-    transition: transform var(--ai-overlay-header-rainbow-transition);
+    transition: color var(--ai-overlay-header-rainbow-transition), transform var(--ai-overlay-header-rainbow-transition);
   }
 
   .ai-overlay-header-account-icon-{{ ai_gen_id }} {
@@ -216,10 +216,6 @@
     transition: transform var(--ai-overlay-header-rainbow-transition);
   }
 
-  .ai-overlay-header-icon-{{ ai_gen_id }} svg * {
-    transition: fill var(--ai-overlay-header-rainbow-transition), stroke var(--ai-overlay-header-rainbow-transition);
-  }
-
   .ai-overlay-header-icon-{{ ai_gen_id }} svg [fill]:not([fill='none']) {
     fill: currentColor;
   }
@@ -236,7 +232,7 @@
   .ai-overlay-header-icon-{{ ai_gen_id }}:focus,
   .ai-overlay-header-icon-{{ ai_gen_id }}:focus-visible,
   .ai-overlay-header-icon-{{ ai_gen_id }}:active {
-    color: var(--ai-overlay-header-icon-base-color);
+    animation: ai-overlay-header-icon-rainbow-{{ ai_gen_id }} var(--ai-overlay-header-rainbow-transition) forwards;
     outline: none;
     text-decoration: none;
   }
@@ -246,20 +242,6 @@
   .ai-overlay-header-icon-{{ ai_gen_id }}:focus-visible svg,
   .ai-overlay-header-icon-{{ ai_gen_id }}:active svg {
     transform: scale(1.05);
-  }
-
-  .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg [fill]:not([fill='none']),
-  .ai-overlay-header-icon-{{ ai_gen_id }}:focus svg [fill]:not([fill='none']),
-  .ai-overlay-header-icon-{{ ai_gen_id }}:focus-visible svg [fill]:not([fill='none']),
-  .ai-overlay-header-icon-{{ ai_gen_id }}:active svg [fill]:not([fill='none']) {
-    fill: url(#rainbow-gradient);
-  }
-
-  .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg [stroke]:not([stroke='none']),
-  .ai-overlay-header-icon-{{ ai_gen_id }}:focus svg [stroke]:not([stroke='none']),
-  .ai-overlay-header-icon-{{ ai_gen_id }}:focus-visible svg [stroke]:not([stroke='none']),
-  .ai-overlay-header-icon-{{ ai_gen_id }}:active svg [stroke]:not([stroke='none']) {
-    stroke: url(#rainbow-gradient);
   }
 
   .ai-overlay-header-hamburger-{{ ai_gen_id }} {
@@ -430,6 +412,21 @@
   @keyframes ai-rainbow-press-{{ ai_gen_id }} {
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
+  }
+
+  @keyframes ai-overlay-header-icon-rainbow-{{ ai_gen_id }} {
+    0% { color: var(--ai-overlay-header-icon-base-color); }
+    10% { color: #ff0000; }
+    20% { color: #ff8000; }
+    30% { color: #ffff00; }
+    40% { color: #80ff00; }
+    50% { color: #00ff00; }
+    60% { color: #00ff80; }
+    70% { color: #00ffff; }
+    80% { color: #0080ff; }
+    90% { color: #0000ff; }
+    95% { color: #8000ff; }
+    100% { color: #ff0080; }
   }
 
   @media screen and (min-width: 750px) {
