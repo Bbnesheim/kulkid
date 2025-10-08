@@ -917,26 +917,27 @@
       {% endif %}
 
       {% if block.settings.cookie_preferences_link != blank %}
-        {% if policy_count > 0 %}<span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>{% endif %}
+        {% if policy_count > 0 %}
+          <span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>
+        {% endif %}
         <a href="{{ block.settings.cookie_preferences_link }}">Informasjonskapsler</a>
         {% assign policy_count = policy_count | plus: 1 %}
       {% endif %}
 
       {% if block.settings.contact_info_link != blank %}
-        {% if policy_count > 0 %}<span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>{% endif %}
+        {% if policy_count > 0 %}
+          <span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>
+        {% endif %}
         <a href="{{ block.settings.contact_info_link }}">Kontaktinformasjon</a>
         {% assign policy_count = policy_count | plus: 1 %}
       {% endif %}
 
       {% if block.settings.legal_notice_link != blank %}
-        {% if policy_count > 0 %}<span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>{% endif %}
-        <a href="{{ block.settings.legal_notice_link }}">Juridisk informasjon</a>
+        {% if policy_count > 0 %}
+          <span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>
+        {% endif %}
+        <a href="{{ block.settings.legal_notice_link }}">Juridiske retningslinjer</a>
         {% assign policy_count = policy_count | plus: 1 %}
-      {% endif %}
-
-      {% if block.settings.show_cookie_preferences %}
-        {% if policy_count > 0 %}<span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>{% endif %}
-        <button type="button" onclick="window.Shopify.customerPrivacy.setTrackingConsent(false, function() { location.reload(); });">Cookie preferences</button>
       {% endif %}
     </div>
 
@@ -1645,19 +1646,13 @@
       "content": "Policies"
     },
     {
-      "type": "checkbox",
-      "id": "show_cookie_preferences",
-      "label": "Show cookie preferences",
-      "default": true
-    },
-    {
       "type": "header",
       "content": "Flere policy-lenker"
     },
     {
       "type": "url",
       "id": "cookie_preferences_link",
-      "label": "Lenke til informasjonskapsler (Cookie Preferences)"
+      "label": "Lenke til informasjonskapsler"
     },
     {
       "type": "url",
@@ -1667,7 +1662,7 @@
     {
       "type": "url",
       "id": "legal_notice_link",
-      "label": "Lenke til juridisk informasjon"
+      "label": "Lenke til juridiske retningslinjer"
     },
     {
       "type": "header",
