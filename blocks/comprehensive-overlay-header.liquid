@@ -291,14 +291,14 @@
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg circle,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg polygon,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg polyline {
-    fill: var(--icon-base, var(--ai-overlay-header-icon-base-color, #121212));
-    transition: fill var(--ai-overlay-header-rainbow-transition);
+    fill: currentColor;
+    transition: fill 0.4s ease;
     vector-effect: non-scaling-stroke;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg [stroke]:not([stroke='none']) {
-    stroke: var(--icon-base, var(--ai-overlay-header-icon-base-color, #121212));
-    transition: stroke var(--ai-overlay-header-rainbow-transition);
+    stroke: currentColor;
+    transition: stroke 0.4s ease;
     vector-effect: non-scaling-stroke;
   }
 
@@ -318,22 +318,14 @@
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg polyline,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg polyline {
     fill: url(#rainbow-gradient) !important;
-    background: var(--ai-overlay-header-rainbow-gradient);
-    background-size: 200% auto;
-    background-position: 0% 50%;
-    animation: rainbow-shift 1.5s linear forwards;
-    transition: all var(--ai-overlay-header-rainbow-transition);
+    transition: fill 0.4s ease;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg [stroke]:not([stroke='none']),
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg [stroke]:not([stroke='none']),
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg [stroke]:not([stroke='none']) {
     stroke: url(#rainbow-gradient) !important;
-    background: var(--ai-overlay-header-rainbow-gradient);
-    background-size: 200% auto;
-    background-position: 0% 50%;
-    animation: rainbow-shift 1.5s linear forwards;
-    transition: all var(--ai-overlay-header-rainbow-transition);
+    transition: stroke 0.4s ease;
   }
 
   .ai-overlay-header-hamburger-{{ ai_gen_id }} {
@@ -495,12 +487,6 @@
     border-top: 1px solid {{ block.settings.dropdown_border_color }};
   }
 
-
-  @keyframes rainbow-shift {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-  }
-
   @keyframes ai-rainbow-underline-{{ ai_gen_id }} {
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
@@ -570,21 +556,26 @@
 {% endstyle %}
 
 <overlay-header-{{ ai_gen_id }} class="ai-overlay-header-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
-  <svg class="rainbow-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute">
     <defs>
-      <linearGradient id="rainbow-gradient" x1="0%" y1="0%" x2="200%" y2="0%">
+      <linearGradient id="rainbow-gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="translate(-1, 0)">
         <stop offset="0%" stop-color="#ff0000" />
-        <stop offset="9%" stop-color="#ff8000" />
-        <stop offset="18%" stop-color="#ffff00" />
-        <stop offset="27%" stop-color="#80ff00" />
-        <stop offset="36%" stop-color="#00ff00" />
-        <stop offset="45%" stop-color="#00ff80" />
-        <stop offset="54%" stop-color="#00ffff" />
-        <stop offset="63%" stop-color="#0080ff" />
-        <stop offset="72%" stop-color="#0000ff" />
-        <stop offset="81%" stop-color="#8000ff" />
-        <stop offset="90%" stop-color="#ff00ff" />
-        <stop offset="100%" stop-color="#ff0080" />
+        <stop offset="16%" stop-color="#ff8000" />
+        <stop offset="33%" stop-color="#ffff00" />
+        <stop offset="50%" stop-color="#00ff00" />
+        <stop offset="66%" stop-color="#0000ff" />
+        <stop offset="83%" stop-color="#8000ff" />
+        <stop offset="100%" stop-color="#ff00ff" />
+        <animateTransform
+          id="rainbow-gradient-anim-{{ ai_gen_id }}"
+          attributeName="gradientTransform"
+          type="translate"
+          from="-1 0"
+          to="0 0"
+          dur="1.5s"
+          fill="freeze"
+          begin="indefinite"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -756,6 +747,11 @@
         this.overlay = this.querySelector('.ai-overlay-header-mobile-overlay-{{ ai_gen_id }}');
         this.mobileNavLinks = this.querySelectorAll('.ai-overlay-header-mobile-nav-link-{{ ai_gen_id }}[data-has-dropdown="true"]');
         this.headerContainer = this.querySelector('.ai-overlay-header-container-{{ ai_gen_id }}');
+        this.headerIcons = this.querySelectorAll('.header__icon');
+        this.gradient = this.querySelector('linearGradient#rainbow-gradient');
+        this.gradientAnimation = this.querySelector('#rainbow-gradient-anim-{{ ai_gen_id }}');
+        this.startRainbowAnimation = this.startRainbowAnimation.bind(this);
+        this.resetRainbowAnimation = this.resetRainbowAnimation.bind(this);
         this.updateOverlayOffset = this.updateOverlayOffset.bind(this);
         if (this.hamburger) {
           this.hamburger.setAttribute('aria-expanded', 'false');
@@ -772,35 +768,85 @@
       disconnectedCallback() {
         window.removeEventListener('resize', this.updateOverlayOffset);
         window.removeEventListener('scroll', this.updateOverlayOffset);
+
+        if (this.headerIcons.length) {
+          this.headerIcons.forEach((icon) => {
+            icon.removeEventListener('mouseenter', this.startRainbowAnimation);
+            icon.removeEventListener('focus', this.startRainbowAnimation);
+            icon.removeEventListener('touchstart', this.startRainbowAnimation);
+            icon.removeEventListener('mouseleave', this.resetRainbowAnimation);
+            icon.removeEventListener('blur', this.resetRainbowAnimation);
+            icon.removeEventListener('touchend', this.resetRainbowAnimation);
+            icon.removeEventListener('touchcancel', this.resetRainbowAnimation);
+          });
+        }
       }
 
       setupEventListeners() {
-        if (!this.hamburger || !this.overlay) {
+        if (this.hamburger && this.overlay) {
+          this.hamburger.addEventListener('click', () => {
+            this.toggleMobileMenu();
+          });
+
+          this.mobileNavLinks.forEach(link => {
+            if (link.dataset.hasDropdown === 'true') {
+              link.setAttribute('aria-expanded', 'false');
+            }
+
+            link.addEventListener('click', (e) => {
+              if (link.dataset.hasDropdown === 'true') {
+                e.preventDefault();
+                this.toggleMobileDropdown(link);
+              }
+            });
+          });
+
+          this.overlay.addEventListener('click', (e) => {
+            if (e.target === this.overlay) {
+              this.closeMobileMenu();
+            }
+          });
+        }
+
+        if (this.gradient && this.gradientAnimation && this.headerIcons.length) {
+          this.headerIcons.forEach((icon) => {
+            icon.addEventListener('mouseenter', this.startRainbowAnimation);
+            icon.addEventListener('focus', this.startRainbowAnimation);
+            icon.addEventListener('touchstart', this.startRainbowAnimation, { passive: true });
+            icon.addEventListener('mouseleave', this.resetRainbowAnimation);
+            icon.addEventListener('blur', this.resetRainbowAnimation);
+            icon.addEventListener('touchend', this.resetRainbowAnimation, { passive: true });
+            icon.addEventListener('touchcancel', this.resetRainbowAnimation, { passive: true });
+          });
+        }
+      }
+
+      startRainbowAnimation() {
+        if (!this.gradient || !this.gradientAnimation) {
           return;
         }
 
-        this.hamburger.addEventListener('click', () => {
-          this.toggleMobileMenu();
-        });
+        this.gradient.setAttribute('gradientTransform', 'translate(-1, 0)');
 
-        this.mobileNavLinks.forEach(link => {
-          if (link.dataset.hasDropdown === 'true') {
-            link.setAttribute('aria-expanded', 'false');
-          }
+        if (typeof this.gradientAnimation.endElement === 'function') {
+          this.gradientAnimation.endElement();
+        }
 
-          link.addEventListener('click', (e) => {
-            if (link.dataset.hasDropdown === 'true') {
-              e.preventDefault();
-              this.toggleMobileDropdown(link);
-            }
-          });
-        });
+        if (typeof this.gradientAnimation.beginElement === 'function') {
+          this.gradientAnimation.beginElement();
+        }
+      }
 
-        this.overlay.addEventListener('click', (e) => {
-          if (e.target === this.overlay) {
-            this.closeMobileMenu();
-          }
-        });
+      resetRainbowAnimation() {
+        if (!this.gradient) {
+          return;
+        }
+
+        if (this.gradientAnimation && typeof this.gradientAnimation.endElement === 'function') {
+          this.gradientAnimation.endElement();
+        }
+
+        this.gradient.setAttribute('gradientTransform', 'translate(-1, 0)');
       }
 
       toggleMobileMenu() {
