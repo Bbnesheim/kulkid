@@ -232,7 +232,13 @@
   .ai-overlay-header-icon-{{ ai_gen_id }}:focus,
   .ai-overlay-header-icon-{{ ai_gen_id }}:focus-visible,
   .ai-overlay-header-icon-{{ ai_gen_id }}:active {
-    animation: ai-overlay-header-icon-rainbow-{{ ai_gen_id }} var(--ai-overlay-header-rainbow-transition) forwards;
+    background: var(--ai-overlay-header-rainbow-gradient);
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: ai-rainbow-underline-{{ ai_gen_id }} var(--ai-overlay-header-rainbow-transition);
     outline: none;
     text-decoration: none;
   }
@@ -412,21 +418,6 @@
   @keyframes ai-rainbow-press-{{ ai_gen_id }} {
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
-  }
-
-  @keyframes ai-overlay-header-icon-rainbow-{{ ai_gen_id }} {
-    0% { color: var(--ai-overlay-header-icon-base-color); }
-    10% { color: #ff0000; }
-    20% { color: #ff8000; }
-    30% { color: #ffff00; }
-    40% { color: #80ff00; }
-    50% { color: #00ff00; }
-    60% { color: #00ff80; }
-    70% { color: #00ffff; }
-    80% { color: #0080ff; }
-    90% { color: #0000ff; }
-    95% { color: #8000ff; }
-    100% { color: #ff0080; }
   }
 
   @media screen and (min-width: 750px) {
