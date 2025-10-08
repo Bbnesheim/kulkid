@@ -47,6 +47,8 @@
 
 {% style %}
   .ai-overlay-header-{{ ai_gen_id }} {
+    --kk-icon-size-desktop: {{ block.settings.icon_size_desktop | default: 28 }}px;
+    --kk-icon-size-mobile: {{ block.settings.icon_size_mobile | default: 24 }}px;
     --ai-overlay-header-rainbow-gradient: linear-gradient(
       90deg,
       #ff0000,
@@ -214,8 +216,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: {{ block.settings.icon_size_mobile }}px;
-    height: {{ block.settings.icon_size_mobile }}px;
+    width: var(--kk-icon-size-mobile);
+    height: var(--kk-icon-size-mobile);
     cursor: pointer;
     margin: {{ block.settings.icon_margin }}px;
     --ai-overlay-header-icon-base-color: {{ block.settings.search_icon_color_mobile }};
@@ -237,7 +239,11 @@
     color: var(--ai-overlay-header-icon-base-color);
   }
 
-  .ai-overlay-header-icon-{{ ai_gen_id }} svg,
+  .ai-overlay-header-icon-{{ ai_gen_id }} svg {
+    display: block;
+    transition: transform var(--ai-overlay-header-rainbow-transition);
+  }
+
   .ai-overlay-header-icon-{{ ai_gen_id }} img {
     width: 100%;
     height: 100%;
@@ -251,6 +257,9 @@
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon::after {
@@ -261,33 +270,40 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    line-height: 0;
+    padding: 2px;
+    box-sizing: content-box;
+    overflow: visible;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg {
-    width: 1.75rem;
-    height: 1.75rem;
+    display: block;
     overflow: visible;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path {
     fill: currentColor !important;
-    stroke: none;
+    stroke: none !important;
     vector-effect: non-scaling-stroke;
     transition: fill 0.35s ease, color 0.35s ease;
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg [stroke]:not([stroke='none']) {
-    stroke: currentColor !important;
-    vector-effect: non-scaling-stroke;
-    transition: stroke 0.35s ease, color 0.35s ease;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg path {
     fill: url(#kk-rainbow-{{ ai_gen_id }}) !important;
   }
 
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg [stroke]:not([stroke='none']) {
-    stroke: url(#kk-rainbow-{{ ai_gen_id }}) !important;
+  @media (min-width: 990px) {
+    .ai-overlay-header-{{ ai_gen_id }} .header__icon svg {
+      width: var(--kk-icon-size-desktop);
+      height: var(--kk-icon-size-desktop);
+    }
+  }
+
+  @media (max-width: 989.98px) {
+    .ai-overlay-header-{{ ai_gen_id }} .header__icon svg {
+      width: var(--kk-icon-size-mobile);
+      height: var(--kk-icon-size-mobile);
+    }
   }
 
   .ai-overlay-header-hamburger-{{ ai_gen_id }} {
@@ -482,8 +498,8 @@
     }
 
     .ai-overlay-header-icon-{{ ai_gen_id }} {
-      width: {{ block.settings.icon_size_desktop }}px;
-      height: {{ block.settings.icon_size_desktop }}px;
+      width: var(--kk-icon-size-desktop);
+      height: var(--kk-icon-size-desktop);
     }
 
     .ai-overlay-header-actions-desktop-{{ ai_gen_id }} .ai-overlay-header-icon-{{ ai_gen_id }} {
@@ -804,26 +820,25 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-  const scope = document.querySelector('.ai-overlay-header-{{ ai_gen_id }}');
-  if (!scope) return;
-  const paths = scope.querySelectorAll('.header__icon svg path');
+  const root = document.querySelector('.ai-overlay-header-{{ ai_gen_id }}');
+  if (!root) return;
+  const paths = root.querySelectorAll('.header__icon svg path');
   const anim = document.querySelector('#kk-rainbow-anim-{{ ai_gen_id }}');
-  paths.forEach(path => {
-    path.dataset.base = 'currentColor';
-    path.addEventListener('mouseenter', () => {
-      if (anim) {
-        anim.querySelectorAll('animate').forEach(a => { try { a.beginElement(); } catch(e){} });
-        path.style.setProperty('fill', 'url(#kk-rainbow-anim-{{ ai_gen_id }})', 'important');
-        clearTimeout(path._hold);
-        path._hold = setTimeout(() => {
-          path.style.setProperty('fill', 'url(#kk-rainbow-{{ ai_gen_id }})', 'important');
-        }, 1200);
+  paths.forEach(p=>{
+    p.dataset.base = 'currentColor';
+    p.addEventListener('mouseenter', ()=>{
+      if (anim){
+        anim.querySelectorAll('animate').forEach(a=>{ try{ a.beginElement(); }catch(e){} });
+        p.setAttribute('fill','url(#kk-rainbow-anim-{{ ai_gen_id }})');
+        clearTimeout(p._kk_hold);
+        p._kk_hold = setTimeout(()=>{ p.setAttribute('fill','url(#kk-rainbow-{{ ai_gen_id }})'); }, 1200);
+      } else {
+        p.setAttribute('fill','url(#kk-rainbow-{{ ai_gen_id }})');
       }
     });
-    path.addEventListener('mouseleave', () => {
-      clearTimeout(path._hold);
-      path.style.removeProperty('fill');
-      path.setAttribute('fill', path.dataset.base);
+    p.addEventListener('mouseleave', ()=>{
+      clearTimeout(p._kk_hold);
+      p.setAttribute('fill', p.dataset.base);
     });
   });
 });
