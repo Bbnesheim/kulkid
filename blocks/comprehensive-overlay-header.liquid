@@ -220,6 +220,7 @@
     height: var(--kk-icon-size-mobile);
     cursor: pointer;
     margin: {{ block.settings.icon_margin }}px;
+    overflow: visible;
     --ai-overlay-header-icon-base-color: {{ block.settings.search_icon_color_mobile }};
     --icon-base: var(--ai-overlay-header-icon-base-color);
     color: var(--ai-overlay-header-icon-base-color);
@@ -240,6 +241,8 @@
   }
 
   .ai-overlay-header-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
     display: block;
     transition: transform var(--ai-overlay-header-rainbow-transition);
   }
@@ -249,6 +252,7 @@
     height: 100%;
     display: block;
     transition: transform var(--ai-overlay-header-rainbow-transition);
+    object-fit: contain;
   }
 
   .ai-overlay-header-icon-{{ ai_gen_id }}::after {
