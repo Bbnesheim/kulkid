@@ -306,7 +306,8 @@
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg path,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg path,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg path {
-    fill: url(#rainbow-gradient) !important;
+    fill: url(#rainbow-gradient);
+    animation: rainbow-slide 1.2s linear forwards;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg rect,
@@ -321,13 +322,15 @@
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg polyline,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg polyline,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg polyline {
-    fill: url(#rainbow-gradient) !important;
+    fill: url(#rainbow-gradient);
+    animation: rainbow-slide 1.2s linear forwards;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg [stroke]:not([stroke='none']),
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg [stroke]:not([stroke='none']),
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg [stroke]:not([stroke='none']) {
-    stroke: url(#rainbow-gradient) !important;
+    stroke: url(#rainbow-gradient);
+    animation: rainbow-slide 1.2s linear forwards;
   }
 
   .ai-overlay-header-hamburger-{{ ai_gen_id }} {
@@ -567,42 +570,18 @@
   <svg class="rainbow-defs" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
       <linearGradient id="rainbow-gradient" x1="0%" y1="0%" x2="200%" y2="0%">
-        <stop offset="0%" stop-color="#ff0000">
-          <animate attributeName="offset" values="0;1" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="9%" stop-color="#ff8000">
-          <animate attributeName="offset" values="0.09;1.09" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="18%" stop-color="#ffff00">
-          <animate attributeName="offset" values="0.18;1.18" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="27%" stop-color="#80ff00">
-          <animate attributeName="offset" values="0.27;1.27" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="36%" stop-color="#00ff00">
-          <animate attributeName="offset" values="0.36;1.36" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="45%" stop-color="#00ff80">
-          <animate attributeName="offset" values="0.45;1.45" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="54%" stop-color="#00ffff">
-          <animate attributeName="offset" values="0.54;1.54" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="63%" stop-color="#0080ff">
-          <animate attributeName="offset" values="0.63;1.63" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="72%" stop-color="#0000ff">
-          <animate attributeName="offset" values="0.72;1.72" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="81%" stop-color="#8000ff">
-          <animate attributeName="offset" values="0.81;1.81" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="90%" stop-color="#ff00ff">
-          <animate attributeName="offset" values="0.9;1.9" dur="2s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="100%" stop-color="#ff0080">
-          <animate attributeName="offset" values="1;2" dur="2s" repeatCount="indefinite" />
-        </stop>
+        <stop offset="0%" stop-color="#ff0000" />
+        <stop offset="9%" stop-color="#ff8000" />
+        <stop offset="18%" stop-color="#ffff00" />
+        <stop offset="27%" stop-color="#80ff00" />
+        <stop offset="36%" stop-color="#00ff00" />
+        <stop offset="45%" stop-color="#00ff80" />
+        <stop offset="54%" stop-color="#00ffff" />
+        <stop offset="63%" stop-color="#0080ff" />
+        <stop offset="72%" stop-color="#0000ff" />
+        <stop offset="81%" stop-color="#8000ff" />
+        <stop offset="90%" stop-color="#ff00ff" />
+        <stop offset="100%" stop-color="#ff0080" />
       </linearGradient>
     </defs>
   </svg>
