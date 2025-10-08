@@ -315,9 +315,9 @@
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path {
     fill: currentColor !important;
+    transition: fill .35s ease;
     stroke: none !important;
     vector-effect: non-scaling-stroke;
-    transition: fill 0.25s ease, color 0.25s ease;
   }
 
   .ai-overlay-header-hamburger-{{ ai_gen_id }} {
@@ -838,27 +838,60 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-  const root = document.querySelector('.ai-overlay-header-{{ ai_gen_id }}');
-  if (!root) return;
-  const paths = root.querySelectorAll('.header__icon svg path');
-  const anim = document.querySelector('#kk-rainbow-anim-{{ ai_gen_id }}');
-  paths.forEach(p=>{
-    p.dataset.base = 'currentColor';
-    p.addEventListener('mouseenter', ()=>{
-      if (anim){
-        anim.querySelectorAll('animate').forEach(a=>{ try{ a.beginElement(); }catch(e){} });
-        p.setAttribute('fill','url(#kk-rainbow-anim-{{ ai_gen_id }})');
-        clearTimeout(p._kk_hold);
-        p._kk_hold = setTimeout(()=>{ p.setAttribute('fill','url(#kk-rainbow-{{ ai_gen_id }})'); }, 1200);
-      } else {
-        p.setAttribute('fill','url(#kk-rainbow-{{ ai_gen_id }})');
+  const scope = document.querySelector('.ai-overlay-header-{{ ai_gen_id }}');
+  if (!scope) return;
+
+  const paths = scope.querySelectorAll('.header__icon svg path');
+  const animGradient = document.querySelector('#kk-rainbow-anim-{{ ai_gen_id }}');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Helper to start the SMIL animation on the animated gradient
+  function playSweepOnce(){
+    if (!animGradient) return;
+    animGradient.querySelectorAll('animate').forEach(a => { try { a.beginElement(); } catch(e){} });
+  }
+
+  paths.forEach(path => {
+    path.dataset.baseFill = 'currentColor';
+
+    // Pointer enter: play animated gradient, then hold static rainbow
+    function onEnter(){
+      if (prefersReducedMotion.matches){
+        path.setAttribute('fill', 'url(#kk-rainbow-{{ ai_gen_id }})');
+        return;
       }
-    });
-    p.addEventListener('mouseleave', ()=>{
-      clearTimeout(p._kk_hold);
-      p.setAttribute('fill', p.dataset.base);
-    });
+
+      if (animGradient){
+        path.setAttribute('fill', 'url(#kk-rainbow-anim-{{ ai_gen_id }})');
+        playSweepOnce();
+        clearTimeout(path._kkHold);
+        path._kkHold = setTimeout(() => {
+          path.setAttribute('fill', 'url(#kk-rainbow-{{ ai_gen_id }})');
+        }, 1200); // keep in sync with <animate dur="1.2s">
+      } else {
+        // fallback: static rainbow only
+        path.setAttribute('fill', 'url(#kk-rainbow-{{ ai_gen_id }})');
+      }
+    }
+
+    // Pointer leave: restore base color
+    function onLeave(){
+      clearTimeout(path._kkHold);
+      path.setAttribute('fill', path.dataset.baseFill);
+    }
+
+    path.addEventListener('pointerenter', onEnter, {passive:true});
+    path.addEventListener('pointerleave', onLeave, {passive:true});
+    path.addEventListener('focus', onEnter);   // keyboard
+    path.addEventListener('blur', onLeave);
   });
+
+  // Accessibility: respect reduced motion
+  if (prefersReducedMotion.matches) {
+    paths.forEach(p => {
+      p.addEventListener('pointerenter', () => p.setAttribute('fill','url(#kk-rainbow-{{ ai_gen_id }})'), {passive:true});
+    });
+  }
 });
 </script>
 
