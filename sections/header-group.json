@@ -90,7 +90,7 @@
             "cart_icon_color_mobile": "#4b7aef",
             "cart_icon_hover_color_mobile": "#ad55c4",
             "cart_icon_color_desktop": "#121212",
-            "cart_icon_hover_color_desktop": "rgba(0,0,0,0)",
+            "cart_icon_hover_color_desktop": "#d67c00",
             "caret_size": 14,
             "caret_spacing": 4,
             "caret_margin": 2
