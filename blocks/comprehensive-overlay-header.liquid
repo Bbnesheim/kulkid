@@ -70,6 +70,18 @@
     z-index: 1000;
   }
 
+  /* KK ICON HARD RESET */
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg *,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    mask: none !important;
+    -webkit-mask: none !important;
+    opacity: 1 !important;
+  }
+
   .ai-overlay-header-container-{{ ai_gen_id }} {
     display: flex;
     align-items: center;
@@ -241,91 +253,41 @@
     position: relative;
   }
 
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon::after {
+    display: none !important;
+  }
+
   .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.25s ease;
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover .icon-wrapper,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus .icon-wrapper,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible .icon-wrapper {
-    transform: translateY(-1px);
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover::after,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus::after,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible::after {
-    display: none !important;
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper svg,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper img {
-    transition: transform var(--ai-overlay-header-rainbow-transition);
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover .icon-wrapper svg,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus .icon-wrapper svg,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible .icon-wrapper svg,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover .icon-wrapper img,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus .icon-wrapper img,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible .icon-wrapper img {
-    transform: scale(1.05);
-  }
-
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible {
-    color: var(--icon-base, var(--ai-overlay-header-icon-base-color, inherit)) !important;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg {
-    overflow: visible !important;
-    width: auto;
-    height: auto;
+    width: 1.75rem;
+    height: 1.75rem;
+    overflow: visible;
   }
 
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg rect,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg circle,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg polygon,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg polyline {
-    fill: currentColor;
-    transition: fill 0.4s ease;
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path {
+    fill: currentColor !important;
+    stroke: none;
     vector-effect: non-scaling-stroke;
+    transition: fill 0.35s ease, color 0.35s ease;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg [stroke]:not([stroke='none']) {
-    stroke: currentColor;
-    transition: stroke 0.4s ease;
+    stroke: currentColor !important;
     vector-effect: non-scaling-stroke;
+    transition: stroke 0.35s ease, color 0.35s ease;
   }
 
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg path,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg path,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg path,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg rect,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg rect,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg rect,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg circle,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg circle,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg circle,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg polygon,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg polygon,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg polygon,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg polyline,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg polyline,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg polyline {
-    fill: url(#rainbow-gradient) !important;
-    transition: fill 0.4s ease;
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg path {
+    fill: url(#kk-rainbow-{{ ai_gen_id }}) !important;
   }
 
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg [stroke]:not([stroke='none']),
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg [stroke]:not([stroke='none']),
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg [stroke]:not([stroke='none']) {
-    stroke: url(#rainbow-gradient) !important;
-    transition: stroke 0.4s ease;
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg [stroke]:not([stroke='none']) {
+    stroke: url(#kk-rainbow-{{ ai_gen_id }}) !important;
   }
 
   .ai-overlay-header-hamburger-{{ ai_gen_id }} {
@@ -558,24 +520,28 @@
 <overlay-header-{{ ai_gen_id }} class="ai-overlay-header-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
   <svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute">
     <defs>
-      <linearGradient id="rainbow-gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="translate(-1, 0)">
-        <stop offset="0%" stop-color="#ff0000" />
-        <stop offset="16%" stop-color="#ff8000" />
-        <stop offset="33%" stop-color="#ffff00" />
-        <stop offset="50%" stop-color="#00ff00" />
-        <stop offset="66%" stop-color="#0000ff" />
-        <stop offset="83%" stop-color="#8000ff" />
-        <stop offset="100%" stop-color="#ff00ff" />
-        <animateTransform
-          id="rainbow-gradient-anim-{{ ai_gen_id }}"
-          attributeName="gradientTransform"
-          type="translate"
-          from="-1 0"
-          to="0 0"
-          dur="1.5s"
-          fill="freeze"
-          begin="indefinite"
-        />
+      <!-- final static rainbow -->
+      <linearGradient id="kk-rainbow-{{ ai_gen_id }}" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"  stop-color="#ff0000"/>
+        <stop offset="16%" stop-color="#ff8000"/>
+        <stop offset="33%" stop-color="#ffff00"/>
+        <stop offset="50%" stop-color="#00ff00"/>
+        <stop offset="66%" stop-color="#0000ff"/>
+        <stop offset="83%" stop-color="#8000ff"/>
+        <stop offset="100%" stop-color="#ff00ff"/>
+      </linearGradient>
+
+      <!-- animated sweep (used only during hover) -->
+      <linearGradient id="kk-rainbow-anim-{{ ai_gen_id }}" x1="-100%" y1="0%" x2="0%" y2="0%">
+        <stop offset="0%"  stop-color="#ff0000"/>
+        <stop offset="16%" stop-color="#ff8000"/>
+        <stop offset="33%" stop-color="#ffff00"/>
+        <stop offset="50%" stop-color="#00ff00"/>
+        <stop offset="66%" stop-color="#0000ff"/>
+        <stop offset="83%" stop-color="#8000ff"/>
+        <stop offset="100%" stop-color="#ff00ff"/>
+        <animate attributeName="x1" values="-100%;0%" dur="1.2s" fill="freeze" begin="indefinite"/>
+        <animate attributeName="x2" values="0%;100%"  dur="1.2s" fill="freeze" begin="indefinite"/>
       </linearGradient>
     </defs>
   </svg>
@@ -747,11 +713,6 @@
         this.overlay = this.querySelector('.ai-overlay-header-mobile-overlay-{{ ai_gen_id }}');
         this.mobileNavLinks = this.querySelectorAll('.ai-overlay-header-mobile-nav-link-{{ ai_gen_id }}[data-has-dropdown="true"]');
         this.headerContainer = this.querySelector('.ai-overlay-header-container-{{ ai_gen_id }}');
-        this.headerIcons = this.querySelectorAll('.header__icon');
-        this.gradient = this.querySelector('linearGradient#rainbow-gradient');
-        this.gradientAnimation = this.querySelector('#rainbow-gradient-anim-{{ ai_gen_id }}');
-        this.startRainbowAnimation = this.startRainbowAnimation.bind(this);
-        this.resetRainbowAnimation = this.resetRainbowAnimation.bind(this);
         this.updateOverlayOffset = this.updateOverlayOffset.bind(this);
         if (this.hamburger) {
           this.hamburger.setAttribute('aria-expanded', 'false');
@@ -769,17 +730,6 @@
         window.removeEventListener('resize', this.updateOverlayOffset);
         window.removeEventListener('scroll', this.updateOverlayOffset);
 
-        if (this.headerIcons.length) {
-          this.headerIcons.forEach((icon) => {
-            icon.removeEventListener('mouseenter', this.startRainbowAnimation);
-            icon.removeEventListener('focus', this.startRainbowAnimation);
-            icon.removeEventListener('touchstart', this.startRainbowAnimation);
-            icon.removeEventListener('mouseleave', this.resetRainbowAnimation);
-            icon.removeEventListener('blur', this.resetRainbowAnimation);
-            icon.removeEventListener('touchend', this.resetRainbowAnimation);
-            icon.removeEventListener('touchcancel', this.resetRainbowAnimation);
-          });
-        }
       }
 
       setupEventListeners() {
@@ -807,46 +757,6 @@
             }
           });
         }
-
-        if (this.gradient && this.gradientAnimation && this.headerIcons.length) {
-          this.headerIcons.forEach((icon) => {
-            icon.addEventListener('mouseenter', this.startRainbowAnimation);
-            icon.addEventListener('focus', this.startRainbowAnimation);
-            icon.addEventListener('touchstart', this.startRainbowAnimation, { passive: true });
-            icon.addEventListener('mouseleave', this.resetRainbowAnimation);
-            icon.addEventListener('blur', this.resetRainbowAnimation);
-            icon.addEventListener('touchend', this.resetRainbowAnimation, { passive: true });
-            icon.addEventListener('touchcancel', this.resetRainbowAnimation, { passive: true });
-          });
-        }
-      }
-
-      startRainbowAnimation() {
-        if (!this.gradient || !this.gradientAnimation) {
-          return;
-        }
-
-        this.gradient.setAttribute('gradientTransform', 'translate(-1, 0)');
-
-        if (typeof this.gradientAnimation.endElement === 'function') {
-          this.gradientAnimation.endElement();
-        }
-
-        if (typeof this.gradientAnimation.beginElement === 'function') {
-          this.gradientAnimation.beginElement();
-        }
-      }
-
-      resetRainbowAnimation() {
-        if (!this.gradient) {
-          return;
-        }
-
-        if (this.gradientAnimation && typeof this.gradientAnimation.endElement === 'function') {
-          this.gradientAnimation.endElement();
-        }
-
-        this.gradient.setAttribute('gradientTransform', 'translate(-1, 0)');
       }
 
       toggleMobileMenu() {
@@ -890,6 +800,33 @@
 
     customElements.define('overlay-header-{{ ai_gen_id }}', OverlayHeader{{ ai_gen_id }});
   })();
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const scope = document.querySelector('.ai-overlay-header-{{ ai_gen_id }}');
+  if (!scope) return;
+  const paths = scope.querySelectorAll('.header__icon svg path');
+  const anim = document.querySelector('#kk-rainbow-anim-{{ ai_gen_id }}');
+  paths.forEach(path => {
+    path.dataset.base = 'currentColor';
+    path.addEventListener('mouseenter', () => {
+      if (anim) {
+        anim.querySelectorAll('animate').forEach(a => { try { a.beginElement(); } catch(e){} });
+        path.style.setProperty('fill', 'url(#kk-rainbow-anim-{{ ai_gen_id }})', 'important');
+        clearTimeout(path._hold);
+        path._hold = setTimeout(() => {
+          path.style.setProperty('fill', 'url(#kk-rainbow-{{ ai_gen_id }})', 'important');
+        }, 1200);
+      }
+    });
+    path.addEventListener('mouseleave', () => {
+      clearTimeout(path._hold);
+      path.style.removeProperty('fill');
+      path.setAttribute('fill', path.dataset.base);
+    });
+  });
+});
 </script>
 
 {% schema %}
