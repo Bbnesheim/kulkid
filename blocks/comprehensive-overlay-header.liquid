@@ -278,23 +278,37 @@
     color: var(--icon-base, var(--ai-overlay-header-icon-base-color, inherit)) !important;
   }
 
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg {
+    overflow: visible;
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path {
+    fill: var(--icon-base, var(--ai-overlay-header-icon-base-color, #121212));
+    transition: fill var(--ai-overlay-header-rainbow-transition);
+    vector-effect: non-scaling-stroke;
+  }
+
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg rect,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg circle,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg polygon,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg polyline {
     fill: var(--icon-base, var(--ai-overlay-header-icon-base-color, #121212));
     transition: fill var(--ai-overlay-header-rainbow-transition);
+    vector-effect: non-scaling-stroke;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg [stroke]:not([stroke='none']) {
     stroke: var(--icon-base, var(--ai-overlay-header-icon-base-color, #121212));
     transition: stroke var(--ai-overlay-header-rainbow-transition);
+    vector-effect: non-scaling-stroke;
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg path,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg path,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg path,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg path {
+    fill: url(#rainbow-gradient) !important;
+  }
+
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg rect,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg rect,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg rect,
