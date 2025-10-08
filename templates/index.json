@@ -180,6 +180,7 @@
         "text_UK4ByM",
         "button"
       ],
+      "disabled": true,
       "name": "HERO",
       "settings": {
         "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dead95697c4.jpg",
@@ -198,6 +199,7 @@
     },
     "featured_collection": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "Halloween-kolleksjon",
       "settings": {
         "collection": "halloween",
