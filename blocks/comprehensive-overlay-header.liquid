@@ -47,7 +47,21 @@
 
 {% style %}
   .ai-overlay-header-{{ ai_gen_id }} {
-    --ai-overlay-header-rainbow-gradient: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080);
+    --ai-overlay-header-rainbow-gradient: linear-gradient(
+      90deg,
+      #ff0000,
+      #ff8000,
+      #ffff00,
+      #80ff00,
+      #00ff00,
+      #00ff80,
+      #00ffff,
+      #0080ff,
+      #0000ff,
+      #8000ff,
+      #ff00ff,
+      #ff0080
+    );
     --ai-overlay-header-rainbow-transition: 0.35s ease;
     position: relative;
     width: 100%;
@@ -195,7 +209,7 @@
     --ai-overlay-header-icon-base-color: {{ block.settings.search_icon_color_mobile }};
     color: var(--ai-overlay-header-icon-base-color);
     text-decoration: none;
-    transition: color var(--ai-overlay-header-rainbow-transition), transform var(--ai-overlay-header-rainbow-transition);
+    transition: color var(--ai-overlay-header-rainbow-transition);
   }
 
   .ai-overlay-header-account-icon-{{ ai_gen_id }} {
@@ -228,25 +242,46 @@
     content: none !important;
   }
 
-  .ai-overlay-header-icon-{{ ai_gen_id }}:hover,
-  .ai-overlay-header-icon-{{ ai_gen_id }}:focus,
-  .ai-overlay-header-icon-{{ ai_gen_id }}:focus-visible,
-  .ai-overlay-header-icon-{{ ai_gen_id }}:active {
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon {
+    position: relative;
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper {
+    display: inline-block;
+    color: inherit;
+    transition: transform 0.25s ease, color 0.35s ease;
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover .icon-wrapper,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus .icon-wrapper,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible .icon-wrapper {
     background: var(--ai-overlay-header-rainbow-gradient);
-    background-size: 200% 100%;
-    background-position: 0% 50%;
+    background-size: 200% auto;
+    animation: rainbow-slide 2s linear infinite;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: ai-rainbow-underline-{{ ai_gen_id }} var(--ai-overlay-header-rainbow-transition);
-    outline: none;
-    text-decoration: none;
+    color: transparent;
+    transform: translateY(-1px);
   }
 
-  .ai-overlay-header-icon-{{ ai_gen_id }}:hover svg,
-  .ai-overlay-header-icon-{{ ai_gen_id }}:focus svg,
-  .ai-overlay-header-icon-{{ ai_gen_id }}:focus-visible svg,
-  .ai-overlay-header-icon-{{ ai_gen_id }}:active svg {
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover::after,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus::after,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible::after {
+    display: none !important;
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper svg,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper img {
+    transition: transform var(--ai-overlay-header-rainbow-transition);
+  }
+
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover .icon-wrapper svg,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus .icon-wrapper svg,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible .icon-wrapper svg,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover .icon-wrapper img,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus .icon-wrapper img,
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible .icon-wrapper img {
     transform: scale(1.05);
   }
 
@@ -410,6 +445,11 @@
   }
 
 
+  @keyframes rainbow-slide {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
   @keyframes ai-rainbow-underline-{{ ai_gen_id }} {
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
@@ -529,37 +569,43 @@
     <div class="ai-overlay-header-actions-{{ ai_gen_id }}">
       <div class="ai-overlay-header-actions-desktop-{{ ai_gen_id }}">
         {% if block.settings.show_search %}
-          <a href="/search" class="ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-search-icon-{{ ai_gen_id }}">
-            {% if block.settings.custom_search_icon %}
-              <img src="{{ block.settings.custom_search_icon | image_url: width: 30 }}" alt="Search">
-            {% else %}
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-              </svg>
-            {% endif %}
+          <a href="/search" class="header__icon ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-search-icon-{{ ai_gen_id }}">
+            <span class="icon-wrapper">
+              {% if block.settings.custom_search_icon %}
+                <img src="{{ block.settings.custom_search_icon | image_url: width: 30 }}" alt="Search">
+              {% else %}
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+              {% endif %}
+            </span>
           </a>
         {% endif %}
 
         {% if block.settings.show_account %}
-          <a href="/account" class="ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-account-icon-{{ ai_gen_id }}">
-            {% if block.settings.custom_account_icon %}
-              <img src="{{ block.settings.custom_account_icon | image_url: width: 30 }}" alt="Account">
-            {% else %}
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
-            {% endif %}
+          <a href="/account" class="header__icon ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-account-icon-{{ ai_gen_id }}">
+            <span class="icon-wrapper">
+              {% if block.settings.custom_account_icon %}
+                <img src="{{ block.settings.custom_account_icon | image_url: width: 30 }}" alt="Account">
+              {% else %}
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+              {% endif %}
+            </span>
           </a>
         {% endif %}
 
-        <a href="/cart" class="ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-cart-icon-{{ ai_gen_id }}">
-          {% if block.settings.custom_cart_icon %}
-            <img src="{{ block.settings.custom_cart_icon | image_url: width: 30 }}" alt="Cart">
-          {% else %}
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-            </svg>
-          {% endif %}
+        <a href="/cart" class="header__icon ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-cart-icon-{{ ai_gen_id }}">
+          <span class="icon-wrapper">
+            {% if block.settings.custom_cart_icon %}
+              <img src="{{ block.settings.custom_cart_icon | image_url: width: 30 }}" alt="Cart">
+            {% else %}
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.19 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+              </svg>
+            {% endif %}
+          </span>
         </a>
       </div>
 
@@ -603,37 +649,43 @@
 
       <div class="ai-overlay-header-mobile-icons-{{ ai_gen_id }}">
         {% if block.settings.show_search %}
-          <a href="/search" class="ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-search-icon-{{ ai_gen_id }}">
-            {% if block.settings.custom_search_icon %}
-              <img src="{{ block.settings.custom_search_icon | image_url: width: 30 }}" alt="Search">
-            {% else %}
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-              </svg>
-            {% endif %}
+          <a href="/search" class="header__icon ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-search-icon-{{ ai_gen_id }}">
+            <span class="icon-wrapper">
+              {% if block.settings.custom_search_icon %}
+                <img src="{{ block.settings.custom_search_icon | image_url: width: 30 }}" alt="Search">
+              {% else %}
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+              {% endif %}
+            </span>
           </a>
         {% endif %}
 
         {% if block.settings.show_account %}
-          <a href="/account" class="ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-account-icon-{{ ai_gen_id }}">
-            {% if block.settings.custom_account_icon %}
-              <img src="{{ block.settings.custom_account_icon | image_url: width: 30 }}" alt="Account">
-            {% else %}
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
-            {% endif %}
+          <a href="/account" class="header__icon ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-account-icon-{{ ai_gen_id }}">
+            <span class="icon-wrapper">
+              {% if block.settings.custom_account_icon %}
+                <img src="{{ block.settings.custom_account_icon | image_url: width: 30 }}" alt="Account">
+              {% else %}
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+              {% endif %}
+            </span>
           </a>
         {% endif %}
 
-        <a href="/cart" class="ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-cart-icon-{{ ai_gen_id }}">
-          {% if block.settings.custom_cart_icon %}
-            <img src="{{ block.settings.custom_cart_icon | image_url: width: 30 }}" alt="Cart">
-          {% else %}
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-            </svg>
-          {% endif %}
+        <a href="/cart" class="header__icon ai-overlay-header-icon-{{ ai_gen_id }} ai-overlay-header-cart-icon-{{ ai_gen_id }}">
+          <span class="icon-wrapper">
+            {% if block.settings.custom_cart_icon %}
+              <img src="{{ block.settings.custom_cart_icon | image_url: width: 30 }}" alt="Cart">
+            {% else %}
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.19 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+              </svg>
+            {% endif %}
+          </span>
         </a>
       </div>
     </div>
