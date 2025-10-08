@@ -76,9 +76,9 @@
             "show_search": true,
             "show_account": true,
             "icon_size_mobile": 30,
-            "icon_size_desktop": 26,
-            "icon_spacing": 12,
-            "icon_margin": 2,
+            "icon_size_desktop": 32,
+            "icon_spacing": 17,
+            "icon_margin": 7,
             "search_icon_color_mobile": "#fd0000",
             "search_icon_hover_color_mobile": "#00b42b",
             "search_icon_color_desktop": "#121212",
@@ -106,7 +106,6 @@
     },
     "header": {
       "type": "header",
-      "disabled": true,
       "settings": {
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
