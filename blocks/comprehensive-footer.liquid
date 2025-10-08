@@ -247,6 +247,17 @@
   .ai-footer-accordion__content {
     display: flex;
     flex-direction: column;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-top: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease 0.1s;
+  }
+
+  .ai-footer-accordion__content[aria-hidden='false'] {
+    max-height: 500px;
+    opacity: 1;
+    padding-top: 4px;
   }
 
   .ai-footer-customer-club-{{ ai_gen_id }} {
@@ -630,18 +641,6 @@
       padding: {{ block.settings.footer_padding | times: 0.7 }}px {{ block.settings.footer_padding | times: 0.5 }}px;
     }
 
-    .ai-footer-accordion__content {
-      display: none;
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height 0.3s ease;
-      padding-top: 4px;
-    }
-
-    .ai-footer-accordion__content.is-open {
-      display: flex;
-    }
-
     .ai-footer-social-{{ ai_gen_id }} {
       flex-direction: row;
       justify-content: center;
@@ -679,8 +678,9 @@
     }
 
     .ai-footer-accordion__content {
-      display: flex !important;
       max-height: none !important;
+      opacity: 1 !important;
+      overflow: visible !important;
       padding-top: 0;
     }
   }
@@ -796,7 +796,7 @@
           <h3>{{ block.settings.about_heading }}</h3>
           <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
         </button>
-        <div id="{{ about_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content>
+        <div id="{{ about_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content aria-hidden="true">
           {% for i in (1..5) %}
             {% assign link_key = 'about_link_' | append: i %}
             {% assign text_key = 'about_text_' | append: i %}
@@ -817,7 +817,7 @@
           <h3>{{ block.settings.categories_heading }}</h3>
           <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
         </button>
-        <div id="{{ categories_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content>
+        <div id="{{ categories_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content aria-hidden="true">
           {% assign collections_sorted = collections | sort: 'title' %}
           {% assign displayed_count = 0 %}
           {% for collection in collections_sorted %}
@@ -843,7 +843,7 @@
           <h3>{{ block.settings.help_heading }}</h3>
           <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
         </button>
-        <div id="{{ help_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content>
+        <div id="{{ help_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content aria-hidden="true">
           {% for i in (1..5) %}
             {% assign link_key = 'help_link_' | append: i %}
             {% assign text_key = 'help_text_' | append: i %}
@@ -864,7 +864,7 @@
           <h3>{{ block.settings.social_heading }}</h3>
           <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
         </button>
-        <div id="{{ social_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content>
+        <div id="{{ social_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content aria-hidden="true">
           <div class="ai-footer-social-{{ ai_gen_id }}">
             {% if block.settings.instagram_url != blank %}
               <a href="{{ block.settings.instagram_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--instagram" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
@@ -989,74 +989,23 @@
 
     const mobileQuery = window.matchMedia('(max-width: 749px)');
 
-    const expandContent = (toggle, content, animate = true) => {
+    const expandContent = (toggle, content) => {
       toggle.setAttribute('aria-expanded', 'true');
-      toggle.classList.add('is-expanded');
-      content.classList.add('is-open');
-      content.style.display = 'flex';
-
-      if (!animate) {
-        content.style.maxHeight = 'none';
-        content.style.overflow = '';
-        return;
-      }
-
-      content.style.overflow = 'hidden';
-      content.style.maxHeight = '0px';
-
-      requestAnimationFrame(() => {
-        const height = content.scrollHeight;
-        content.style.maxHeight = height + 'px';
-      });
-
-      const onTransitionEnd = (event) => {
-        if (event.propertyName !== 'max-height') return;
-        content.style.maxHeight = 'none';
-        content.style.overflow = '';
-        content.removeEventListener('transitionend', onTransitionEnd);
-      };
-
-      content.addEventListener('transitionend', onTransitionEnd);
+      content.setAttribute('aria-hidden', 'false');
     };
 
-    const collapseContent = (toggle, content, animate = true) => {
+    const collapseContent = (toggle, content) => {
       toggle.setAttribute('aria-expanded', 'false');
-      toggle.classList.remove('is-expanded');
-      content.classList.remove('is-open');
-
-      if (!animate) {
-        content.style.maxHeight = '0px';
-        content.style.display = 'none';
-        content.style.overflow = 'hidden';
-        return;
-      }
-
-      const currentHeight = content.scrollHeight;
-      content.style.overflow = 'hidden';
-      content.style.display = 'flex';
-      content.style.maxHeight = currentHeight + 'px';
-
-      requestAnimationFrame(() => {
-        content.style.maxHeight = '0px';
-      });
-
-      const onTransitionEnd = (event) => {
-        if (event.propertyName !== 'max-height') return;
-        content.style.display = 'none';
-        content.style.overflow = 'hidden';
-        content.removeEventListener('transitionend', onTransitionEnd);
-      };
-
-      content.addEventListener('transitionend', onTransitionEnd);
+      content.setAttribute('aria-hidden', 'true');
     };
 
     const handleToggle = (toggle, content) => {
       if (!mobileQuery.matches) return;
       const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
       if (isExpanded) {
-        collapseContent(toggle, content, true);
+        collapseContent(toggle, content);
       } else {
-        expandContent(toggle, content, true);
+        expandContent(toggle, content);
       }
     };
 
@@ -1073,9 +1022,9 @@
 
         const expanded = toggle.getAttribute('aria-expanded') === 'true';
         if (expanded) {
-          expandContent(toggle, content, false);
+          expandContent(toggle, content);
         } else {
-          collapseContent(toggle, content, false);
+          collapseContent(toggle, content);
         }
       });
     };
@@ -1087,11 +1036,7 @@
         if (!toggle || !content) return;
 
         toggle.setAttribute('aria-expanded', 'true');
-        toggle.classList.add('is-expanded');
-        content.classList.add('is-open');
-        content.style.display = '';
-        content.style.maxHeight = '';
-        content.style.overflow = '';
+        content.setAttribute('aria-hidden', 'false');
         toggle.dataset.aiFooterDesktopExpanded = 'true';
       });
     };
