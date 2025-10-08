@@ -254,8 +254,25 @@
     content: none !important;
   }
 
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg path {
-    fill: url(#kk-rainbow-{{ ai_gen_id }}) !important;
+  .ai-overlay-header-gradient-{{ ai_gen_id }} stop {
+    stop-color: var(--ai-overlay-stop-color);
+    animation: ai-overlay-header-gradient-shift-{{ ai_gen_id }} 1.2s linear forwards;
+    animation-delay: calc(var(--ai-overlay-stop-index) * 0.08s);
+    animation-play-state: paused;
+  }
+
+  .ai-overlay-header-gradient-{{ ai_gen_id }}.ai-animate stop {
+    animation-play-state: running;
+  }
+
+  .ai-overlay-header-icon-{{ ai_gen_id }}.ai-rainbow-active svg path,
+  .ai-overlay-header-icon-{{ ai_gen_id }}.ai-rainbow-active svg rect,
+  .ai-overlay-header-icon-{{ ai_gen_id }}.ai-rainbow-active svg circle,
+  .ai-overlay-header-icon-{{ ai_gen_id }}.ai-rainbow-active svg ellipse,
+  .ai-overlay-header-icon-{{ ai_gen_id }}.ai-rainbow-active svg polygon,
+  .ai-overlay-header-icon-{{ ai_gen_id }}.ai-rainbow-active svg polyline,
+  .ai-overlay-header-icon-{{ ai_gen_id }}.ai-rainbow-active svg line {
+    fill: url(#ai-rainbow-icon-gradient-{{ ai_gen_id }});
   }
 
   @media (min-width: 990px) {
@@ -479,6 +496,20 @@
     border-top: 1px solid {{ block.settings.dropdown_border_color }};
   }
 
+  @keyframes ai-overlay-header-gradient-shift-{{ ai_gen_id }} {
+    0%,
+    40%,
+    100% {
+      stop-color: var(--ai-overlay-stop-color);
+    }
+    50% {
+      stop-color: #ffffff;
+    }
+    60% {
+      stop-color: var(--ai-overlay-stop-color);
+    }
+  }
+
   @keyframes ai-rainbow-underline-{{ ai_gen_id }} {
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
@@ -548,36 +579,16 @@
 {% endstyle %}
 
 <overlay-header-{{ ai_gen_id }} class="ai-overlay-header-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
-  <svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute">
+  <svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute; left:0; top:0; pointer-events:none;">
     <defs>
-      <!-- STATIC rainbow used when the sweep has finished -->
-      <linearGradient id="kk-rainbow-{{ ai_gen_id }}" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%"  stop-color="#ff0000"/>
-        <stop offset="16%" stop-color="#ff8000"/>
-        <stop offset="33%" stop-color="#ffff00"/>
-        <stop offset="50%" stop-color="#00ff00"/>
-        <stop offset="66%" stop-color="#0000ff"/>
-        <stop offset="83%" stop-color="#8000ff"/>
-        <stop offset="100%" stop-color="#ff00ff"/>
-      </linearGradient>
-
-      <!-- ANIMATED rainbow: we animate gradientTransform (translate) across the icon box -->
-      <linearGradient id="kk-rainbow-anim-{{ ai_gen_id }}"
-        x1="0" y1="0" x2="1" y2="0"
-        gradientUnits="objectBoundingBox"
-        gradientTransform="translate(-1 0)">
-        <stop offset="0%"  stop-color="#ff0000"/>
-        <stop offset="16%" stop-color="#ff8000"/>
-        <stop offset="33%" stop-color="#ffff00"/>
-        <stop offset="50%" stop-color="#00ff00"/>
-        <stop offset="66%" stop-color="#0000ff"/>
-        <stop offset="83%" stop-color="#8000ff"/>
-        <stop offset="100%" stop-color="#ff00ff"/>
-        <animateTransform attributeName="gradientTransform"
-                          type="translate"
-                          from="-1 0" to="0 0"
-                          dur="1.2s" fill="freeze"
-                          begin="indefinite"/>
+      <linearGradient id="ai-rainbow-icon-gradient-{{ ai_gen_id }}" class="ai-overlay-header-gradient-{{ ai_gen_id }}" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+        <stop offset="0%"   stop-color="#ff0000" style="--ai-overlay-stop-index: 0; --ai-overlay-stop-color: #ff0000;"></stop>
+        <stop offset="16%"  stop-color="#ff8000" style="--ai-overlay-stop-index: 1; --ai-overlay-stop-color: #ff8000;"></stop>
+        <stop offset="33%"  stop-color="#ffff00" style="--ai-overlay-stop-index: 2; --ai-overlay-stop-color: #ffff00;"></stop>
+        <stop offset="50%"  stop-color="#00ff00" style="--ai-overlay-stop-index: 3; --ai-overlay-stop-color: #00ff00;"></stop>
+        <stop offset="66%"  stop-color="#0000ff" style="--ai-overlay-stop-index: 4; --ai-overlay-stop-color: #0000ff;"></stop>
+        <stop offset="83%"  stop-color="#8000ff" style="--ai-overlay-stop-index: 5; --ai-overlay-stop-color: #8000ff;"></stop>
+        <stop offset="100%" stop-color="#ff00ff" style="--ai-overlay-stop-index: 6; --ai-overlay-stop-color: #ff00ff;"></stop>
       </linearGradient>
     </defs>
   </svg>
@@ -761,6 +772,7 @@
 
       connectedCallback() {
         this.setupEventListeners();
+        this.setupIconGradient();
         this.updateOverlayOffset();
         window.addEventListener('resize', this.updateOverlayOffset);
         window.addEventListener('scroll', this.updateOverlayOffset, { passive: true });
@@ -797,6 +809,40 @@
             }
           });
         }
+      }
+
+      setupIconGradient() {
+        this.iconGradient = this.querySelector('#ai-rainbow-icon-gradient-{{ ai_gen_id }}');
+        this.headerIcons  = Array.from(this.querySelectorAll('.ai-overlay-header-icon-{{ ai_gen_id }}'));
+        if (!this.iconGradient || !this.headerIcons.length) return;
+
+        const restartGradient = () => {
+          this.iconGradient.classList.remove('ai-animate');
+          void this.iconGradient.getBoundingClientRect();
+          this.iconGradient.classList.add('ai-animate');
+        };
+
+        const prefersReduced = window.matchMedia &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        this.headerIcons.forEach((icon) => {
+          const activate = () => {
+            icon.classList.add('ai-rainbow-active');
+            if (!prefersReduced) restartGradient();
+          };
+          const deactivate = () => {
+            icon.classList.remove('ai-rainbow-active');
+          };
+
+          icon.addEventListener('mouseenter', activate);
+          icon.addEventListener('mouseleave', deactivate);
+          icon.addEventListener('focus',     activate);
+          icon.addEventListener('blur',      deactivate);
+          icon.addEventListener('touchstart', () => {
+            activate();
+            setTimeout(deactivate, 400);
+          }, { passive: true });
+        });
       }
 
       toggleMobileMenu() {
@@ -840,51 +886,6 @@
 
     customElements.define('overlay-header-{{ ai_gen_id }}', OverlayHeader{{ ai_gen_id }});
   })();
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const root = document.querySelector('.ai-overlay-header-{{ ai_gen_id }}');
-  if (!root) return;
-
-  const paths = root.querySelectorAll('.header__icon svg path');
-  const animGradient = document.getElementById('kk-rainbow-anim-{{ ai_gen_id }}');
-  const anim = animGradient && animGradient.querySelector('animateTransform');
-
-  paths.forEach(path => {
-    path.dataset.baseFill = 'currentColor';
-
-    function onEnter(){
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        path.setAttribute('fill','url(#kk-rainbow-{{ ai_gen_id }})');
-        return;
-      }
-      if (anim) {
-        // 1) use animated gradient during the sweep
-        path.setAttribute('fill','url(#kk-rainbow-anim-{{ ai_gen_id }})');
-        try { anim.beginElement(); } catch(e) {}
-        // 2) after dur, swap to static rainbow so it stays put
-        clearTimeout(path._kkHold);
-        path._kkHold = setTimeout(() => {
-          path.setAttribute('fill','url(#kk-rainbow-{{ ai_gen_id }})');
-        }, 1200);
-      } else {
-        // fallback: static rainbow only
-        path.setAttribute('fill','url(#kk-rainbow-{{ ai_gen_id }})');
-      }
-    }
-
-    function onLeave(){
-      clearTimeout(path._kkHold);
-      path.setAttribute('fill', path.dataset.baseFill);
-    }
-
-    path.addEventListener('pointerenter', onEnter, {passive:true});
-    path.addEventListener('pointerleave', onLeave,  {passive:true});
-    path.addEventListener('focus', onEnter);
-    path.addEventListener('blur',  onLeave);
-  });
-});
 </script>
 
 {% schema %}
