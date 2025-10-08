@@ -242,7 +242,9 @@
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon .icon-wrapper {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: transform 0.25s ease;
   }
 
@@ -279,15 +281,12 @@
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg {
-    overflow: visible;
+    overflow: visible !important;
+    width: auto;
+    height: auto;
   }
 
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path {
-    fill: var(--icon-base, var(--ai-overlay-header-icon-base-color, #121212));
-    transition: fill var(--ai-overlay-header-rainbow-transition);
-    vector-effect: non-scaling-stroke;
-  }
-
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon svg path,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg rect,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg circle,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon svg polygon,
@@ -305,11 +304,7 @@
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg path,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg path,
-  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg path {
-    fill: url(#rainbow-gradient);
-    animation: rainbow-slide 1.2s linear forwards;
-  }
-
+  .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg path,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg rect,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg rect,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg rect,
@@ -322,15 +317,23 @@
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg polyline,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg polyline,
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg polyline {
-    fill: url(#rainbow-gradient);
-    animation: rainbow-slide 1.2s linear forwards;
+    fill: url(#rainbow-gradient) !important;
+    background: var(--ai-overlay-header-rainbow-gradient);
+    background-size: 200% auto;
+    background-position: 0% 50%;
+    animation: rainbow-shift 1.5s linear forwards;
+    transition: all var(--ai-overlay-header-rainbow-transition);
   }
 
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:hover svg [stroke]:not([stroke='none']),
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus svg [stroke]:not([stroke='none']),
   .ai-overlay-header-{{ ai_gen_id }} .header__icon:focus-visible svg [stroke]:not([stroke='none']) {
-    stroke: url(#rainbow-gradient);
-    animation: rainbow-slide 1.2s linear forwards;
+    stroke: url(#rainbow-gradient) !important;
+    background: var(--ai-overlay-header-rainbow-gradient);
+    background-size: 200% auto;
+    background-position: 0% 50%;
+    animation: rainbow-shift 1.5s linear forwards;
+    transition: all var(--ai-overlay-header-rainbow-transition);
   }
 
   .ai-overlay-header-hamburger-{{ ai_gen_id }} {
@@ -493,7 +496,7 @@
   }
 
 
-  @keyframes rainbow-slide {
+  @keyframes rainbow-shift {
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
   }
