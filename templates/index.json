@@ -201,6 +201,57 @@
         "show_text_below": false
       }
     },
+    "collection_list_gTXynP": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_myyJBW": {
+          "type": "featured_collection",
+          "name": "Monsterne",
+          "settings": {
+            "collection": "basics"
+          }
+        },
+        "featured_collection_Tz4i3X": {
+          "type": "featured_collection",
+          "name": "Dyrene",
+          "settings": {
+            "collection": "superkule-klaer-til-barn"
+          }
+        },
+        "featured_collection_76cpVN": {
+          "type": "featured_collection",
+          "name": "Halloween",
+          "settings": {
+            "collection": "superhelter"
+          }
+        },
+        "featured_collection_WGiFXD": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "monstere"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_myyJBW",
+        "featured_collection_Tz4i3X",
+        "featured_collection_76cpVN",
+        "featured_collection_WGiFXD"
+      ],
+      "name": "MOTIVER",
+      "settings": {
+        "title": "Finn riktig motiv",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 4,
+        "color_scheme": "",
+        "show_view_all": true,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "disabled": true,
@@ -409,50 +460,6 @@
         "padding_bottom": 36
       }
     },
-    "collection_list_gTXynP": {
-      "type": "collection-list",
-      "blocks": {
-        "featured_collection_myyJBW": {
-          "type": "featured_collection",
-          "name": "Monsterne",
-          "settings": {
-            "collection": "monstere"
-          }
-        },
-        "featured_collection_Tz4i3X": {
-          "type": "featured_collection",
-          "name": "Dyrene",
-          "settings": {
-            "collection": "dyrene"
-          }
-        },
-        "featured_collection_76cpVN": {
-          "type": "featured_collection",
-          "name": "Halloween",
-          "settings": {
-            "collection": "superhelter"
-          }
-        }
-      },
-      "block_order": [
-        "featured_collection_myyJBW",
-        "featured_collection_Tz4i3X",
-        "featured_collection_76cpVN"
-      ],
-      "name": "MOTIVER",
-      "settings": {
-        "title": "Finn riktig motiv",
-        "heading_size": "h1",
-        "image_ratio": "square",
-        "columns_desktop": 3,
-        "color_scheme": "",
-        "show_view_all": true,
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "image_with_text_m3GQHy": {
       "type": "image-with-text",
       "blocks": {
@@ -535,13 +542,13 @@
   "order": [
     "1759515763e97dfa5c",
     "image_banner",
+    "collection_list_gTXynP",
     "featured_collection",
     "collage_UyGffd",
     "featured_collection_zTzmNC",
     "collage_DM3cc7",
     "featured_collection_md4CFj",
     "collage_qdRyxk",
-    "collection_list_gTXynP",
     "image_with_text_m3GQHy",
     "featured_collection_RXfLrt"
   ]
