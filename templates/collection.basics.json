@@ -46,6 +46,7 @@
         "collection_Q8HVGK",
         "product_7yX6qi"
       ],
+      "disabled": true,
       "name": "t:sections.collage.presets.name",
       "settings": {
         "heading": "Svarte basics for barn",
@@ -60,6 +61,7 @@
     },
     "featured_collection_4gGbk3": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "svarte-basics-komfortable-klaer-til-barn-kulkid",
@@ -115,6 +117,7 @@
         "collection_qcbPMw",
         "product_Jr7mHK"
       ],
+      "disabled": true,
       "name": "t:sections.collage.presets.name",
       "settings": {
         "heading": "Grå basics for barn",
@@ -129,6 +132,7 @@
     },
     "featured_collection_cX8bdc": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "lysegra-basics-barn",
@@ -158,6 +162,7 @@
     },
     "featured_collection_ma9WVg": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "tilbehor-til-baby-og-barn",
@@ -187,7 +192,6 @@
     },
     "product-grid": {
       "type": "main-collection-product-grid",
-      "disabled": true,
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 4,
