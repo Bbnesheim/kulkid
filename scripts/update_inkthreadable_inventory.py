@@ -21,7 +21,7 @@ import logging
 import os
 import sys
 from dataclasses import dataclass
-from typing import Dict, Iterator, List, Optional, Sequence
+from typing import Dict, Iterator, List, Optional, Sequence, Set
 
 import requests
 
@@ -30,6 +30,7 @@ API_VERSION_DEFAULT = "2024-07"
 DEFAULT_QUERY = "vendor:Inkthreadable OR fulfillment_service:inkthreadable"
 DEFAULT_TARGET_LOCATION = "Store default"
 DEFAULT_SOURCE_LOCATIONS = ("Multiple locations", "Inkthreadable Warehouse")
+FALLBACK_LOCATION_NAME = "Inkthreadable Warehouse"
 GRAPHQL_ENDPOINT = "admin/api/{version}/graphql.json"
 REST_ENDPOINT = "admin/api/{version}/{path}"
 
@@ -141,6 +142,25 @@ class ShopifyInventoryUpdater:
             updated_variants += 1
             self._apply_actions(state, actions)
 
+        if total_variants == 0:
+            fallback_location_id = self._location_by_name.get(FALLBACK_LOCATION_NAME)
+            fallback_states: List[VariantInventoryState] = []
+            if fallback_location_id:
+                fallback_location_gid = f"gid://shopify/Location/{fallback_location_id}"
+                fallback_states = list(self._iter_fallback_inventory_levels(fallback_location_gid))
+            if fallback_states:
+                logging.info(
+                    "[FALLBACK] Found %d variants stocked at Inkthreadable Warehouse (via inventoryLevels)",
+                    len(fallback_states),
+                )
+                total_variants = len(fallback_states)
+                for state in fallback_states:
+                    actions = self._plan_actions(state, source_location_ids, target_location_id)
+                    if not actions:
+                        continue
+                    updated_variants += 1
+                    self._apply_actions(state, actions)
+
         self.logger.info(
             "Processed %d variants; updated %d variants needing location changes.",
             total_variants,
@@ -205,6 +225,66 @@ class ShopifyInventoryUpdater:
                     )
 
             page_info = products["pageInfo"]
+            if not page_info["hasNextPage"]:
+                break
+            cursor = page_info["endCursor"]
+
+    def _iter_fallback_inventory_levels(self, location_gid: str) -> Iterator[VariantInventoryState]:
+        cursor: Optional[str] = None
+        seen_inventory_items: Set[str] = set()
+        while True:
+            data = self._run_graphql_query(
+                FALLBACK_INVENTORY_LEVELS_QUERY,
+                {
+                    "cursor": cursor,
+                    "locationId": location_gid,
+                },
+            )
+
+            location = data.get("location")
+            if not location:
+                break
+
+            levels = location["inventoryLevels"]
+            if not levels["edges"]:
+                break
+
+            for edge in levels["edges"]:
+                node = edge["node"]
+                item = node["item"]
+                inventory_item_id = item["id"]
+                if inventory_item_id in seen_inventory_items:
+                    continue
+                seen_inventory_items.add(inventory_item_id)
+
+                variant = item["variant"]
+                product = variant.get("product", {})
+                level_edges = item["inventoryLevels"]["edges"]
+                inventory_levels = [
+                    InventoryLevel(
+                        location_name=level_node["location"]["name"],
+                        location_id=_resolve_location_id(
+                            level_node["location"],
+                            self._location_by_name,
+                        ),
+                        available=_extract_available_quantity(level_node),
+                    )
+                    for level_node in (
+                        level_edge["node"] for level_edge in level_edges
+                    )
+                ]
+
+                yield VariantInventoryState(
+                    variant_gid=variant["id"],
+                    sku=variant.get("sku", ""),
+                    product_title=product.get("title", ""),
+                    variant_title=variant.get("title", ""),
+                    inventory_policy=variant.get("inventoryPolicy", ""),
+                    inventory_item_gid=inventory_item_id,
+                    levels=inventory_levels,
+                )
+
+            page_info = levels["pageInfo"]
             if not page_info["hasNextPage"]:
                 break
             cursor = page_info["endCursor"]
@@ -500,6 +580,56 @@ query FetchProducts($cursor: String, $query: String) {
     pageInfo {
       hasNextPage
       endCursor
+    }
+  }
+}
+"""
+
+
+FALLBACK_INVENTORY_LEVELS_QUERY = """
+query FallbackInventoryLevels($cursor: String, $locationId: ID!) {
+  location(id: $locationId) {
+    inventoryLevels(first: 100, after: $cursor) {
+      edges {
+        node {
+          id
+          location {
+            name
+          }
+          availableQuantity: quantities(names: ["available"]) {
+            quantity
+          }
+          item {
+            id
+            variant {
+              id
+              title
+              sku
+              inventoryPolicy
+              product {
+                title
+              }
+            }
+            inventoryLevels(first: 10) {
+              edges {
+                node {
+                  id
+                  availableQuantity: quantities(names: ["available"]) {
+                    quantity
+                  }
+                  location {
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
     }
   }
 }
