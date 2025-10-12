@@ -1,8 +1,9 @@
 """Utility script to update Inkthreadable-managed inventory locations.
 
-This script scans Shopify products associated with Inkthreadable and adjusts
-inventory locations and quantities to use the store default location while
-keeping the existing SKU and fulfillment linkage intact.
+This script scans Shopify products associated with Inkthreadable or
+Spreadconnect and adjusts inventory locations and quantities to use the Lille
+Bislett 16 location while keeping the existing SKU and fulfillment linkage
+intact.
 
 Usage example:
     python scripts/update_inkthreadable_inventory.py \
@@ -27,9 +28,13 @@ import requests
 
 
 API_VERSION_DEFAULT = "2023-10"
-DEFAULT_QUERY = "vendor:Inkthreadable"
-DEFAULT_TARGET_LOCATION = "Store default"
-DEFAULT_SOURCE_LOCATIONS = ("Multiple locations", "Inkthreadable Warehouse")
+DEFAULT_QUERY = "vendor:Inkthreadable OR vendor:Spreadconnect"
+DEFAULT_TARGET_LOCATION = "Lille Bislett 16"
+DEFAULT_SOURCE_LOCATIONS = (
+    "Multiple locations",
+    "Inkthreadable Warehouse",
+    "Spreadconnect Warehouse",
+)
 GRAPHQL_ENDPOINT = "admin/api/{version}/graphql.json"
 REST_ENDPOINT = "admin/api/{version}/{path}"
 
