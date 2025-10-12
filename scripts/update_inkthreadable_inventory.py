@@ -411,7 +411,7 @@ def _extract_available_quantity(level_node: Dict[str, object]) -> int:
         return 0
     return int(quantity)
 
-
+# Updated for Shopify Admin API 2024-07: replaced 'available' with 'availableQuantity'
 FETCH_PRODUCTS_QUERY = """
 query FetchProducts($cursor: String, $query: String) {
   products(first: 50, after: $cursor, query: $query) {
@@ -427,14 +427,16 @@ query FetchProducts($cursor: String, $query: String) {
               inventoryPolicy
               inventoryItem {
                 id
-                inventoryLevels(first: 25) {
+                inventoryLevels(first: 10) {
                   edges {
                     node {
-                      available
+                      id
                       availableQuantity
                       location {
-                        id
                         name
+                      }
+                      inventoryItem {
+                        id
                       }
                     }
                   }
