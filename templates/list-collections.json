@@ -9,8 +9,139 @@
  */
 {
   "sections": {
+    "collection_list_mF39ir": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_jzhrHE": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "basics"
+          }
+        },
+        "featured_collection_YCe4J9": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "baby-halloween-kule-klaer-for-de-minste-kulkid-no"
+          }
+        },
+        "featured_collection_j7G9eB": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "superhelter"
+          }
+        },
+        "featured_collection_EiQGrb": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "superkule-klaer-til-barn"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_jzhrHE",
+        "featured_collection_YCe4J9",
+        "featured_collection_j7G9eB",
+        "featured_collection_EiQGrb"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "Handle etter motiv",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 4,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collection_list_Vm768c": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_rnDQDa": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "featured_collection_gYfWE9": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "featured_collection_7zqry7": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_rnDQDa",
+        "featured_collection_gYfWE9",
+        "featured_collection_7zqry7"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "Babyklær og tilbehør",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collection_list_WN389D": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_eyLXyT": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "featured_collection_8QR9jw": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "featured_collection_rkGFLP": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_eyLXyT",
+        "featured_collection_8QR9jw",
+        "featured_collection_rkGFLP"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "Barneklær",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "main": {
       "type": "main-list-collections",
+      "disabled": true,
       "settings": {
         "title": "Kolleksjoner",
         "sort": "alphabetical",
@@ -21,6 +152,9 @@
     }
   },
   "order": [
+    "collection_list_mF39ir",
+    "collection_list_Vm768c",
+    "collection_list_WN389D",
     "main"
   ]
 }
