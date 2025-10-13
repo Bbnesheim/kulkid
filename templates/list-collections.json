@@ -69,20 +69,27 @@
         "featured_collection_gYfWE9": {
           "type": "featured_collection",
           "settings": {
-            "collection": ""
+            "collection": "t-skjorter-til-baby-kulkid-no"
           }
         },
         "featured_collection_7zqry7": {
           "type": "featured_collection",
           "settings": {
-            "collection": ""
+            "collection": "babytilbehor"
+          }
+        },
+        "featured_collection_HBpdxr": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "tilbehor-til-baby-og-barn"
           }
         }
       },
       "block_order": [
         "featured_collection_rnDQDa",
         "featured_collection_gYfWE9",
-        "featured_collection_7zqry7"
+        "featured_collection_7zqry7",
+        "featured_collection_HBpdxr"
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
@@ -104,26 +111,47 @@
         "featured_collection_eyLXyT": {
           "type": "featured_collection",
           "settings": {
-            "collection": ""
+            "collection": "t-skjorter"
           }
         },
         "featured_collection_8QR9jw": {
           "type": "featured_collection",
           "settings": {
-            "collection": ""
+            "collection": "baby-hettegensere"
           }
         },
         "featured_collection_rkGFLP": {
           "type": "featured_collection",
           "settings": {
-            "collection": ""
+            "collection": "leggings"
+          }
+        },
+        "featured_collection_LgpjKw": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "gensere-barn"
+          }
+        },
+        "featured_collection_whEXjw": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "capser"
+          }
+        },
+        "featured_collection_Az6fG7": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sekk"
           }
         }
       },
       "block_order": [
         "featured_collection_eyLXyT",
         "featured_collection_8QR9jw",
-        "featured_collection_rkGFLP"
+        "featured_collection_rkGFLP",
+        "featured_collection_LgpjKw",
+        "featured_collection_whEXjw",
+        "featured_collection_Az6fG7"
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
