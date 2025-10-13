@@ -1,1 +1,557 @@
-{"sections":{"image_banner":{"type":"image-banner","blocks":{"heading":{"type":"heading","settings":{"heading":"Myke basics – klare for hverdagen","heading_size":"hxl"}},"text_UK4ByM":{"type":"text","settings":{"text":"<strong>Bodyer, t-skjorter og hettegensere som tåler lek og kos. Rask levering i Norge.<\/strong>","text_style":"body"}},"button":{"type":"buttons","settings":{"button_label_1":"Shop nyheter","button_link_1":"shopify:\/\/collections\/nyheter","button_style_secondary_1":false,"button_label_2":"Se baby-kolleksjonen","button_link_2":"shopify:\/\/collections\/baby","button_style_secondary_2":false}}},"block_order":["heading","text_UK4ByM","button"],"settings":{"image":"shopify:\/\/shop_images\/baby-short-sleeve-one-piece-heather-columbia-blue-front-68dbc75119e5c.jpg","image_2":"shopify:\/\/shop_images\/baby-staple-tee-white-back-68dbc508dbda8.jpg","image_overlay_opacity":0,"image_height":"large","image_behavior":"none","desktop_content_position":"bottom-center","desktop_content_alignment":"center","show_text_box":false,"color_scheme":"scheme-1","stack_images_on_mobile":false,"mobile_content_alignment":"center","show_text_below":false}},"featured_collection":{"type":"featured-collection","settings":{"collection":"all","products_to_show":8,"title":"Utvalgte favoritter","heading_size":"h1","description":"","show_description":false,"description_style":"body","columns_desktop":5,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"link","color_scheme":"scheme-1","image_ratio":"adapt","image_shape":"default","show_secondary_image":true,"show_vendor":true,"show_rating":true,"quick_add":"standard","columns_mobile":"2","swipe_on_mobile":false,"padding_top":44,"padding_bottom":36}},"collection_list_gTXynP":{"type":"collection-list","blocks":{"featured_collection_76cpVN":{"type":"featured_collection","settings":{"collection":"baby"}},"featured_collection_Tz4i3X":{"type":"featured_collection","settings":{"collection":"nyheter"}},"featured_collection_myyJBW":{"type":"featured_collection","settings":{"collection":"tilbud"}}},"block_order":["featured_collection_76cpVN","featured_collection_Tz4i3X","featured_collection_myyJBW"],"name":"t:sections.collection-list.presets.name","settings":{"title":"Finn riktig kategori","heading_size":"h1","image_ratio":"square","columns_desktop":3,"color_scheme":"","show_view_all":true,"columns_mobile":"1","swipe_on_mobile":false,"padding_top":36,"padding_bottom":36}},"collage_qdRyxk":{"type":"collage","blocks":{"image_qCLexE":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/toddler-staple-tee-black-front-68dbac4ca0dc6.jpg"}},"product_pqWbbq":{"type":"product","settings":{"product":"","second_image":false}},"collection_fHUPUR":{"type":"collection","settings":{"collection":"personlig-med-navn-gaver-babyklaer-kulkid-no"}}},"block_order":["image_qCLexE","product_pqWbbq","collection_fHUPUR"],"name":"t:sections.collage.presets.name","settings":{"heading":"Personlig \/ Navn","heading_size":"h1","desktop_layout":"left","mobile_layout":"column","card_styles":"product-card-wrapper","color_scheme":"","padding_top":36,"padding_bottom":36}},"image_with_text_m3GQHy":{"type":"image-with-text","blocks":{"heading_r9epMx":{"type":"heading","settings":{"heading":"Klar for små monstre","heading_size":"h1"}},"text_h9B43i":{"type":"text","settings":{"text":"<p>Spooky prints i myke materialer. Begrenset opplag – vær tidlig ute.<\/p>","text_style":"body"}},"button_DLTnd8":{"type":"button","settings":{"button_label":"KOMMER SNART","button_link":"","button_style_secondary":false}}},"block_order":["heading_r9epMx","text_h9B43i","button_DLTnd8"],"name":"t:sections.image-with-text.presets.name","settings":{"image":"shopify:\/\/shop_images\/julien-tromeur-6-adg66qleM-unsplash.jpg","height":"small","desktop_image_width":"medium","layout":"image_first","image_behavior":"none","content_layout":"no-overlap","desktop_content_position":"top","desktop_content_alignment":"left","mobile_content_alignment":"left","section_color_scheme":"","color_scheme":"","padding_top":36,"padding_bottom":36}},"featured_collection_RXfLrt":{"type":"featured-collection","name":"t:sections.featured-collection.presets.name","settings":{"collection":"tilbud","products_to_show":4,"title":"Gjør et kupp","heading_size":"h1","description":"","show_description":false,"description_style":"uppercase","columns_desktop":4,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"solid","color_scheme":"","image_ratio":"adapt","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"quick_add":"bulk","columns_mobile":"2","swipe_on_mobile":false,"padding_top":36,"padding_bottom":36}}},"order":["image_banner","featured_collection","collection_list_gTXynP","collage_qdRyxk","image_with_text_m3GQHy","featured_collection_RXfLrt"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1759515763e97dfa5c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_528a2b8_9cnTrL": {
+          "type": "ai_gen_block_528a2b8",
+          "settings": {
+            "hero_height": 600,
+            "hero_radius": 0,
+            "overlay_opacity": 80,
+            "hero_image_1": "shopify://shop_images/youth-crew-neck-sweatshirt-black-front-68e6ecf67af7f.jpg",
+            "hero_title_1": "SKUMMELT KUL HALLOWEEN!",
+            "hero_description_1": "",
+            "hero_button_text_1": "Gjør Halloween litt kulere",
+            "hero_button_link_1": "shopify://collections/halloween",
+            "hero_image_2": "shopify://shop_images/810607173379449415_2048.jpg",
+            "hero_title_2": "SMÅ HELTER, STOR STIL!",
+            "hero_description_2": "",
+            "hero_button_text_2": "Gi antrekket superkrefter",
+            "hero_button_link_2": "shopify://collections/baby-halloween-kule-klaer-for-de-minste-kulkid-no",
+            "hero_image_3": "shopify://shop_images/youth-crew-neck-sweatshirt-royal-front-68e6ecf67a082.jpg",
+            "hero_title_3": "SPOOKY FOR ALLE",
+            "hero_description_3": "",
+            "hero_button_text_3": "Når mini ser bedre ut enn deg",
+            "hero_button_link_3": "shopify://collections",
+            "title_size": 34,
+            "description_size": 18,
+            "text_color": "#ff9403",
+            "button_bg_color": "#000000",
+            "button_text_color": "#ffffff",
+            "button_hover_color": "#d67c00",
+            "button_border_radius": 0,
+            "categories_margin_top": 70,
+            "categories_margin_bottom": 90,
+            "category_bg_color": "#f6f6f6",
+            "category_text_color": "#121212",
+            "category_1_name": "T-skjorter",
+            "category_1_image": "shopify://shop_images/toddler-jersey-t-shirt-black-front-2-68dd3bf37eef0.jpg",
+            "category_1_link": "shopify://collections/t-skjorter",
+            "category_2_name": "Body",
+            "category_2_image": "shopify://shop_images/3834377007102644471_2048.jpg",
+            "category_2_link": "shopify://collections/bodyer",
+            "category_3_name": "Hettegensere",
+            "category_3_image": "shopify://shop_images/3035327036325362948_2048.jpg",
+            "category_3_link": "shopify://collections/baby-hettegensere",
+            "category_4_name": "Heldress",
+            "category_4_image": "shopify://shop_images/1_37221fc5-01de-4567-922a-d2b59dd4d40f.png",
+            "category_4_link": "shopify://collections/baby",
+            "category_5_name": "Joggebukser",
+            "category_5_image": "shopify://shop_images/16981467885938993321_2048.jpg",
+            "category_5_link": "shopify://collections/basics",
+            "category_6_name": "T-skjorter",
+            "category_6_image": "shopify://shop_images/14725403490468397260_2048.jpg",
+            "category_6_link": "shopify://collections/t-skjorter-til-baby-kulkid-no",
+            "category_7_name": "Gensere",
+            "category_7_image": "shopify://shop_images/youth-crew-neck-sweatshirt-black-front-68e6ecf678672.jpg",
+            "category_7_link": "shopify://collections/gensere-barn",
+            "category_8_name": "Leggings",
+            "category_8_image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68e710d333cf7.jpg",
+            "category_8_link": "shopify://collections/leggings",
+            "category_9_name": "Capser",
+            "category_9_image": "shopify://shop_images/mockup-a16845ec41b4c8ad30d1037ff5f9c2f0.png",
+            "category_9_link": "shopify://collections/capser",
+            "category_10_name": "Hettegensere",
+            "category_10_image": "shopify://shop_images/5222915031787780461_2048.jpg",
+            "category_10_link": "shopify://collections/superkule-klaer-til-barn",
+            "category_11_name": "Shorts",
+            "category_11_image": "shopify://shop_images/mockup-2049fd8b50415976516e06e300538ed1.png",
+            "category_11_link": "shopify://collections/tilbehor-til-baby-og-barn",
+            "category_12_name": "Luer",
+            "category_12_image": "shopify://shop_images/1_89c8a1f9-83a6-47f0-b85a-75fc97aa076f.png",
+            "category_12_link": "shopify://collections/babytilbehor",
+            "category_13_name": "Leggings",
+            "category_13_image": "shopify://shop_images/all-over-print-kids-leggings-white-left-68e710d333a54.jpg",
+            "category_13_link": "shopify://collections/leggings",
+            "category_14_name": "Babytilbehør",
+            "category_14_image": "shopify://shop_images/5072613282914803129_2048.jpg",
+            "category_14_link": "shopify://collections/babytilbehor",
+            "category_15_name": "Luer",
+            "category_15_image": "shopify://shop_images/mockup-b7497940cf225211d716e40530b2b1a2.png",
+            "category_15_link": "shopify://collections/luer",
+            "category_16_name": "Stellesekker",
+            "category_16_image": "shopify://shop_images/17356679285371803967_2048.jpg",
+            "category_16_link": "shopify://collections/sekker",
+            "category_17_name": "Skoletilbehør",
+            "category_17_image": "shopify://shop_images/qd435_ls01_20253.jpg",
+            "category_17_link": "shopify://collections/skole",
+            "category_18_name": "Sekker",
+            "category_18_image": "shopify://shop_images/bagbase_bg886_raspberry-ripple_lifestyle_3361.png",
+            "category_18_link": "shopify://collections/sekk",
+            "category_19_name": "",
+            "category_19_link": "shopify://collections/sekk",
+            "category_20_name": "",
+            "category_20_link": "",
+            "category_21_name": "",
+            "category_21_link": "",
+            "category_22_name": "",
+            "category_22_link": "",
+            "category_23_name": "",
+            "category_23_link": "",
+            "category_24_name": "",
+            "category_24_link": "",
+            "category_25_name": "",
+            "category_25_link": "",
+            "category_26_name": "",
+            "category_26_link": "",
+            "category_27_name": "",
+            "category_27_link": "",
+            "category_28_name": "",
+            "category_28_link": "",
+            "category_29_name": "",
+            "category_29_link": "",
+            "category_30_name": "",
+            "category_30_link": "",
+            "category_31_name": "",
+            "category_31_link": "",
+            "category_32_name": "",
+            "category_32_link": "",
+            "category_33_name": "",
+            "category_33_link": "",
+            "category_34_name": "",
+            "category_34_link": "",
+            "category_35_name": "",
+            "category_35_link": "",
+            "category_36_name": "",
+            "category_36_link": "",
+            "category_37_name": "",
+            "category_37_link": "",
+            "category_38_name": "",
+            "category_38_link": "",
+            "category_39_name": "",
+            "category_39_link": "",
+            "category_40_name": "",
+            "category_40_image": "shopify://shop_images/4560069400015111408_2048.jpg",
+            "category_40_link": "shopify://collections/basics"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_528a2b8_9cnTrL"
+      ],
+      "settings": {}
+    },
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Klar for små monstre!",
+            "heading_size": "h2"
+          }
+        },
+        "text_UK4ByM": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop nyheter",
+            "button_link_1": "shopify://collections/nyheter",
+            "button_style_secondary_1": false,
+            "button_label_2": "Se baby-kolleksjonen",
+            "button_link_2": "shopify://collections/baby",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text_UK4ByM",
+        "button"
+      ],
+      "disabled": true,
+      "name": "HERO",
+      "settings": {
+        "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dead95697c4.jpg",
+        "image_2": "shopify://shop_images/toddler-jersey-t-shirt-heather-left-front-68dd312b1b126.jpg",
+        "image_overlay_opacity": 0,
+        "image_height": "large",
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "scheme-1",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "collection_list_gTXynP": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_myyJBW": {
+          "type": "featured_collection",
+          "name": "Monsterne",
+          "settings": {
+            "collection": "basics"
+          }
+        },
+        "featured_collection_Tz4i3X": {
+          "type": "featured_collection",
+          "name": "Dyrene",
+          "settings": {
+            "collection": "superkule-klaer-til-barn"
+          }
+        },
+        "featured_collection_76cpVN": {
+          "type": "featured_collection",
+          "name": "Halloween",
+          "settings": {
+            "collection": "superhelter"
+          }
+        },
+        "featured_collection_WGiFXD": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "monstere"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_myyJBW",
+        "featured_collection_Tz4i3X",
+        "featured_collection_76cpVN",
+        "featured_collection_WGiFXD"
+      ],
+      "name": "MOTIVER",
+      "settings": {
+        "title": "Finn riktig motiv",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 4,
+        "color_scheme": "",
+        "show_view_all": true,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "disabled": true,
+      "name": "Halloween-kolleksjon",
+      "settings": {
+        "collection": "halloween",
+        "products_to_show": 12,
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": true,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 44,
+        "padding_bottom": 0
+      }
+    },
+    "collage_UyGffd": {
+      "type": "collage",
+      "blocks": {
+        "image_qFKtwa": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/all-over-print-kids-leggings-white-left-front-68de9dc5438e0.jpg"
+          }
+        },
+        "product_H8xCmH": {
+          "type": "product",
+          "settings": {
+            "product": "halloween-t-skjorte-limited-edition-design",
+            "second_image": true
+          }
+        },
+        "collection_63HdpJ": {
+          "type": "collection",
+          "settings": {
+            "collection": "halloween"
+          }
+        }
+      },
+      "block_order": [
+        "image_qFKtwa",
+        "product_H8xCmH",
+        "collection_63HdpJ"
+      ],
+      "name": "t:sections.collage.presets.name",
+      "settings": {
+        "heading": "Halloween for de minste",
+        "heading_size": "h2",
+        "desktop_layout": "left",
+        "mobile_layout": "collage",
+        "card_styles": "product-card-wrapper",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_zTzmNC": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "leggings",
+        "products_to_show": 8,
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collage_DM3cc7": {
+      "type": "collage",
+      "blocks": {
+        "image_bEL7Nw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dea9aeefd82.jpg"
+          }
+        },
+        "product_egMeiK": {
+          "type": "product",
+          "settings": {
+            "product": "kulkid-t-skjorte-edderkopp-stripe-barn",
+            "second_image": true
+          }
+        },
+        "collection_wc336X": {
+          "type": "collection",
+          "settings": {
+            "collection": "superhelter"
+          }
+        }
+      },
+      "block_order": [
+        "image_bEL7Nw",
+        "product_egMeiK",
+        "collection_wc336X"
+      ],
+      "name": "SUPERHELTER",
+      "settings": {
+        "heading": "Små superhelter",
+        "heading_size": "h1",
+        "desktop_layout": "left",
+        "mobile_layout": "collage",
+        "card_styles": "product-card-wrapper",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_md4CFj": {
+      "type": "featured-collection",
+      "name": "Halloween-kolleksjon",
+      "settings": {
+        "collection": "superhelter",
+        "products_to_show": 4,
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": true,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "collage_qdRyxk": {
+      "type": "collage",
+      "blocks": {
+        "image_qCLexE": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/kids-eco-hoodie-black-left-front-68dd7891f0d4b.jpg"
+          }
+        },
+        "product_pqWbbq": {
+          "type": "product",
+          "settings": {
+            "product": "kulkid-basic-hoodie-barn-svart",
+            "second_image": true
+          }
+        },
+        "collection_fHUPUR": {
+          "type": "collection",
+          "settings": {
+            "collection": "basics"
+          }
+        }
+      },
+      "block_order": [
+        "image_qCLexE",
+        "product_pqWbbq",
+        "collection_fHUPUR"
+      ],
+      "name": "BASICS",
+      "settings": {
+        "heading": "Den kuleste kiden i gata!",
+        "heading_size": "h1",
+        "desktop_layout": "left",
+        "mobile_layout": "collage",
+        "card_styles": "product-card-wrapper",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_m3GQHy": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_r9epMx": {
+          "type": "heading",
+          "settings": {
+            "heading": "Klar for små monstre",
+            "heading_size": "h1"
+          }
+        },
+        "text_h9B43i": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Spooky prints i myke materialer. Begrenset opplag – vær tidlig ute.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_DLTnd8": {
+          "type": "button",
+          "settings": {
+            "button_label": "KOMMER SNART",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_r9epMx",
+        "text_h9B43i",
+        "button_DLTnd8"
+      ],
+      "disabled": true,
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/julien-tromeur-6-adg66qleM-unsplash.jpg",
+        "height": "small",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_RXfLrt": {
+      "type": "featured-collection",
+      "name": "SALG",
+      "settings": {
+        "collection": "tilbud",
+        "products_to_show": 4,
+        "title": "Gjør et kupp",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "uppercase",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "bulk",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "1759515763e97dfa5c",
+    "image_banner",
+    "collection_list_gTXynP",
+    "featured_collection",
+    "collage_UyGffd",
+    "featured_collection_zTzmNC",
+    "collage_DM3cc7",
+    "featured_collection_md4CFj",
+    "collage_qdRyxk",
+    "image_with_text_m3GQHy",
+    "featured_collection_RXfLrt"
+  ]
+}

@@ -170,7 +170,14 @@
               {%- if section.settings.newsletter_heading != blank -%}
                 <h2 class="footer-block__heading inline-richtext">{{ section.settings.newsletter_heading }}</h2>
               {%- endif -%}
-              {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
+              {%- form
+                'customer',
+                id: 'ContactFooter',
+                class: 'footer__newsletter newsletter-form',
+                data-newsletter-form: true,
+                data-success-message: "{{ 'newsletter.success' | t | escape }}",
+                data-error-message: "{{ 'general.newsletter_form.error' | t | escape }}"
+              -%}
                 <input type="hidden" name="contact[tags]" value="newsletter">
                 <div class="newsletter-form__field-wrapper">
                   <div class="field">
@@ -209,29 +216,45 @@
                       </span>
                     </button>
                   </div>
-                  {%- if form.errors -%}
-                    <small class="newsletter-form__message form__message" id="ContactFooter-error">
-                      <span class="svg-wrapper">
-                        {{- 'icon-error.svg' | inline_asset_content -}}
-                      </span>
-                      {{- form.errors.translated_fields.email | capitalize }}
-                      {{ form.errors.messages.email -}}
-                    </small>
-                  {%- endif -%}
-                </div>
-                {%- if form.posted_successfully? -%}
-                  <h3
-                    class="newsletter-form__message newsletter-form__message--success form__message"
-                    id="ContactFooter-success"
-                    tabindex="-1"
-                    autofocus
+                  <small
+                    class="newsletter-form__message form__message"
+                    id="ContactFooter-error"
+                    data-newsletter-error
+                    {% unless form.errors %}
+                      hidden
+                    {% endunless %}
                   >
                     <span class="svg-wrapper">
-                      {{- 'icon-success.svg' | inline_asset_content -}}
+                      {{- 'icon-error.svg' | inline_asset_content -}}
                     </span>
-                    {{- 'newsletter.success' | t }}
-                  </h3>
-                {%- endif -%}
+                    <span class="newsletter-form__message-text" data-newsletter-error-text>
+                      {%- if form.errors -%}
+                        {{- form.errors.translated_fields.email | capitalize }}
+                        {{ form.errors.messages.email -}}
+                      {%- else -%}
+                        {{- 'general.newsletter_form.error' | t -}}
+                      {%- endif -%}
+                    </span>
+                  </small>
+                </div>
+                <h3
+                  class="newsletter-form__message newsletter-form__message--success form__message"
+                  id="ContactFooter-success"
+                  data-newsletter-success
+                  tabindex="-1"
+                  {% unless form.posted_successfully? %}
+                    hidden
+                  {% else %}
+                    autofocus
+                  {% endunless %}
+                >
+                  <span class="svg-wrapper">
+                    {{- 'icon-success.svg' | inline_asset_content -}}
+                  </span>
+                  <span class="newsletter-form__message-text" data-newsletter-success-text>
+                    {{- 'newsletter.success' | t -}}
+                  </span>
+                </h3>
               {%- endform -%}
             </div>
           {%- endif -%}

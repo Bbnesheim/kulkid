@@ -1,0 +1,954 @@
+{% doc %}
+  @prompt
+    Create a professional contact page layout for Kulkid with the following content: Header "Kontakt oss | Kulkid kundeservice" with subtitle "Vi svarer raskt." Main content explaining customer service for orders, delivery, returns and personalization with response time promise. Include email section with kontakt@kulkid.no, opening hours Monday-Friday 09:00–16:00 with weekend note, and company information section with organization number 936 235 670 and address Lille Bislett 16, 0170, Oslo, Norge. Design should be clean, professional and mobile-friendly with clear visual hierarchy., Lag en regnbue kantfarge animert rundt og rundt kantene i firkantene, ikke i selve boksene men som går rundt seksjonen, sånn som animasjonen mens man venter på at kodingen i sidekick er ferdig, Jeg vil ha en rundt Hovedinnhold som går langs kanten,
+    en rundt Kontaktinformasjon boksen og
+    en rundt Bedriftsinformasjonboksen, ikke spinn dem rundt sin egen akse, gjør dem mer synlige og legg til blur, legg til font customization, Legg til Shopifys innebygde kontakt-skjema. Sørg for at e-post sendes til butikkens standard kundeservice-adresse. Bruk den eksisterende KUL KID-stilen
+    Tittel:
+    “Trenger du hjelp med bestilling eller produkt?”
+    
+    Kort tekst:
+    “Vi svarer vanligvis innen 24 timer (unntatt helger). Du kan også finne svar i vår FAQ-side
+    .”
+    
+    Felter:
+    
+    Navn
+    
+    E-post
+    
+    Ordrenummer (valgfritt)
+    
+    Velg emne (Retur / Feil størrelse / Spørsmål om levering / Annet)
+    
+    Meldingsboks
+    
+    CTA-knapp:
+    “Send melding 🚀”
+    
+    Bekreftelse:
+    “Takk! Vi svarer så fort vi kan – som regel samme dag 💌.”, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, LEgg til mer kul kid pregede ikoner, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add a vibe to the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles, Add customization for the icon next to the section titles
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-contact-page-{{ ai_gen_id }} {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px;
+    background-color: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-weight: {{ block.settings.body_font.weight }};
+  }
+
+  .ai-contact-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ block.settings.section_spacing }}px;
+  }
+
+  .ai-contact-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+    font-family: {{ block.settings.title_font.family }}, {{ block.settings.title_font.fallback_families }};
+    font-style: {{ block.settings.title_font.style }};
+  }
+
+  .ai-contact-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    font-weight: 500;
+    font-family: {{ block.settings.subtitle_font.family }}, {{ block.settings.subtitle_font.fallback_families }};
+    font-style: {{ block.settings.subtitle_font.style }};
+  }
+
+  .ai-contact-content-{{ ai_gen_id }} {
+    display: grid;
+    gap: {{ block.settings.content_spacing }}px;
+  }
+
+  .ai-contact-section-{{ ai_gen_id }} {
+    position: relative;
+    background-color: {{ block.settings.card_background }};
+    padding: {{ block.settings.card_padding }}px;
+    border-radius: {{ block.settings.card_radius }}px;
+    overflow: hidden;
+  }
+
+  {% if block.settings.enable_rainbow_border %}
+    .ai-contact-section-{{ ai_gen_id }}::before {
+      content: '';
+      position: absolute;
+      top: -{{ block.settings.border_width }}px;
+      left: -{{ block.settings.border_width }}px;
+      right: -{{ block.settings.border_width }}px;
+      bottom: -{{ block.settings.border_width }}px;
+      background: linear-gradient(
+        90deg,
+        #ff0040,
+        #ff4000,
+        #ff8000,
+        #ffff00,
+        #80ff00,
+        #00ff40,
+        #00ff80,
+        #00ffff,
+        #0080ff,
+        #0040ff,
+        #4000ff,
+        #8000ff,
+        #ff00ff,
+        #ff0080,
+        #ff0040
+      );
+      background-size: 300% 300%;
+      border-radius: {{ block.settings.card_radius | plus: block.settings.border_width }}px;
+      animation: ai-rainbow-flow-{{ ai_gen_id }} {{ block.settings.animation_speed }}s linear infinite;
+      z-index: 1;
+      filter: blur({{ block.settings.blur_amount }}px) brightness({{ block.settings.brightness_level }}%);
+    }
+
+    .ai-contact-section-{{ ai_gen_id }}::after {
+      content: '';
+      position: absolute;
+      top: {{ block.settings.border_width | times: 0.3 }}px;
+      left: {{ block.settings.border_width | times: 0.3 }}px;
+      right: {{ block.settings.border_width | times: 0.3 }}px;
+      bottom: {{ block.settings.border_width | times: 0.3 }}px;
+      background-color: {{ block.settings.card_background }};
+      border-radius: {{ block.settings.card_radius }}px;
+      z-index: 2;
+    }
+
+    .ai-contact-section-{{ ai_gen_id }} > * {
+      position: relative;
+      z-index: 3;
+    }
+
+    @keyframes ai-rainbow-flow-{{ ai_gen_id }} {
+      0% {
+        background-position: 0% 50%;
+      }
+      25% {
+        background-position: 100% 100%;
+      }
+      50% {
+        background-position: 200% 50%;
+      }
+      75% {
+        background-position: 100% 0%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    {% if block.settings.enable_glow_effect %}
+      .ai-contact-section-{{ ai_gen_id }} {
+        box-shadow: 
+          0 0 {{ block.settings.glow_size }}px rgba(255, 0, 255, 0.3),
+          0 0 {{ block.settings.glow_size | times: 1.5 }}px rgba(0, 255, 255, 0.2),
+          0 0 {{ block.settings.glow_size | times: 2 }}px rgba(255, 255, 0, 0.1);
+        animation: ai-glow-pulse-{{ ai_gen_id }} {{ block.settings.glow_speed }}s ease-in-out infinite alternate;
+      }
+
+      @keyframes ai-glow-pulse-{{ ai_gen_id }} {
+        0% {
+          box-shadow: 
+            0 0 {{ block.settings.glow_size }}px rgba(255, 0, 255, 0.3),
+            0 0 {{ block.settings.glow_size | times: 1.5 }}px rgba(0, 255, 255, 0.2),
+            0 0 {{ block.settings.glow_size | times: 2 }}px rgba(255, 255, 0, 0.1);
+        }
+        100% {
+          box-shadow: 
+            0 0 {{ block.settings.glow_size | times: 1.5 }}px rgba(255, 0, 255, 0.5),
+            0 0 {{ block.settings.glow_size | times: 2 }}px rgba(0, 255, 255, 0.3),
+            0 0 {{ block.settings.glow_size | times: 3 }}px rgba(255, 255, 0, 0.2);
+        }
+      }
+    {% endif %}
+  {% else %}
+    .ai-contact-section-{{ ai_gen_id }} {
+      border: {{ block.settings.border_width }}px solid {{ block.settings.static_border_color }};
+    }
+  {% endif %}
+
+  .ai-contact-section-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.section_title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.section_title_color }};
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-style: {{ block.settings.heading_font.style }};
+  }
+
+  .ai-contact-section-title-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    flex-shrink: 0;
+    color: {{ block.settings.icon_color }};
+    {% if block.settings.enable_icon_animation %}
+      animation: ai-icon-bounce-{{ ai_gen_id }} {{ block.settings.icon_animation_speed }}s ease-in-out infinite;
+    {% endif %}
+    {% if block.settings.enable_icon_glow %}
+      filter: drop-shadow(0 0 {{ block.settings.icon_glow_size }}px {{ block.settings.icon_glow_color }});
+    {% endif %}
+  }
+
+  {% if block.settings.enable_icon_animation %}
+    @keyframes ai-icon-bounce-{{ ai_gen_id }} {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-{{ block.settings.icon_bounce_height }}px) scale({{ block.settings.icon_scale_factor }});
+      }
+    }
+  {% endif %}
+
+  .ai-contact-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_text_size }}px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: {{ block.settings.text_color }};
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-style: {{ block.settings.body_font.style }};
+  }
+
+  .ai-contact-info-grid-{{ ai_gen_id }} {
+    display: grid;
+    gap: 16px;
+  }
+
+  .ai-contact-info-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ai-contact-info-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: {{ block.settings.icon_color }};
+  }
+
+  .ai-contact-info-content-{{ ai_gen_id }} {
+    flex-grow: 1;
+  }
+
+  .ai-contact-info-label-{{ ai_gen_id }} {
+    font-size: 14px;
+    font-weight: 600;
+    color: {{ block.settings.label_color }};
+    margin: 0 0 4px 0;
+    font-family: {{ block.settings.label_font.family }}, {{ block.settings.label_font.fallback_families }};
+    font-style: {{ block.settings.label_font.style }};
+  }
+
+  .ai-contact-info-value-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_text_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-style: {{ block.settings.body_font.style }};
+  }
+
+  .ai-contact-email-link-{{ ai_gen_id }} {
+    color: {{ block.settings.link_color }};
+    text-decoration: none;
+  }
+
+  .ai-contact-email-link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.link_hover_color }};
+    text-decoration: underline;
+  }
+
+  .ai-contact-hours-note-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.note_color }};
+    font-style: italic;
+    margin-top: 8px;
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+  }
+
+  .ai-contact-services-list-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+  }
+
+  .ai-contact-service-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: {{ block.settings.body_text_size }}px;
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-style: {{ block.settings.body_font.style }};
+  }
+
+  .ai-contact-service-item-{{ ai_gen_id }}::before {
+    content: "✓";
+    color: {{ block.settings.checkmark_color }};
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .ai-contact-response-time-{{ ai_gen_id }} {
+    background-color: {{ block.settings.highlight_background }};
+    color: {{ block.settings.highlight_text }};
+    padding: 16px;
+    border-radius: {{ block.settings.card_radius }}px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 500;
+    border-left: 4px solid {{ block.settings.accent_color }};
+    font-family: {{ block.settings.highlight_font.family }}, {{ block.settings.highlight_font.fallback_families }};
+    font-style: {{ block.settings.highlight_font.style }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-contact-page-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding | times: 0.7 }}px;
+    }
+
+    .ai-contact-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-contact-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.card_padding | times: 0.8 }}px;
+    }
+
+    .ai-contact-content-{{ ai_gen_id }} {
+      gap: {{ block.settings.content_spacing | times: 0.8 }}px;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-contact-content-{{ ai_gen_id }} {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .ai-contact-main-content-{{ ai_gen_id }} {
+      grid-column: 1 / -1;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-contact-page-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-contact-header-{{ ai_gen_id }}">
+    <h1 class="ai-contact-title-{{ ai_gen_id }}">{{ block.settings.page_title }}</h1>
+    <p class="ai-contact-subtitle-{{ ai_gen_id }}">{{ block.settings.page_subtitle }}</p>
+  </div>
+
+  <div class="ai-contact-content-{{ ai_gen_id }}">
+    <div class="ai-contact-section-{{ ai_gen_id }} ai-contact-main-content-{{ ai_gen_id }}">
+      <h2 class="ai-contact-section-title-{{ ai_gen_id }}">
+        <svg class="ai-contact-section-title-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        {{ block.settings.main_section_title }}
+      </h2>
+      
+      <div class="ai-contact-description-{{ ai_gen_id }}">
+        {{ block.settings.main_description }}
+      </div>
+
+      <ul class="ai-contact-services-list-{{ ai_gen_id }}">
+        <li class="ai-contact-service-item-{{ ai_gen_id }}">{{ block.settings.service_1 }}</li>
+        <li class="ai-contact-service-item-{{ ai_gen_id }}">{{ block.settings.service_2 }}</li>
+        <li class="ai-contact-service-item-{{ ai_gen_id }}">{{ block.settings.service_3 }}</li>
+        <li class="ai-contact-service-item-{{ ai_gen_id }}">{{ block.settings.service_4 }}</li>
+      </ul>
+
+      <div class="ai-contact-response-time-{{ ai_gen_id }}">
+        {{ block.settings.response_time_text }}
+      </div>
+    </div>
+
+    <div class="ai-contact-section-{{ ai_gen_id }}">
+      <h2 class="ai-contact-section-title-{{ ai_gen_id }}">
+        <svg class="ai-contact-section-title-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+        {{ block.settings.contact_section_title }}
+      </h2>
+      
+      <div class="ai-contact-info-grid-{{ ai_gen_id }}">
+        <div class="ai-contact-info-item-{{ ai_gen_id }}">
+          <svg class="ai-contact-info-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+          </svg>
+          <div class="ai-contact-info-content-{{ ai_gen_id }}">
+            <p class="ai-contact-info-label-{{ ai_gen_id }}">E-post</p>
+            <p class="ai-contact-info-value-{{ ai_gen_id }}">
+              <a href="mailto:{{ block.settings.email_address }}" class="ai-contact-email-link-{{ ai_gen_id }}">
+                {{ block.settings.email_address }}
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="ai-contact-info-item-{{ ai_gen_id }}">
+          <svg class="ai-contact-info-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div class="ai-contact-info-content-{{ ai_gen_id }}">
+            <p class="ai-contact-info-label-{{ ai_gen_id }}">Åpningstider</p>
+            <p class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.opening_hours }}</p>
+            <p class="ai-contact-hours-note-{{ ai_gen_id }}">{{ block.settings.weekend_note }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-contact-section-{{ ai_gen_id }}">
+      <h2 class="ai-contact-section-title-{{ ai_gen_id }}">
+        <svg class="ai-contact-section-title-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+        {{ block.settings.company_section_title }}
+      </h2>
+      
+      <div class="ai-contact-info-grid-{{ ai_gen_id }}">
+        <div class="ai-contact-info-item-{{ ai_gen_id }}">
+          <svg class="ai-contact-info-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <div class="ai-contact-info-content-{{ ai_gen_id }}">
+            <p class="ai-contact-info-label-{{ ai_gen_id }}">Organisasjonsnummer</p>
+            <p class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.org_number }}</p>
+          </div>
+        </div>
+
+        <div class="ai-contact-info-item-{{ ai_gen_id }}">
+          <svg class="ai-contact-info-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <div class="ai-contact-info-content-{{ ai_gen_id }}">
+            <p class="ai-contact-info-label-{{ ai_gen_id }}">Adresse</p>
+            <p class="ai-contact-info-value-{{ ai_gen_id }}">{{ block.settings.company_address }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Kontakt oss side",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hovedinnhold"
+    },
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Sidetittel",
+      "default": "Kontakt oss | Kulkid kundeservice"
+    },
+    {
+      "type": "text",
+      "id": "page_subtitle",
+      "label": "Undertittel",
+      "default": "Vi svarer raskt."
+    },
+    {
+      "type": "text",
+      "id": "main_section_title",
+      "label": "Hovedseksjon tittel",
+      "default": "Kundeservice"
+    },
+    {
+      "type": "richtext",
+      "id": "main_description",
+      "label": "Hovedbeskrivelse",
+      "default": "<p>Vårt kundeserviceteam er her for å hjelpe deg med alle spørsmål relatert til bestillinger, levering, returer og personalisering. Vi jobber hardt for å gi deg den beste opplevelsen.</p>"
+    },
+    {
+      "type": "text",
+      "id": "service_1",
+      "label": "Tjeneste 1",
+      "default": "Bestillinger og ordrestatus"
+    },
+    {
+      "type": "text",
+      "id": "service_2",
+      "label": "Tjeneste 2",
+      "default": "Levering og frakt"
+    },
+    {
+      "type": "text",
+      "id": "service_3",
+      "label": "Tjeneste 3",
+      "default": "Returer og bytter"
+    },
+    {
+      "type": "text",
+      "id": "service_4",
+      "label": "Tjeneste 4",
+      "default": "Personalisering og tilpasning"
+    },
+    {
+      "type": "text",
+      "id": "response_time_text",
+      "label": "Responstid tekst",
+      "default": "Vi svarer vanligvis innen 24 timer på hverdager"
+    },
+    {
+      "type": "header",
+      "content": "Kontaktinformasjon"
+    },
+    {
+      "type": "text",
+      "id": "contact_section_title",
+      "label": "Kontakt seksjon tittel",
+      "default": "Kontakt oss"
+    },
+    {
+      "type": "text",
+      "id": "email_address",
+      "label": "E-postadresse",
+      "default": "kontakt@kulkid.no"
+    },
+    {
+      "type": "text",
+      "id": "opening_hours",
+      "label": "Åpningstider",
+      "default": "Mandag-Fredag 09:00–16:00"
+    },
+    {
+      "type": "text",
+      "id": "weekend_note",
+      "label": "Helgenotat",
+      "default": "Begrenset support i helger"
+    },
+    {
+      "type": "header",
+      "content": "Bedriftsinformasjon"
+    },
+    {
+      "type": "text",
+      "id": "company_section_title",
+      "label": "Bedrift seksjon tittel",
+      "default": "Bedriftsinformasjon"
+    },
+    {
+      "type": "text",
+      "id": "org_number",
+      "label": "Organisasjonsnummer",
+      "default": "936 235 670"
+    },
+    {
+      "type": "text",
+      "id": "company_address",
+      "label": "Bedriftsadresse",
+      "default": "Lille Bislett 16, 0170, Oslo, Norge"
+    },
+    {
+      "type": "header",
+      "content": "Regnbue kantfarge animasjon"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_rainbow_border",
+      "label": "Aktiver regnbue kantfarge",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 3,
+      "max": 15,
+      "step": 1,
+      "unit": "px",
+      "label": "Kantbredde",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Animasjonshastighet",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "blur_amount",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "label": "Blur mengde",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "brightness_level",
+      "min": 100,
+      "max": 200,
+      "step": 10,
+      "unit": "%",
+      "label": "Lysstyrke nivå",
+      "default": 150
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_glow_effect",
+      "label": "Aktiver glød effekt",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "glow_size",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "label": "Glød størrelse",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "glow_speed",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "s",
+      "label": "Glød hastighet",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Ikon tilpasning"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Ikon størrelse",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_icon_animation",
+      "label": "Aktiver ikon animasjon",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "icon_animation_speed",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "s",
+      "label": "Ikon animasjonshastighet",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "icon_bounce_height",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Ikon sprette høyde",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "icon_scale_factor",
+      "min": 1,
+      "max": 1.5,
+      "step": 0.1,
+      "label": "Ikon skala faktor",
+      "default": 1.1
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_icon_glow",
+      "label": "Aktiver ikon glød",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "icon_glow_size",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Ikon glød størrelse",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "icon_glow_color",
+      "label": "Ikon glød farge",
+      "default": "#334fb4"
+    },
+    {
+      "type": "header",
+      "content": "Fonter"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Hovedtittel font",
+      "default": "nunito_sans_n7"
+    },
+    {
+      "type": "font_picker",
+      "id": "subtitle_font",
+      "label": "Undertittel font",
+      "default": "quicksand_n5"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Overskrift font",
+      "default": "nunito_sans_n6"
+    },
+    {
+      "type": "font_picker",
+      "id": "body_font",
+      "label": "Brødtekst font",
+      "default": "quicksand_n4"
+    },
+    {
+      "type": "font_picker",
+      "id": "label_font",
+      "label": "Etikett font",
+      "default": "nunito_sans_n6"
+    },
+    {
+      "type": "font_picker",
+      "id": "highlight_font",
+      "label": "Uthev tekst font",
+      "default": "quicksand_n5"
+    },
+    {
+      "type": "header",
+      "content": "Farger"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Bakgrunnsfarge",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Tekstfarge",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Tittelfarge",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Undertittelfarge",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "section_title_color",
+      "label": "Seksjonstittel farge",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Kortbakgrunn",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "color",
+      "id": "static_border_color",
+      "label": "Statisk kantfarge",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Ikonfarge",
+      "default": "#334fb4"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Etikett farge",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Lenkefarge",
+      "default": "#334fb4"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Lenke hover farge",
+      "default": "#242833"
+    },
+    {
+      "type": "color",
+      "id": "note_color",
+      "label": "Notatfarge",
+      "default": "#888888"
+    },
+    {
+      "type": "color",
+      "id": "checkmark_color",
+      "label": "Avkrysning farge",
+      "default": "#00a86b"
+    },
+    {
+      "type": "color",
+      "id": "highlight_background",
+      "label": "Uthev bakgrunn",
+      "default": "#f0f7ff"
+    },
+    {
+      "type": "color",
+      "id": "highlight_text",
+      "label": "Uthev tekst",
+      "default": "#334fb4"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Aksentfarge",
+      "default": "#334fb4"
+    },
+    {
+      "type": "header",
+      "content": "Typografi"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 24,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Tittelstørrelse",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Undertittel størrelse",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "section_title_size",
+      "min": 16,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Seksjonstittel størrelse",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "body_text_size",
+      "min": 14,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Brødtekst størrelse",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Seksjon padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Seksjon mellomrom",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Innhold mellomrom",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Kort padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Kort radius",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kontakt oss side"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

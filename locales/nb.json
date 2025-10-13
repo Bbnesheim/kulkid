@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "password_page": {
@@ -55,10 +64,15 @@
       "next_slide": "Bla til høyre",
       "previous_slide": "Bla til venstre",
       "name": "Glidefelt"
+    },
+    "newsletter_form": {
+      "error": "Noe gikk galt. Prøv igjen."
     }
   },
   "newsletter": {
     "label": "E-post",
+    "placeholder": "Skriv inn e-postadressen din",
+    "cta": "Bli med på nyhetsbrevet vårt",
     "success": "Takk for at du abonnerer",
     "button_label": "Abonner"
   },
@@ -525,6 +539,26 @@
       "send_on_label": "Send (valgfritt)",
       "expanded": "Utvidet skjema for gavekortmottaker",
       "collapsed": "Lukket skjema for gavekortmottaker"
+    }
+  },
+  "shopify": {
+    "checkout": {
+      "general": {
+        "page_title": "Kasse",
+        "skip_to_content": "Gå videre til kassen",
+        "edit_link_label": "Redigere",
+        "back_to_cart": "Tilbake til handlekurv",
+        "back_to_contact_information": "Tilbake til informasjon",
+        "back_to_shipping_method": "Tilbake til frakt",
+        "back_to_payment_method": "Tilbake til betalingsmetode",
+        "choose_shipping_method": "Tilbake til leveringsmåte",
+        "contact_us_html": "Kontakt oss",
+        "forwarding_indicator": {
+          "new_window": "Åpner i nytt vindu"
+        },
+        "back_button_label": "Tilbake",
+        "submit": "Send"
+      }
     }
   }
 }
