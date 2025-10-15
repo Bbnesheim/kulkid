@@ -203,36 +203,6 @@
         "show_text_below": false
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
-      "disabled": true,
-      "name": "Halloween-kolleksjon",
-      "settings": {
-        "collection": "halloween",
-        "products_to_show": 12,
-        "title": "",
-        "heading_size": "h1",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": true,
-        "full_width": true,
-        "show_view_all": true,
-        "view_all_style": "link",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": true,
-        "show_rating": true,
-        "quick_add": "standard",
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 44,
-        "padding_bottom": 0
-      }
-    },
     "collage_UyGffd": {
       "type": "collage",
       "blocks": {
@@ -271,6 +241,35 @@
         "color_scheme": "",
         "padding_top": 0,
         "padding_bottom": 36
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "name": "Halloween-kolleksjon",
+      "settings": {
+        "collection": "halloween",
+        "products_to_show": 12,
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": true,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 44,
+        "padding_bottom": 0
       }
     },
     "collection_list_gTXynP": {
@@ -321,7 +320,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "leggings",
+        "collection": "t-skjorter",
         "products_to_show": 8,
         "title": "",
         "heading_size": "h1",
@@ -537,8 +536,8 @@
   "order": [
     "1759515763e97dfa5c",
     "image_banner",
-    "featured_collection",
     "collage_UyGffd",
+    "featured_collection",
     "collection_list_gTXynP",
     "featured_collection_zTzmNC",
     "collage_DM3cc7",
