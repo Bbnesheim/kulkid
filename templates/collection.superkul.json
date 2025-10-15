@@ -11,9 +11,9 @@
   "sections": {
     "image_banner_MVphn4": {
       "type": "image-banner",
+      "disabled": true,
       "name": "t:sections.image-banner.presets.name",
       "settings": {
-        "image": "shopify://shop_images/3889249429497348678_2048.jpg",
         "image_overlay_opacity": 0,
         "image_height": "medium",
         "image_behavior": "none",

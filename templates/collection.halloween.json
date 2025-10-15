@@ -9,56 +9,6 @@
  */
 {
   "sections": {
-    "image_banner_HEfUE7": {
-      "type": "image-banner",
-      "blocks": {
-        "heading_TNgWVh": {
-          "type": "heading",
-          "settings": {
-            "heading": "Små monstre i sving!",
-            "heading_size": "h1"
-          }
-        },
-        "text_YD9H7c": {
-          "type": "text",
-          "settings": {
-            "text": "",
-            "text_style": "body"
-          }
-        },
-        "buttons_yMzbKh": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Knappetikett",
-            "button_link_1": "",
-            "button_style_secondary_1": false,
-            "button_label_2": "Knappetikett",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_TNgWVh",
-        "text_YD9H7c",
-        "buttons_yMzbKh"
-      ],
-      "name": "t:sections.image-banner.presets.name",
-      "settings": {
-        "image": "shopify://shop_images/all-over-print-kids-leggings-white-left-68dea416f1655.jpg",
-        "image_2": "shopify://shop_images/toddler-jersey-t-shirt-black-left-front-68dd731766e2c.jpg",
-        "image_overlay_opacity": 0,
-        "image_height": "small",
-        "image_behavior": "none",
-        "desktop_content_position": "middle-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "",
-        "stack_images_on_mobile": true,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
-      }
-    },
     "banner": {
       "type": "main-collection-banner",
       "disabled": true,
@@ -90,7 +40,6 @@
     }
   },
   "order": [
-    "image_banner_HEfUE7",
     "banner",
     "product-grid"
   ]
