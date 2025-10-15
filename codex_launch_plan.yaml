@@ -1,0 +1,79 @@
+# KULKID Launch Master Plan v1.0
+project: kulkid.no
+environment: production
+goal: "Go-Live with full functional store, integrations, and ad setup."
+
+phases:
+  - name: "Phase 1 - Search & Discovery Integration"
+    description: >
+      Enable Shopify Search & Discovery app with relevant product attributes,
+      custom filters, and recommendation logic for Baby & Kids apparel.
+    tasks:
+      - extract_schema: /sections
+      - generate_file: /config/search_schema.json
+      - verify_fields:
+          - title
+          - tags
+          - product_type
+          - vendor
+          - custom metafields: ["age_group", "material", "season"]
+      - connect_to_app: "Shopify Search & Discovery"
+      - test_query: "genser baby"
+      - output: "✅ search_schema.json ready"
+
+  - name: "Phase 2 - Klaviyo Integration"
+    description: >
+      Connect newsletter signup, welcome flow, and first purchase automation.
+    tasks:
+      - inject_script: /layout/theme.liquid
+        match: "</body>"
+        insert: |
+          <script async src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=PUBLIC_KEY"></script>
+      - create_file: /config/klaviyo.json
+        content:
+          public_key: "TO_BE_ADDED"
+          flows:
+            - Welcome Series
+            - First Purchase
+            - Winback
+      - verify_form: /sections/footer.liquid
+      - test_signup: "contact@nesheimvatten.no"
+      - output: "✅ Klaviyo integration verified"
+
+  - name: "Phase 3 - Meta & TikTok Store Setup"
+    description: >
+      Verify domain, connect product catalog, activate pixels and commerce sync.
+    tasks:
+      - open_app: "Meta (Facebook & Instagram)"
+      - verify_domain: "kulkid.no"
+      - connect_catalog: "Shopify → Meta Commerce Manager"
+      - check_pixel_events: ["ViewContent", "AddToCart", "Purchase"]
+      - repeat_for: "TikTok Channel App"
+      - output: "✅ Meta & TikTok stores synced"
+
+  - name: "Phase 4 - Content Publishing & Ads Pipeline"
+    description: >
+      Define weekly posting, ad set structure, and tone-of-voice templates.
+    tasks:
+      - create_file: /docs/content_schedule.yaml
+        content:
+          cadence: "3 posts per week"
+          types: ["UGC video", "Product feature", "Parent humor"]
+          ad_sets:
+            - name: "First Purchase Offer"
+              platform: "Meta"
+              objective: "Conversions"
+            - name: "UGC Awareness Loop"
+              platform: "TikTok"
+              objective: "Engagement"
+      - create_file: /docs/brand_tone.yaml
+        content:
+          voice: "Warm, confident, playful parent tone"
+          avoid: ["emoji", "excessive adjectives"]
+          closing_line: "Alltid laget for kule foreldre."
+      - output: "✅ content_schedule.yaml and brand_tone.yaml ready"
+
+meta:
+  author: "Nesheim & Vatten / Codex Automation"
+  last_updated: "2025-10-16"
+  next_action: "Commit file, open in Codex, and run 'execute phase 1'"
