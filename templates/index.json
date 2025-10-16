@@ -503,7 +503,7 @@
       "type": "featured-collection",
       "name": "SALG",
       "settings": {
-        "collection": "tilbud",
+        "collection": "basics",
         "products_to_show": 4,
         "title": "Gjør et kupp",
         "heading_size": "h1",
