@@ -230,7 +230,7 @@
       "name": "t:sections.collage.presets.name",
       "settings": {
         "heading": "Halloween for de minste",
-        "heading_size": "h2",
+        "heading_size": "h1",
         "desktop_layout": "left",
         "mobile_layout": "collage",
         "card_styles": "product-card-wrapper",
@@ -244,7 +244,7 @@
       "name": "Halloween-kolleksjon",
       "settings": {
         "collection": "halloween",
-        "products_to_show": 12,
+        "products_to_show": 25,
         "title": "",
         "heading_size": "h1",
         "description": "",
@@ -264,8 +264,8 @@
         "quick_add": "standard",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "padding_top": 8,
+        "padding_bottom": 32
       }
     },
     "collection_list_gTXynP": {
@@ -308,8 +308,8 @@
         "show_view_all": true,
         "columns_mobile": "2",
         "swipe_on_mobile": true,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "padding_top": 8,
+        "padding_bottom": 32
       }
     },
     "featured_collection_zTzmNC": {
@@ -317,7 +317,7 @@
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "t-skjorter",
-        "products_to_show": 8,
+        "products_to_show": 25,
         "title": "",
         "heading_size": "h1",
         "description": "",
@@ -325,7 +325,7 @@
         "description_style": "body",
         "columns_desktop": 5,
         "enable_desktop_slider": true,
-        "full_width": false,
+        "full_width": true,
         "show_view_all": true,
         "view_all_style": "solid",
         "color_scheme": "",
@@ -337,8 +337,8 @@
         "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 8,
+        "padding_bottom": 32
       }
     },
     "collage_DM3cc7": {
@@ -347,7 +347,7 @@
         "image_bEL7Nw": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dea9aeefd82.jpg"
+            "image": "shopify://shop_images/kul-kid-edderkoppgutten.webp"
           }
         },
         "product_egMeiK": {
@@ -386,15 +386,15 @@
       "name": "Halloween-kolleksjon",
       "settings": {
         "collection": "superhelter",
-        "products_to_show": 4,
+        "products_to_show": 25,
         "title": "",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
         "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
+        "enable_desktop_slider": true,
+        "full_width": true,
         "show_view_all": true,
         "view_all_style": "link",
         "color_scheme": "scheme-1",
@@ -406,8 +406,8 @@
         "quick_add": "standard",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
-        "padding_top": 44,
-        "padding_bottom": 36
+        "padding_top": 8,
+        "padding_bottom": 32
       }
     },
     "collage_qdRyxk": {
@@ -440,7 +440,7 @@
       ],
       "name": "BASICS",
       "settings": {
-        "heading": "Den kuleste kiden i gata!",
+        "heading": "Kuleste kiden i gata!",
         "heading_size": "h1",
         "desktop_layout": "left",
         "mobile_layout": "collage",
@@ -450,69 +450,20 @@
         "padding_bottom": 36
       }
     },
-    "image_with_text_m3GQHy": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_r9epMx": {
-          "type": "heading",
-          "settings": {
-            "heading": "Klar for små monstre",
-            "heading_size": "h1"
-          }
-        },
-        "text_h9B43i": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Spooky prints i myke materialer. Begrenset opplag – vær tidlig ute.</p>",
-            "text_style": "body"
-          }
-        },
-        "button_DLTnd8": {
-          "type": "button",
-          "settings": {
-            "button_label": "KOMMER SNART",
-            "button_link": "",
-            "button_style_secondary": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_r9epMx",
-        "text_h9B43i",
-        "button_DLTnd8"
-      ],
-      "disabled": true,
-      "name": "t:sections.image-with-text.presets.name",
-      "settings": {
-        "image": "shopify://shop_images/julien-tromeur-6-adg66qleM-unsplash.jpg",
-        "height": "small",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "image_behavior": "none",
-        "content_layout": "no-overlap",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "mobile_content_alignment": "left",
-        "section_color_scheme": "",
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "featured_collection_RXfLrt": {
       "type": "featured-collection",
-      "name": "SALG",
+      "name": "Basic",
       "settings": {
-        "collection": "tilbud",
-        "products_to_show": 4,
-        "title": "Gjør et kupp",
+        "collection": "basics",
+        "products_to_show": 25,
+        "title": "",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "uppercase",
         "columns_desktop": 4,
         "enable_desktop_slider": true,
-        "full_width": false,
+        "full_width": true,
         "show_view_all": true,
         "view_all_style": "solid",
         "color_scheme": "",
@@ -524,8 +475,77 @@
         "quick_add": "bulk",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
+        "padding_top": 8,
+        "padding_bottom": 32
+      }
+    },
+    "collage_T3EXf3": {
+      "type": "collage",
+      "blocks": {
+        "image_jrBYbH": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/17258222061603323733_2048.jpg"
+          }
+        },
+        "product_F7wwjj": {
+          "type": "product",
+          "settings": {
+            "product": "baby-tskjorte-latterkul",
+            "second_image": true
+          }
+        },
+        "collection_fEmV8W": {
+          "type": "collection",
+          "settings": {
+            "collection": "superkule-klaer-til-barn"
+          }
+        }
+      },
+      "block_order": [
+        "image_jrBYbH",
+        "product_F7wwjj",
+        "collection_fEmV8W"
+      ],
+      "name": "BASICS",
+      "settings": {
+        "heading": "Kuleste kiden i gata!",
+        "heading_size": "h1",
+        "desktop_layout": "left",
+        "mobile_layout": "collage",
+        "card_styles": "product-card-wrapper",
+        "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "featured_collection_B4tcDC": {
+      "type": "featured-collection",
+      "name": "Basic",
+      "settings": {
+        "collection": "superkule-klaer-til-barn",
+        "products_to_show": 4,
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "uppercase",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "bulk",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 4,
+        "padding_bottom": 32
       }
     }
   },
@@ -539,7 +559,8 @@
     "collage_DM3cc7",
     "featured_collection_md4CFj",
     "collage_qdRyxk",
-    "image_with_text_m3GQHy",
-    "featured_collection_RXfLrt"
+    "featured_collection_RXfLrt",
+    "collage_T3EXf3",
+    "featured_collection_B4tcDC"
   ]
 }
