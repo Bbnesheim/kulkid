@@ -1,0 +1,109 @@
+{%- liquid
+  assign footer_background = section.settings.background
+-%}
+<footer class="main-footer"{% if footer_background != blank %} style="background: {{ footer_background }}"{% endif %}>
+  <div class="footer-inner container">
+    {% for block in section.blocks %}
+      {% case block.type %}
+
+        {% when 'category_link' %}
+          {% assign menu = block.settings.links %}
+          <div class="footer-column" {{ block.shopify_attributes }}>
+            {% if block.settings.heading != blank %}
+              <h3>{{ block.settings.heading | escape }}</h3>
+            {% endif %}
+            {% if menu != blank and menu.links != blank %}
+              <ul>
+                {% for item in menu.links %}
+                  {% if item.type == 'collection_link' and item.object != blank %}
+                    <li><a href="{{ item.object.url }}">{{ item.object.title }}</a></li>
+                  {% elsif item.type == 'page_link' and item.object != blank %}
+                    <li><a href="{{ item.object.url }}">{{ item.object.title }}</a></li>
+                  {% else %}
+                    <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if block.settings.all_categories_text != blank %}
+                  <li><a href="/collections">{{ block.settings.all_categories_text | escape }}</a></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+          </div>
+
+        {% when 'text_column' %}
+          <div class="footer-column" {{ block.shopify_attributes }}>
+            {% if block.settings.heading != blank %}
+              <h3>{{ block.settings.heading | escape }}</h3>
+            {% endif %}
+            {% if block.settings.content != blank %}
+              <div>{{ block.settings.content }}</div>
+            {% endif %}
+          </div>
+
+      {% endcase %}
+    {% endfor %}
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; {{ 'now' | date: '%Y' }} KUL KID. Alle rettigheter forbeholdt.</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Main Footer",
+  "settings": [
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Bakgrunnsfarge"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_link",
+      "name": "Kategorier kolonne",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Overskrift",
+          "default": "Kategorier"
+        },
+        {
+          "type": "link_list",
+          "id": "links",
+          "label": "Velg kategorier eller sider"
+        },
+        {
+          "type": "text",
+          "id": "all_categories_text",
+          "label": "Lenketekst for alle kategorier",
+          "default": "Sjekk alle kategoriene"
+        }
+      ]
+    },
+    {
+      "type": "text_column",
+      "name": "Tekstkolonne",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Overskrift"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Innhold"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main Footer"
+    }
+  ]
+}
+{% endschema %}
