@@ -145,6 +145,8 @@
                             src="{{ block.settings.image | image_url: width: 760 }}"
                             alt="{{ block.settings.image.alt | escape }}"
                             loading="lazy"
+                            decoding="async"
+                            fetchpriority="low"
                             width="{{ block.settings.image.width }}"
                             height="{{ block.settings.image.height }}"
                           >
