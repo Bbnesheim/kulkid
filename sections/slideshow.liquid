@@ -1,4 +1,4 @@
-{% render 'lazy-css', file: 'section-image-banner.css' %}
+{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 {{ 'component-slideshow.css' | asset_url | stylesheet_tag }}
 
@@ -23,16 +23,6 @@
       }
     }
   {%- endstyle -%}
-{%- endif -%}
-
-{%- if section.index == 1 and section.blocks.first.settings.image != blank -%}
-  <link
-    rel="preload"
-    as="image"
-    href="{{ section.blocks.first.settings.image | image_url: width: 2000 }}"
-    imagesizes="100vw"
-    crossorigin
-  >
 {%- endif -%}
 
 <slideshow-component

@@ -26,14 +26,9 @@
 {% endcomment %}
 
 {%- liquid
-  assign loading_attr = 'lazy'
-  assign fetchpriority_attr = 'low'
-  assign decoding_attr = 'async'
-  if lazy_load == false
-    assign loading_attr = 'eager'
-    assign fetchpriority_attr = 'high'
-    assign decoding_attr = 'auto'
-  endif
+  unless lazy_load == false
+    assign lazy = 'lazy'
+  endunless
 
   assign desktop_columns = 1
   if desktop_layout == 'columns' and media_count > 1
@@ -88,11 +83,9 @@
         | image_url: width: 1946
         | image_tag:
           class: image_class,
-          loading: loading_attr,
+          loading: lazy,
           sizes: sizes,
-          widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
-          decoding: decoding_attr,
-          fetchpriority: fetchpriority_attr
+          widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
       }}
     </div>
     <button
@@ -131,11 +124,9 @@
         media.preview_image
         | image_url: width: 1946
         | image_tag:
-          loading: loading_attr,
+          loading: lazy,
           sizes: sizes,
-          widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
-          decoding: decoding_attr,
-          fetchpriority: fetchpriority_attr
+          widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
       }}
     </button>
     <template>
