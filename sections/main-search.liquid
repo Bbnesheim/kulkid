@@ -64,7 +64,11 @@
 {%- endstyle -%}
 
 {% paginate search.results by 24 %}
-  <div class="template-search{% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %} section-{{ section.id }}-padding">
+  <div
+    class="template-search{% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %} section-{{ section.id }}-padding"
+    data-section-type="search-results"
+    data-dynamic-facets="true"
+  >
     <div class="template-search__header page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
       <h1 class="h2 center">
         {%- if search.performed -%}
@@ -226,7 +230,7 @@
             </aside>
           {%- endif -%}
         {%- endif -%}
-        <div class="product-grid-container" id="ProductGridContainer">
+        <div class="product-grid-container" id="ProductGridContainer" data-facets-root="search">
           {%- if search.results.size == 0 and search.filters != empty -%}
             <div
               class="template-search__results collection collection--empty{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"

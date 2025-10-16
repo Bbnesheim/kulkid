@@ -23,9 +23,10 @@
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <product-recommendations
     class="related-products page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-    data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
+    data-url="{{ routes.product_recommendations_url }}?intent=related&limit={{ section.settings.products_to_show }}"
     data-section-id="{{ section.id }}"
     data-product-id="{{ product.id }}"
+    data-recommendations-context="related"
   >
     {% if recommendations.performed and recommendations.products_count > 0 %}
       <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
@@ -51,6 +52,10 @@
           {%- assign skip_card_product_styles = true -%}
         {% endfor %}
       </ul>
+    {% elsif recommendations.performed %}
+      <div class="related-products__empty">
+        {{ 'products.product.no_recommendations' | t }}
+      </div>
     {% endif %}
   </product-recommendations>
   {% if section.settings.image_shape == 'arch' %}

@@ -39,8 +39,52 @@
     if ratio == 0 or ratio == null
       assign ratio = 1
     endif
+    assign product_theme = ''
+    assign product_print_type = ''
+    assign product_age_range = ''
+    if card_product.metafields.custom != blank
+      if card_product.metafields.custom.theme != blank
+        assign product_theme = card_product.metafields.custom.theme.value | default: card_product.metafields.custom.theme
+      endif
+      if card_product.metafields.custom.print_type != blank
+        assign product_print_type = card_product.metafields.custom.print_type.value | default: card_product.metafields.custom.print_type
+      endif
+      if card_product.metafields.custom.age_range != blank
+        assign product_age_range = card_product.metafields.custom.age_range.value | default: card_product.metafields.custom.age_range
+      endif
+    endif
+    if card_product.tags != blank
+      for tag in card_product.tags
+        if product_theme == '' and tag contains 'theme:'
+          assign product_theme = tag | split: ':' | last | strip
+        endif
+        if product_print_type == '' and tag contains 'print_type:'
+          assign product_print_type = tag | split: ':' | last | strip
+        endif
+        if product_age_range == '' and tag contains 'age_range:'
+          assign product_age_range = tag | split: ':' | last | strip
+        endif
+      endfor
+    endif
   -%}
-  <div class="card-wrapper product-card-wrapper underline-links-hover">
+  <div
+    class="card-wrapper product-card-wrapper underline-links-hover"
+    {% if card_product.product_type != blank %}
+      data-product-category="{{ card_product.product_type | escape }}"
+    {% endif %}
+    {% if product_theme != blank %}
+      data-product-theme="{{ product_theme | escape }}"
+    {% endif %}
+    {% if product_print_type != blank %}
+      data-product-print-type="{{ product_print_type | escape }}"
+    {% endif %}
+    {% if product_age_range != blank %}
+      data-product-age-range="{{ product_age_range | escape }}"
+    {% endif %}
+    {% if card_product.tags != blank %}
+      data-product-tags="{{ card_product.tags | join: ',' | escape }}"
+    {% endif %}
+  >
     <div
       class="
         card card--{{ settings.card_style }}

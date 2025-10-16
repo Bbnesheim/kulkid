@@ -144,6 +144,7 @@
         "unit_price": "Enhetspris"
       },
       "share": "Del dette produktet",
+      "no_recommendations": "Her dukker det opp flere forslag når vi legger til lignende produkter.",
       "sold_out": "Utsolgt",
       "unavailable": "Utilgjengelig",
       "vendor": "Selger",
@@ -223,6 +224,12 @@
       "sort_button": "Sorter",
       "sort_by_label": "Sorter etter:",
       "to": "Til",
+      "labels": {
+        "size": "Størrelse",
+        "color": "Farge",
+        "category": "Kategori",
+        "price": "Pris"
+      },
       "clear_filter": "Fjern filter",
       "filter_selected_accessibility": "{{ type }} ({{ count }} filtre valgt)",
       "show_more": "Vis mer",

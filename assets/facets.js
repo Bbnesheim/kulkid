@@ -155,6 +155,7 @@ class FacetFiltersForm extends HTMLElement {
 
     FacetFiltersForm.renderActiveFacets(parsedHTML);
     FacetFiltersForm.renderAdditionalElements(parsedHTML);
+    FacetFiltersForm.normalizeDuplicateFilters();
 
     if (countsToRender) {
       const closestJSFilterID = event.target.closest('.js-filter').id;
@@ -197,6 +198,80 @@ class FacetFiltersForm extends HTMLElement {
     });
 
     document.getElementById('FacetFiltersFormMobile').closest('menu-drawer').bindEvents();
+  }
+
+  static normalizeDuplicateFilters() {
+    const contexts = [
+      document.getElementById('FacetFiltersForm'),
+      document.getElementById('FacetFiltersFormMobile'),
+      document.getElementById('FacetFiltersPillsForm'),
+    ].filter(Boolean);
+
+    contexts.forEach((form) => {
+      const detailsNodes = Array.from(form.querySelectorAll('[data-filter-key]')).filter(
+        (node) =>
+          node.dataset.filterKey &&
+          node.dataset.filterKey !== '' &&
+          node.matches('details')
+      );
+
+      const seen = new Map();
+      detailsNodes.forEach((details) => {
+        const key = details.dataset.filterKey;
+        const scope = form.id || 'facets';
+        const surface = details.closest('.mobile-facets__wrapper') ? 'mobile' : 'desktop';
+        const mapKey = `${scope}-${surface}-${key}`;
+
+        if (!seen.has(mapKey)) {
+          seen.set(mapKey, details);
+          return;
+        }
+
+        FacetFiltersForm.mergeFilterValues(seen.get(mapKey), details);
+      });
+    });
+  }
+
+  static mergeFilterValues(primary, duplicate) {
+    if (!primary || !duplicate) return;
+    if (duplicate.hasAttribute('open')) {
+      primary.setAttribute('open', '');
+    }
+
+    const targetList = primary.querySelector('[data-filter-key][role="list"]');
+    const duplicateList = duplicate.querySelector('[data-filter-key][role="list"]');
+
+    if (!targetList || !duplicateList) {
+      duplicate.remove();
+      return;
+    }
+
+    const existingInputs = new Set();
+    targetList.querySelectorAll('input[name][value]').forEach((input) => {
+      existingInputs.add(`${input.name}::${input.value}`);
+    });
+
+    Array.from(duplicateList.children).forEach((item) => {
+      const input = item.querySelector('input[name][value]');
+      if (input) {
+        const signature = `${input.name}::${input.value}`;
+        if (existingInputs.has(signature)) return;
+        existingInputs.add(signature);
+      }
+      targetList.appendChild(item);
+    });
+
+    const showMoreButton = duplicate.querySelector('show-more-button');
+    if (showMoreButton) {
+      const primaryShowMore = primary.querySelector('show-more-button');
+      if (!primaryShowMore) {
+        primary.appendChild(showMoreButton);
+      } else {
+        showMoreButton.remove();
+      }
+    }
+
+    duplicate.remove();
   }
 
   static renderCounts(source, target) {
@@ -298,6 +373,7 @@ FacetFiltersForm.searchParamsInitial = window.location.search.slice(1);
 FacetFiltersForm.searchParamsPrev = window.location.search.slice(1);
 customElements.define('facet-filters-form', FacetFiltersForm);
 FacetFiltersForm.setListeners();
+FacetFiltersForm.normalizeDuplicateFilters();
 
 class PriceRange extends HTMLElement {
   constructor() {
