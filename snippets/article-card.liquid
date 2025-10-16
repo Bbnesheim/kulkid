@@ -22,6 +22,14 @@
     if media_aspect_ratio != null
       assign ratio = media_aspect_ratio
     endif
+    assign image_loading = 'lazy'
+    assign image_fetchpriority = 'low'
+    assign image_decoding = 'async'
+    if lazy_load == false
+      assign image_loading = 'eager'
+      assign image_fetchpriority = 'high'
+      assign image_decoding = 'auto'
+    endif
   -%}
   <div class="article-card-wrapper card-wrapper underline-links-hover">
     {% comment %} <article aria-labelledby="Article-{{ article.id }}"> {% endcomment %}
@@ -63,9 +71,9 @@
                 sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
                 alt="{{ article.image.src.alt | escape }}"
                 class="motion-reduce"
-                {% unless lazy_load == false %}
-                  loading="lazy"
-                {% endunless %}
+                loading="{{ image_loading }}"
+                decoding="{{ image_decoding }}"
+                fetchpriority="{{ image_fetchpriority }}"
                 width="{{ article.image.width }}"
                 height="{{ article.image.height }}"
               >
