@@ -1,0 +1,11 @@
+# Ignore performance test outputs
+lighthouse/
+audits/
+docs/perf/
+lighthouse-report*.html
+lighthouse-report*.json
+
+# Ignore local/system cruft
+*.log
+.DS_Store
+Thumbs.db
