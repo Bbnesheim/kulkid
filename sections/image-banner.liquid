@@ -29,6 +29,16 @@
   }
 {%- endstyle -%}
 
+{%- if section.index == 1 and section.settings.image != blank -%}
+  <link
+    rel="preload"
+    as="image"
+    href="{{ section.settings.image | image_url: width: 2000 }}"
+    imagesizes="100vw"
+    crossorigin
+  >
+{%- endif -%}
+
 {%- liquid
   assign full_width = '100vw'
   assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
