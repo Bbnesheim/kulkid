@@ -1,0 +1,10 @@
+{% comment %}
+  Phase 3.2 follow-up (docs/perf/2025-10-16-audit.md): ensure Shopify-managed assets such as shopify_common.js and analytics load with defer to unblock first render.
+{% endcomment %}
+{% liquid
+  assign transformed = content
+  assign transformed = transformed | replace: '<script src=', '<script defer src='
+  assign transformed = transformed | replace: '<script type="text/javascript" src=', '<script type="text/javascript" defer src='
+  assign transformed = transformed | replace: ' defer defer', ' defer'
+%}
+{{ transformed }}

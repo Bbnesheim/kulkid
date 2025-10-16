@@ -6,7 +6,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
-<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+
+    {% comment %}
+      Phase 3.2 follow-up (docs/perf/2025-10-16-audit.md): Preload core Dawn CSS and cart glyphs to reduce time-to-interaction.
+    {% endcomment %}
+    <link rel="preload" as="style" href="{{ 'base.css' | asset_url }}">
+    <link rel="preload" as="style" href="{{ 'component-cart-items.css' | asset_url }}">
+    {% if settings.cart_type == 'drawer' %}
+      <link rel="preload" as="style" href="{{ 'component-cart-drawer.css' | asset_url }}">
+    {% endif %}
+    <link rel="preload" as="image" href="{{ 'icon-cart.svg' | asset_url }}">
+    <link rel="preload" as="image" href="{{ 'icon-cart-empty.svg' | asset_url }}">
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
@@ -28,18 +39,23 @@
 
     {% render 'meta-tags' %}
 
-    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    {% comment %}
+      Phase 3.2 follow-up (docs/perf/2025-10-16-audit.md): Inline the critical navigation/cart/search runtime before deferring the Dawn bundle.
+    {% endcomment %}
+    {% render 'critical-inline-runtime' %}
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    {{ content_for_header }}
+    {% comment %}
+      Phase 3.2 follow-up (docs/perf/2025-10-16-audit.md): defer Shopify-managed analytics and shopify_common.js output.
+    {% endcomment %}
+    {% capture shopify_header %}
+      {{ content_for_header }}
+    {% endcapture %}
+    {% render 'defer-content-for-header', content: shopify_header %}
 
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
@@ -369,8 +385,5 @@
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    {%- if settings.cart_type == 'drawer' -%}
-      <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
   </body>
 </html>
