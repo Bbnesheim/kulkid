@@ -1,2 +1,10 @@
-extends: :recommended
-severity: suggestion
+# .theme-check.yml
+extends: all
+exclude:
+  - node_modules/**/*
+  - vendor/**/*
+  - snippets/*.backup.liquid
+# Avoid strict string severity bug in CLI 3.85+
+ThemeCheck:
+  severity:
+    LiquidTag: error
