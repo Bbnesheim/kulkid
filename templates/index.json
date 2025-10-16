@@ -485,20 +485,20 @@
         "image_jrBYbH": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/6416946714507429119_2048.jpg"
+            "image": "shopify://shop_images/17258222061603323733_2048.jpg"
           }
         },
         "product_F7wwjj": {
           "type": "product",
           "settings": {
-            "product": "basic-hoodie-barn-svart",
+            "product": "baby-tskjorte-latterkul",
             "second_image": true
           }
         },
         "collection_fEmV8W": {
           "type": "collection",
           "settings": {
-            "collection": "basics"
+            "collection": "superkule-klaer-til-barn"
           }
         }
       },
@@ -518,6 +518,35 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "featured_collection_B4tcDC": {
+      "type": "featured-collection",
+      "name": "Basic",
+      "settings": {
+        "collection": "superkule-klaer-til-barn",
+        "products_to_show": 6,
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "uppercase",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "bulk",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 4,
+        "padding_bottom": 20
+      }
     }
   },
   "order": [
@@ -531,6 +560,7 @@
     "featured_collection_md4CFj",
     "collage_qdRyxk",
     "featured_collection_RXfLrt",
-    "collage_T3EXf3"
+    "collage_T3EXf3",
+    "featured_collection_B4tcDC"
   ]
 }
