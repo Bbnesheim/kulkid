@@ -92,13 +92,13 @@
     Possibilities for colours , intergrate the native shopify Policies into the footer, Customer club icon size possible to make even larger and place left right center.
     Possibility for left center right side text, In categories, only show the first part of the sentence before |, Add option to fill in social media links for instagram facebook tiktok with icon, place the Social media icons vertically, improve the Footer bottom, place the policies more minimal at the very bottom with no opacity square, remove the darker square, have one master change customization for colour applied to all text in footer, update the categories section so it is up to date with all the categories for the site, reduce the margin for email adress sign up and the box around, make the payment solution more minimal, Payment Methods increase for adding more, option to change margins between stuff, Social Media url icons aligned horizontal in mobile view, make the gradient animation customizable, fix policies look, Customer Club icon skal være farger
 {% enddoc %}
-{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign ai_gen_id = section.id | replace: '_', '' | downcase %}
 {% assign newsletter_placeholder_default = 'newsletter.placeholder' | t %}
-{% assign newsletter_placeholder = block.settings.email_placeholder | default: newsletter_placeholder_default %}
+{% assign newsletter_placeholder = section.settings.email_placeholder | default: newsletter_placeholder_default %}
 {% assign newsletter_cta_default = 'newsletter.cta' | t %}
-{% assign newsletter_cta = block.settings.button_text | default: newsletter_cta_default %}
+{% assign newsletter_cta = section.settings.button_text | default: newsletter_cta_default %}
 {% assign newsletter_success_default = 'newsletter.success' | t %}
-{% assign newsletter_success = block.settings.success_message | default: newsletter_success_default %}
+{% assign newsletter_success = section.settings.success_message | default: newsletter_success_default %}
 {% assign newsletter_success = newsletter_success | strip %}
 {% if newsletter_success == blank %}
   {% assign newsletter_success_translation = 'general.newsletter_form.confirmation' | t %}
@@ -108,7 +108,7 @@
   {% assign newsletter_success = newsletter_success_translation %}
 {% endif %}
 
-{% assign newsletter_margin_top = block.settings.newsletter_margin_top | default: 0 | plus: 0 %}
+{% assign newsletter_margin_top = section.settings.newsletter_margin_top | default: 0 | plus: 0 %}
 {% assign about_content_id = 'ai-footer-accordion-' | append: ai_gen_id | append: '-about' %}
 {% assign categories_content_id = 'ai-footer-accordion-' | append: ai_gen_id | append: '-categories' %}
 {% assign help_content_id = 'ai-footer-accordion-' | append: ai_gen_id | append: '-help' %}
@@ -116,20 +116,20 @@
 
 {% style %}
   .ai-footer-{{ ai_gen_id }} {
-    {% if block.settings.enable_gradient_animation %}
-      background: linear-gradient({{ block.settings.gradient_direction }}deg, {{ block.settings.gradient_color_1 }}, {{ block.settings.gradient_color_2 }}, {{ block.settings.gradient_color_3 }}, {{ block.settings.gradient_color_4 }}, {{ block.settings.gradient_color_5 }}, {{ block.settings.gradient_color_6 }}, {{ block.settings.gradient_color_7 }});
-      background-size: {{ block.settings.gradient_size }}% {{ block.settings.gradient_size }}%;
-      animation: ai-footer-gradient-{{ ai_gen_id }} {{ block.settings.animation_duration }}s ease infinite;
+    {% if section.settings.enable_gradient_animation %}
+      background: linear-gradient({{ section.settings.gradient_direction }}deg, {{ section.settings.gradient_color_1 }}, {{ section.settings.gradient_color_2 }}, {{ section.settings.gradient_color_3 }}, {{ section.settings.gradient_color_4 }}, {{ section.settings.gradient_color_5 }}, {{ section.settings.gradient_color_6 }}, {{ section.settings.gradient_color_7 }});
+      background-size: {{ section.settings.gradient_size }}% {{ section.settings.gradient_size }}%;
+      animation: ai-footer-gradient-{{ ai_gen_id }} {{ section.settings.animation_duration }}s ease infinite;
     {% else %}
-      background: {{ block.settings.static_background_color }};
+      background: {{ section.settings.static_background_color }};
     {% endif %}
-    padding: {{ block.settings.footer_padding }}px {{ block.settings.footer_padding | times: 0.5 }}px;
-    color: {{ block.settings.master_text_color | default: 'white' }};
+    padding: {{ section.settings.footer_padding }}px {{ section.settings.footer_padding | times: 0.5 }}px;
+    color: {{ section.settings.master_text_color | default: 'white' }};
     position: relative;
     overflow: hidden;
   }
 
-  {% if block.settings.enable_gradient_animation %}
+  {% if section.settings.enable_gradient_animation %}
     @keyframes ai-footer-gradient-{{ ai_gen_id }} {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -147,8 +147,8 @@
   .ai-footer-main-{{ ai_gen_id }} {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: {{ block.settings.column_gap }}px;
-    margin-bottom: {{ block.settings.section_spacing }}px;
+    gap: {{ section.settings.column_gap }}px;
+    margin-bottom: {{ section.settings.section_spacing }}px;
     align-items: start;
   }
 
@@ -157,14 +157,20 @@
     flex-direction: column;
   }
 
+  .ai-footer-column-{{ ai_gen_id }} ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
   .ai-footer-column-{{ ai_gen_id }}[data-footer-accordion] {
     gap: 12px;
   }
 
   .ai-footer-column-{{ ai_gen_id }} h3,
   .kk-newsletter__title {
-    color: {{ block.settings.master_text_color | default: 'white' }};
-    margin: 0 0 {{ block.settings.heading_bottom_margin }}px 0;
+    color: {{ section.settings.master_text_color | default: 'white' }};
+    margin: 0 0 {{ section.settings.heading_bottom_margin }}px 0;
     font-size: 18px;
     font-weight: 600;
     height: 22px;
@@ -173,9 +179,9 @@
   }
 
   .ai-footer-column-{{ ai_gen_id }} a {
-    color: {{ block.settings.master_text_color | default: 'white' }};
+    color: {{ section.settings.master_text_color | default: 'white' }};
     text-decoration: none;
-    margin-bottom: {{ block.settings.link_spacing }}px;
+    margin-bottom: {{ section.settings.link_spacing }}px;
     opacity: 0.9;
     transition: opacity 0.3s ease;
     font-size: 14px;
@@ -193,7 +199,7 @@
     gap: 12px;
     background: none;
     border: none;
-    color: {{ block.settings.master_text_color | default: 'white' }};
+    color: {{ section.settings.master_text_color | default: 'white' }};
     font: inherit;
     padding: 0;
     cursor: pointer;
@@ -261,39 +267,39 @@
   }
 
   .ai-footer-customer-club-{{ ai_gen_id }} {
-    margin-bottom: {{ block.settings.club_bottom_margin }}px;
-    {% if block.settings.club_layout == 'horizontal' %}
+    margin-bottom: {{ section.settings.club_bottom_margin }}px;
+    {% if section.settings.club_layout == 'horizontal' %}
       display: flex;
       align-items: center;
-      gap: {{ block.settings.club_gap }}px;
-    {% elsif block.settings.club_layout == 'horizontal_reverse' %}
+      gap: {{ section.settings.club_gap }}px;
+    {% elsif section.settings.club_layout == 'horizontal_reverse' %}
       display: flex;
       align-items: center;
       flex-direction: row-reverse;
-      gap: {{ block.settings.club_gap }}px;
+      gap: {{ section.settings.club_gap }}px;
     {% else %}
       display: flex;
       flex-direction: column;
-      align-items: {{ block.settings.club_icon_position }};
-      gap: {{ block.settings.club_gap }}px;
+      align-items: {{ section.settings.club_icon_position }};
+      gap: {{ section.settings.club_gap }}px;
     {% endif %}
-    {% if block.settings.club_background_color != blank %}
-      background-color: {{ block.settings.club_background_color }};
-      padding: {{ block.settings.club_padding }}px;
-      border-radius: {{ block.settings.club_border_radius }}px;
+    {% if section.settings.club_background_color != blank %}
+      background-color: {{ section.settings.club_background_color }};
+      padding: {{ section.settings.club_padding }}px;
+      border-radius: {{ section.settings.club_border_radius }}px;
     {% endif %}
   }
 
   .ai-footer-club-icon-{{ ai_gen_id }} {
-    width: {{ block.settings.club_icon_size }}px;
-    height: {{ block.settings.club_icon_size }}px;
+    width: {{ section.settings.club_icon_size }}px;
+    height: {{ section.settings.club_icon_size }}px;
     display: flex;
     align-items: center;
     justify-content: center;
-    {% if block.settings.club_icon_background_color != blank %}
-      background-color: {{ block.settings.club_icon_background_color }};
-      padding: {{ block.settings.club_icon_padding }}px;
-      border-radius: {{ block.settings.club_icon_border_radius }}px;
+    {% if section.settings.club_icon_background_color != blank %}
+      background-color: {{ section.settings.club_icon_background_color }};
+      padding: {{ section.settings.club_icon_padding }}px;
+      border-radius: {{ section.settings.club_icon_border_radius }}px;
     {% endif %}
   }
 
@@ -306,25 +312,25 @@
   .ai-footer-club-icon-{{ ai_gen_id }} svg {
     width: 100%;
     height: 100%;
-    {% if block.settings.club_icon_color != blank %}
-      fill: {{ block.settings.club_icon_color }};
+    {% if section.settings.club_icon_color != blank %}
+      fill: {{ section.settings.club_icon_color }};
     {% endif %}
   }
 
   .ai-footer-club-text-{{ ai_gen_id }} {
-    {% if block.settings.club_text_color != blank %}
-      color: {{ block.settings.club_text_color }};
+    {% if section.settings.club_text_color != blank %}
+      color: {{ section.settings.club_text_color }};
     {% else %}
-      color: {{ block.settings.master_text_color | default: 'white' }};
+      color: {{ section.settings.master_text_color | default: 'white' }};
     {% endif %}
-    font-size: {{ block.settings.club_text_size }}px;
-    font-weight: {{ block.settings.club_text_weight }};
-    font-style: {{ block.settings.club_text_style }};
-    text-transform: {{ block.settings.club_text_transform }};
-    line-height: {{ block.settings.club_text_line_height }};
-    max-width: {{ block.settings.club_text_max_width }}px;
-    text-align: {{ block.settings.club_text_alignment }};
-    {% if block.settings.club_text_shadow %}
+    font-size: {{ section.settings.club_text_size }}px;
+    font-weight: {{ section.settings.club_text_weight }};
+    font-style: {{ section.settings.club_text_style }};
+    text-transform: {{ section.settings.club_text_transform }};
+    line-height: {{ section.settings.club_text_line_height }};
+    max-width: {{ section.settings.club_text_max_width }}px;
+    text-align: {{ section.settings.club_text_alignment }};
+    {% if section.settings.club_text_shadow %}
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     {% endif %}
   }
@@ -380,18 +386,18 @@
   }
 
   .kk-newsletter__title {
-    margin-bottom: {{ block.settings.newsletter_title_margin }}px;
+    margin-bottom: {{ section.settings.newsletter_title_margin }}px;
     text-align: center;
   }
 
   .kk-newsletter__form {
     display: flex;
     flex-direction: column;
-    gap: {{ block.settings.form_element_spacing }}px;
+    gap: {{ section.settings.form_element_spacing }}px;
   }
 
   .kk-field {
-    margin-bottom: {{ block.settings.form_element_spacing }}px;
+    margin-bottom: {{ section.settings.form_element_spacing }}px;
   }
 
   .kk-input {
@@ -456,7 +462,7 @@
   }
 
   .kk-msg {
-    margin-top: {{ block.settings.form_element_spacing }}px;
+    margin-top: {{ section.settings.form_element_spacing }}px;
     font-size: 13px;
     text-align: center;
   }
@@ -492,8 +498,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: {{ block.settings.social_icon_size }}px;
-    height: {{ block.settings.social_icon_size }}px;
+    width: {{ section.settings.social_icon_size }}px;
+    height: {{ section.settings.social_icon_size }}px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     transition: all 0.3s ease;
@@ -503,15 +509,15 @@
   .ai-footer-social-icon-{{ ai_gen_id }} svg {
     width: 24px;
     height: 24px;
-    fill: {{ block.settings.master_text_color | default: 'white' }};
+    fill: {{ section.settings.master_text_color | default: 'white' }};
   }
 
   .ai-footer-social-icon-{{ ai_gen_id }}:hover {
-    {% if block.settings.social_hover_effect == 'scale' %}
+    {% if section.settings.social_hover_effect == 'scale' %}
       transform: scale(1.1);
-    {% elsif block.settings.social_hover_effect == 'lift' %}
+    {% elsif section.settings.social_hover_effect == 'lift' %}
       transform: translateY(-2px);
-    {% elsif block.settings.social_hover_effect == 'rotate' %}
+    {% elsif section.settings.social_hover_effect == 'rotate' %}
       transform: rotate(5deg);
     {% endif %}
   }
@@ -530,11 +536,11 @@
 
   .ai-footer-payment-{{ ai_gen_id }} {
     text-align: center;
-    margin-bottom: {{ block.settings.payment_section_bottom_margin }}px;
+    margin-bottom: {{ section.settings.payment_section_bottom_margin }}px;
   }
 
   .ai-footer-payment-{{ ai_gen_id }} h3 {
-    margin-bottom: {{ block.settings.payment_title_margin }}px;
+    margin-bottom: {{ section.settings.payment_title_margin }}px;
     text-align: center;
   }
 
@@ -543,12 +549,12 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: {{ block.settings.payment_icon_spacing }}px;
+    gap: {{ section.settings.payment_icon_spacing }}px;
   }
 
   .ai-footer-payment-icon-{{ ai_gen_id }} {
-    width: {{ block.settings.payment_icon_width }}px;
-    height: {{ block.settings.payment_icon_height }}px;
+    width: {{ section.settings.payment_icon_width }}px;
+    height: {{ section.settings.payment_icon_height }}px;
     background: white;
     border-radius: 6px;
     padding: 8px 12px;
@@ -572,19 +578,19 @@
 
   .ai-footer-policies-{{ ai_gen_id }} {
     text-align: center;
-    margin-bottom: {{ block.settings.policies_bottom_margin }}px;
+    margin-bottom: {{ section.settings.policies_bottom_margin }}px;
     padding: 20px 0;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .ai-footer-policies-{{ ai_gen_id }} a,
   .ai-footer-policies-{{ ai_gen_id }} button {
-    color: {{ block.settings.master_text_color | default: 'white' }};
+    color: {{ section.settings.master_text_color | default: 'white' }};
     text-decoration: none;
     font-size: 14px;
     opacity: 0.8;
     transition: all 0.3s ease;
-    margin: 0 {{ block.settings.policy_link_spacing | divided_by: 2 }}px;
+    margin: 0 {{ section.settings.policy_link_spacing | divided_by: 2 }}px;
     background: none;
     border: none;
     cursor: pointer;
@@ -602,7 +608,7 @@
   }
 
   .ai-footer-policies-{{ ai_gen_id }} .ai-footer-policy-separator-{{ ai_gen_id }} {
-    color: {{ block.settings.master_text_color | default: 'white' }};
+    color: {{ section.settings.master_text_color | default: 'white' }};
     opacity: 0.4;
     margin: 0 8px;
     font-size: 12px;
@@ -612,7 +618,7 @@
     text-align: center;
     font-size: 12px;
     opacity: 0.6;
-    margin-top: {{ block.settings.copyright_top_margin }}px;
+    margin-top: {{ section.settings.copyright_top_margin }}px;
     padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
@@ -620,25 +626,25 @@
   @media screen and (max-width: 1199px) {
     .ai-footer-main-{{ ai_gen_id }} {
       grid-template-columns: repeat(3, 1fr);
-      gap: {{ block.settings.mobile_column_gap }}px;
+      gap: {{ section.settings.mobile_column_gap }}px;
     }
   }
 
   @media screen and (max-width: 989px) {
     .ai-footer-main-{{ ai_gen_id }} {
       grid-template-columns: repeat(2, 1fr);
-      gap: {{ block.settings.mobile_column_gap }}px;
+      gap: {{ section.settings.mobile_column_gap }}px;
     }
   }
 
   @media screen and (max-width: 749px) {
     .ai-footer-main-{{ ai_gen_id }} {
       grid-template-columns: 1fr;
-      gap: {{ block.settings.mobile_section_spacing }}px;
+      gap: {{ section.settings.mobile_section_spacing }}px;
     }
 
     .ai-footer-{{ ai_gen_id }} {
-      padding: {{ block.settings.footer_padding | times: 0.7 }}px {{ block.settings.footer_padding | times: 0.5 }}px;
+      padding: {{ section.settings.footer_padding | times: 0.7 }}px {{ section.settings.footer_padding | times: 0.5 }}px;
     }
 
     .ai-footer-social-{{ ai_gen_id }} {
@@ -649,17 +655,17 @@
     }
 
     .ai-footer-payment-icons-{{ ai_gen_id }} {
-      gap: {{ block.settings.mobile_payment_spacing }}px;
+      gap: {{ section.settings.mobile_payment_spacing }}px;
     }
 
     .ai-footer-policies-{{ ai_gen_id }} a,
     .ai-footer-policies-{{ ai_gen_id }} button {
-      margin: 5px {{ block.settings.mobile_policy_spacing | divided_by: 2 }}px;
+      margin: 5px {{ section.settings.mobile_policy_spacing | divided_by: 2 }}px;
       font-size: 13px;
     }
 
     .ai-footer-customer-club-{{ ai_gen_id }} {
-      {% if block.settings.club_layout == 'horizontal' or block.settings.club_layout == 'horizontal_reverse' %}
+      {% if section.settings.club_layout == 'horizontal' or section.settings.club_layout == 'horizontal_reverse' %}
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -686,31 +692,31 @@
   }
 {% endstyle %}
 
-<footer class="ai-footer-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+<footer class="ai-footer-{{ ai_gen_id }}">
   <div class="ai-footer-content-{{ ai_gen_id }}">
     <div class="ai-footer-main-{{ ai_gen_id }}">
       <div class="ai-footer-column-{{ ai_gen_id }}">
-        {% if block.settings.show_newsletter %}
+        {% if section.settings.show_newsletter %}
           <div class="kk-newsletter">
-            <h3 class="kk-newsletter__title">{{ block.settings.newsletter_heading }}</h3>
+            <h3 class="kk-newsletter__title">{{ section.settings.newsletter_heading }}</h3>
 
             <div class="kk-newsletter__body">
-              {% if block.settings.show_customer_club and block.settings.customer_club_icon != blank or block.settings.customer_club_text != blank %}
+              {% if section.settings.show_customer_club and section.settings.customer_club_icon != blank or section.settings.customer_club_text != blank %}
                 <div class="ai-footer-customer-club-{{ ai_gen_id }}">
-                  {% if block.settings.customer_club_icon %}
+                  {% if section.settings.customer_club_icon %}
                     <div class="ai-footer-club-icon-{{ ai_gen_id }}">
                       <img
-                        src="{{ block.settings.customer_club_icon | image_url: width: 320 }}"
-                        alt="{{ block.settings.customer_club_text | escape }}"
+                        src="{{ section.settings.customer_club_icon | image_url: width: 320 }}"
+                        alt="{{ section.settings.customer_club_text | escape }}"
                         loading="lazy"
-                        width="{{ block.settings.club_icon_size }}"
-                        height="{{ block.settings.club_icon_size }}"
+                        width="{{ section.settings.club_icon_size }}"
+                        height="{{ section.settings.club_icon_size }}"
                       >
                     </div>
                   {% endif %}
-                  {% if block.settings.customer_club_text != blank %}
+                  {% if section.settings.customer_club_text != blank %}
                     <div class="ai-footer-club-text-{{ ai_gen_id }}">
-                      {{ block.settings.customer_club_text }}
+                      {{ section.settings.customer_club_text }}
                     </div>
                   {% endif %}
                 </div>
@@ -793,15 +799,15 @@
           aria-expanded="false"
           aria-controls="{{ about_content_id }}"
         >
-          <h3>{{ block.settings.about_heading }}</h3>
+          <h3>{{ section.settings.about_heading }}</h3>
           <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
         </button>
         <div id="{{ about_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content aria-hidden="true">
           {% for i in (1..5) %}
             {% assign link_key = 'about_link_' | append: i %}
             {% assign text_key = 'about_text_' | append: i %}
-            {% if block.settings[link_key] != blank and block.settings[text_key] != blank %}
-              <a href="{{ block.settings[link_key] }}">{{ block.settings[text_key] }}</a>
+            {% if section.settings[link_key] != blank and section.settings[text_key] != blank %}
+              <a href="{{ section.settings[link_key] }}">{{ section.settings[text_key] }}</a>
             {% endif %}
           {% endfor %}
         </div>
@@ -814,22 +820,26 @@
           aria-expanded="false"
           aria-controls="{{ categories_content_id }}"
         >
-          <h3>{{ block.settings.categories_heading }}</h3>
+          <h3>{{ section.settings.categories_heading }}</h3>
           <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
         </button>
         <div id="{{ categories_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content aria-hidden="true">
-          {% assign collections_sorted = collections | sort: 'title' %}
-          {% assign displayed_count = 0 %}
-          {% for collection in collections_sorted %}
-            {% if collection.published and collection.products_count > 0 and displayed_count < block.settings.categories_limit %}
-              {% assign collection_title_parts = collection.title | split: '|' %}
-              <a href="{{ collection.url }}">{{ collection_title_parts[0] | strip }}</a>
-              {% assign displayed_count = displayed_count | plus: 1 %}
+          <ul>
+            {% for block in section.blocks %}
+              {% if block.type == 'category_link' %}
+                {% assign link_type = block.settings.link_type %}
+                {% if link_type == 'collection' and block.settings.collection != blank %}
+                  <li><a href="{{ block.settings.collection.url }}">{{ block.settings.collection.title }}</a></li>
+                {% elsif link_type == 'page' and block.settings.page != blank %}
+                  <li><a href="{{ block.settings.page.url }}">{{ block.settings.page.title }}</a></li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            {% if section.settings.show_view_all %}
+              {% assign view_all_text = section.settings.view_all_text | default: 'Sjekk alle kategoriene' %}
+              <li><a href="/collections">{{ view_all_text }}</a></li>
             {% endif %}
-          {% endfor %}
-          {% if block.settings.show_view_all and collections.size > block.settings.categories_limit %}
-            <a href="/collections">{{ block.settings.view_all_text }}</a>
-          {% endif %}
+          </ul>
         </div>
       </div>
 
@@ -840,15 +850,15 @@
           aria-expanded="false"
           aria-controls="{{ help_content_id }}"
         >
-          <h3>{{ block.settings.help_heading }}</h3>
+          <h3>{{ section.settings.help_heading }}</h3>
           <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
         </button>
         <div id="{{ help_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content aria-hidden="true">
           {% for i in (1..5) %}
             {% assign link_key = 'help_link_' | append: i %}
             {% assign text_key = 'help_text_' | append: i %}
-            {% if block.settings[link_key] != blank and block.settings[text_key] != blank %}
-              <a href="{{ block.settings[link_key] }}">{{ block.settings[text_key] }}</a>
+            {% if section.settings[link_key] != blank and section.settings[text_key] != blank %}
+              <a href="{{ section.settings[link_key] }}">{{ section.settings[text_key] }}</a>
             {% endif %}
           {% endfor %}
         </div>
@@ -861,29 +871,29 @@
           aria-expanded="false"
           aria-controls="{{ social_content_id }}"
         >
-          <h3>{{ block.settings.social_heading }}</h3>
+          <h3>{{ section.settings.social_heading }}</h3>
           <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
         </button>
         <div id="{{ social_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content aria-hidden="true">
           <div class="ai-footer-social-{{ ai_gen_id }}">
-            {% if block.settings.instagram_url != blank %}
-              <a href="{{ block.settings.instagram_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--instagram" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
+            {% if section.settings.instagram_url != blank %}
+              <a href="{{ section.settings.instagram_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--instagram" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
               </a>
             {% endif %}
 
-            {% if block.settings.facebook_url != blank %}
-              <a href="{{ block.settings.facebook_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--facebook" target="_blank" rel="noopener" aria-label="Follow us on Facebook">
+            {% if section.settings.facebook_url != blank %}
+              <a href="{{ section.settings.facebook_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--facebook" target="_blank" rel="noopener" aria-label="Follow us on Facebook">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                 </svg>
               </a>
             {% endif %}
 
-            {% if block.settings.tiktok_url != blank %}
-              <a href="{{ block.settings.tiktok_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--tiktok" target="_blank" rel="noopener" aria-label="Follow us on TikTok">
+            {% if section.settings.tiktok_url != blank %}
+              <a href="{{ section.settings.tiktok_url }}" class="ai-footer-social-icon-{{ ai_gen_id }} ai-footer-social-icon-{{ ai_gen_id }}--tiktok" target="_blank" rel="noopener" aria-label="Follow us on TikTok">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
                 </svg>
@@ -894,20 +904,20 @@
       </div>
     </div>
 
-    {% if block.settings.show_payment_methods %}
+    {% if section.settings.show_payment_methods %}
       <div class="ai-footer-payment-{{ ai_gen_id }}">
-        <h3>{{ block.settings.payment_heading }}</h3>
+        <h3>{{ section.settings.payment_heading }}</h3>
         <div class="ai-footer-payment-icons-{{ ai_gen_id }}">
           {% for i in (1..12) %}
             {% assign payment_key = 'payment_method_' | append: i %}
-            {% if block.settings[payment_key] != blank %}
+            {% if section.settings[payment_key] != blank %}
               <div class="ai-footer-payment-icon-{{ ai_gen_id }}">
                 <img
-                  src="{{ block.settings[payment_key] | image_url: width: 100 }}"
+                  src="{{ section.settings[payment_key] | image_url: width: 100 }}"
                   alt="Payment method {{ i }}"
                   loading="lazy"
-                  width="{{ block.settings.payment_icon_width }}"
-                  height="{{ block.settings.payment_icon_height }}"
+                  width="{{ section.settings.payment_icon_width }}"
+                  height="{{ section.settings.payment_icon_height }}"
                 >
               </div>
             {% endif %}
@@ -948,33 +958,33 @@
         {% assign policy_count = policy_count | plus: 1 %}
       {% endif %}
 
-      {% if block.settings.cookie_preferences_link != blank %}
+      {% if section.settings.cookie_preferences_link != blank %}
         {% if policy_count > 0 %}
           <span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>
         {% endif %}
-        <a href="{{ block.settings.cookie_preferences_link }}">Informasjonskapsler</a>
+        <a href="{{ section.settings.cookie_preferences_link }}">Informasjonskapsler</a>
         {% assign policy_count = policy_count | plus: 1 %}
       {% endif %}
 
-      {% if block.settings.contact_info_link != blank %}
+      {% if section.settings.contact_info_link != blank %}
         {% if policy_count > 0 %}
           <span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>
         {% endif %}
-        <a href="{{ block.settings.contact_info_link }}">Kontaktinformasjon</a>
+        <a href="{{ section.settings.contact_info_link }}">Kontaktinformasjon</a>
         {% assign policy_count = policy_count | plus: 1 %}
       {% endif %}
 
-      {% if block.settings.legal_notice_link != blank %}
+      {% if section.settings.legal_notice_link != blank %}
         {% if policy_count > 0 %}
           <span class="ai-footer-policy-separator-{{ ai_gen_id }}">•</span>
         {% endif %}
-        <a href="{{ block.settings.legal_notice_link }}">Juridiske retningslinjer</a>
+        <a href="{{ section.settings.legal_notice_link }}">Juridiske retningslinjer</a>
         {% assign policy_count = policy_count | plus: 1 %}
       {% endif %}
     </div>
 
     <div class="ai-footer-copyright-{{ ai_gen_id }}">
-      {{ block.settings.copyright_text }}
+      {{ section.settings.copyright_text }}
     </div>
   </div>
 </footer>
@@ -1486,27 +1496,6 @@
       "default": "Categories"
     },
     {
-      "type": "range",
-      "id": "categories_limit",
-      "label": "Number of categories to show",
-      "min": 3,
-      "max": 15,
-      "step": 1,
-      "default": 8
-    },
-    {
-      "type": "checkbox",
-      "id": "show_view_all",
-      "label": "Show view all link",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "view_all_text",
-      "label": "View all text",
-      "default": "View All Categories"
-    },
-    {
       "type": "header",
       "content": "Help & Contact"
     },
@@ -1940,6 +1929,26 @@
       "step": 5,
       "unit": "px",
       "default": 10
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_link",
+      "name": "Category Link",
+      "settings": [
+        {
+          "type": "select",
+          "id": "link_type",
+          "label": "Link type",
+          "options": [
+            { "value": "collection", "label": "Collection" },
+            { "value": "page", "label": "Page" }
+          ],
+          "default": "collection"
+        },
+        { "type": "collection", "id": "collection", "label": "Select collection" },
+        { "type": "page", "id": "page", "label": "Select page" }
+      ]
     }
   ],
   "presets": [
