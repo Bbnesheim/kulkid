@@ -157,6 +157,12 @@
     flex-direction: column;
   }
 
+  .ai-footer-column-{{ ai_gen_id }} ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
   .ai-footer-column-{{ ai_gen_id }}[data-footer-accordion] {
     gap: 12px;
   }
@@ -818,18 +824,19 @@
           <span class="ai-footer-accordion__icon" aria-hidden="true"></span>
         </button>
         <div id="{{ categories_content_id }}" class="ai-footer-accordion__content" data-footer-accordion-content aria-hidden="true">
-          {% assign collections_sorted = collections | sort: 'title' %}
-          {% assign displayed_count = 0 %}
-          {% for collection in collections_sorted %}
-            {% if collection.published and collection.products_count > 0 and displayed_count < block.settings.categories_limit %}
-              {% assign collection_title_parts = collection.title | split: '|' %}
-              <a href="{{ collection.url }}">{{ collection_title_parts[0] | strip }}</a>
-              {% assign displayed_count = displayed_count | plus: 1 %}
-            {% endif %}
-          {% endfor %}
-          {% if block.settings.show_view_all and collections.size > block.settings.categories_limit %}
-            <a href="/collections">{{ block.settings.view_all_text }}</a>
-          {% endif %}
+          <ul>
+            {% for category_block in section.blocks %}
+              {% if category_block.type == 'category_link' %}
+                {% assign link_type = category_block.settings.link_type %}
+                {% if link_type == 'collection' and category_block.settings.collection != blank %}
+                  <li><a href="{{ category_block.settings.collection.url }}">{{ category_block.settings.collection.title }}</a></li>
+                {% elsif link_type == 'page' and category_block.settings.page != blank %}
+                  <li><a href="{{ category_block.settings.page.url }}">{{ category_block.settings.page.title }}</a></li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            <li><a href="/collections">Sjekk alle kategoriene</a></li>
+          </ul>
         </div>
       </div>
 
@@ -1486,27 +1493,6 @@
       "default": "Categories"
     },
     {
-      "type": "range",
-      "id": "categories_limit",
-      "label": "Number of categories to show",
-      "min": 3,
-      "max": 15,
-      "step": 1,
-      "default": 8
-    },
-    {
-      "type": "checkbox",
-      "id": "show_view_all",
-      "label": "Show view all link",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "view_all_text",
-      "label": "View all text",
-      "default": "View All Categories"
-    },
-    {
       "type": "header",
       "content": "Help & Contact"
     },
@@ -1940,6 +1926,26 @@
       "step": 5,
       "unit": "px",
       "default": 10
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_link",
+      "name": "Category Link",
+      "settings": [
+        {
+          "type": "select",
+          "id": "link_type",
+          "label": "Link type",
+          "options": [
+            { "value": "collection", "label": "Collection" },
+            { "value": "page", "label": "Page" }
+          ],
+          "default": "collection"
+        },
+        { "type": "collection", "id": "collection", "label": "Select collection" },
+        { "type": "page", "id": "page", "label": "Select page" }
+      ]
     }
   ],
   "presets": [
