@@ -11,6 +11,14 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "main_footer_WTERTH": {
+      "type": "main-footer",
+      "disabled": true,
+      "name": "Main Footer",
+      "settings": {
+        "background": "linear-gradient(89deg, rgba(219, 149, 250, 1) 7%, rgba(148, 88, 255, 1) 94%)"
+      }
+    },
     "blocks_8dXeFR": {
       "type": "_blocks",
       "blocks": {
@@ -155,6 +163,7 @@
     }
   },
   "order": [
+    "main_footer_WTERTH",
     "blocks_8dXeFR",
     "footer"
   ]
