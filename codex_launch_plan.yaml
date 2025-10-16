@@ -1,79 +1,95 @@
-# KULKID Launch Master Plan v1.0
+# KULKID Fast GO LIVE Plan v2.0
 project: kulkid.no
 environment: production
-goal: "Go-Live with full functional store, integrations, and ad setup."
+launch_window: "2025-10-16 21:00 CET"
+goal: "Publish the production theme, remove password protection, and verify checkout/analytics within the launch window."
 
 phases:
-  - name: "Phase 1 - Search & Discovery Integration"
+  - name: "Phase 0 – Theme Freeze & QA (T-3h → T-90m)"
     description: >
-      Enable Shopify Search & Discovery app with relevant product attributes,
-      custom filters, and recommendation logic for Baby & Kids apparel.
+      Lock the working theme, eliminate last-minute bugs, and confirm hero content before entering the go-live window.
     tasks:
-      - extract_schema: /sections
-      - generate_file: /config/search_schema.json
-      - verify_fields:
-          - title
-          - tags
-          - product_type
-          - vendor
-          - custom metafields: ["age_group", "material", "season"]
-      - connect_to_app: "Shopify Search & Discovery"
-      - test_query: "genser baby"
-      - output: "✅ search_schema.json ready"
+      - verify_git_clean: "git status --short (no diff vs origin/main)"
+      - run_theme_check: "shopify theme check --fail-level=warning"
+      - device_smoke_test:
+          devices: ["iPhone 13 / Safari", "Pixel 7 / Chrome", "MacBook / Safari+Chrome"]
+          pages: ["/", "/collections/nyheter", "/products/{sample-product}", "/cart", "/policies/refund-policy"]
+      - sanitize_console_logs:
+          paths:
+            - assets/global.js
+            - assets/cart.js
+            - snippets/*.liquid
+      - content_refresh:
+          - "Confirm homepage hero CTA links to active collection"
+          - "Update announcement bar copy for launch"
+          - "Check translated strings in locales/en.default.json & locales/nb.json"
+      - backup_live_theme: "shopify theme pull --environment=production --theme Live --path snapshot/live-theme-backup"
 
-  - name: "Phase 2 - Klaviyo Integration"
+  - name: "Phase 1 – Checkout & Integrations (T-90m → T-30m)"
     description: >
-      Connect newsletter signup, welcome flow, and first purchase automation.
+      Validate that payments, shipping, inventory, and tracking integrations are production-ready.
     tasks:
-      - inject_script: /layout/theme.liquid
-        match: "</body>"
-        insert: |
-          <script async src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=PUBLIC_KEY"></script>
-      - create_file: /config/klaviyo.json
-        content:
-          public_key: "TO_BE_ADDED"
-          flows:
-            - Welcome Series
-            - First Purchase
-            - Winback
-      - verify_form: /sections/footer.liquid
-      - test_signup: "contact@nesheimvatten.no"
-      - output: "✅ Klaviyo integration verified"
+      - payment_test_orders:
+          providers: ["Vipps", "Klarna", "Card (Stripe)"]
+          mode: "Shopify test order, cancel/refund after capture"
+      - shipping_matrix_review:
+          locations: ["Norway", "EU"]
+          scenarios: ["<500 NOK", "500-1500 NOK", ">1500 NOK"]
+      - inventory_snapshot: "Export Products → Inventory CSV for rollback reference"
+      - analytics_verification:
+          scripts:
+            - GA4
+            - Meta Pixel
+            - TikTok Pixel
+          steps:
+            - "Open preview with ?preview_theme_id"
+            - "Use Pixel Helper extensions to confirm page view + add_to_cart fires once"
+      - automation_status:
+          klaviyo_flows: ["Welcome Series", "Post-Purchase (First order)", "Winback"]
+          ensure_public_key: true
+      - legal_copy_check:
+          - "Privacy policy + Terms updated (`/pages/personvern`, `/pages/vilkar`)"
+          - "Shipping & returns info matches current rates"
 
-  - name: "Phase 3 - Meta & TikTok Store Setup"
+  - name: "Phase 2 – Launch Execution & Monitoring (T-15m → T+2h)"
     description: >
-      Verify domain, connect product catalog, activate pixels and commerce sync.
+      Publish the theme, remove the storefront password, and monitor orders/analytics closely.
     tasks:
-      - open_app: "Meta (Facebook & Instagram)"
-      - verify_domain: "kulkid.no"
-      - connect_catalog: "Shopify → Meta Commerce Manager"
-      - check_pixel_events: ["ViewContent", "AddToCart", "Purchase"]
-      - repeat_for: "TikTok Channel App"
-      - output: "✅ Meta & TikTok stores synced"
+      - publish_theme: "Set 'main' theme as Live in Shopify"
+      - password_toggle: "Disable Online Store password and confirm access in incognito"
+      - cache_bust:
+          - "Invalidate CDN by appending `?launch` to hero assets"
+          - "Force refresh on key devices"
+      - spot_check_orders:
+          - "Place real 1 NOK hidden product order (refund immediately)"
+          - "Verify email/SMS notifications trigger"
+      - analytics_doublecheck:
+          - "GA4 real-time shows launch traffic"
+          - "Meta Events Manager shows page view + purchase within 5 minutes"
+      - communications:
+          - "Publish launch announcement (newsletter + social copy prepared)"
+          - "Notify support team in Slack #kul-kid"
+      - monitoring_schedule:
+          intervals: ["T+15m", "T+60m", "T+120m"]
+          checks: ["Error logs", "Support inbox", "Payment dashboard"]
 
-  - name: "Phase 4 - Content Publishing & Ads Pipeline"
+  - name: "Phase 3 – Post-Launch Follow-up (T+2h → T+24h)"
     description: >
-      Define weekly posting, ad set structure, and tone-of-voice templates.
+      Document the launch, capture metrics, and prep next-day optimization backlog.
     tasks:
-      - create_file: /docs/content_schedule.yaml
+      - create_file: /docs/post_launch_notes.md
         content:
-          cadence: "3 posts per week"
-          types: ["UGC video", "Product feature", "Parent humor"]
-          ad_sets:
-            - name: "First Purchase Offer"
-              platform: "Meta"
-              objective: "Conversions"
-            - name: "UGC Awareness Loop"
-              platform: "TikTok"
-              objective: "Engagement"
-      - create_file: /docs/brand_tone.yaml
-        content:
-          voice: "Warm, confident, playful parent tone"
-          avoid: ["emoji", "excessive adjectives"]
-          closing_line: "Alltid laget for kule foreldre."
-      - output: "✅ content_schedule.yaml and brand_tone.yaml ready"
+          sections:
+            - traffic_summary
+            - conversion_metrics
+            - customer_feedback
+            - follow_up_actions
+      - update_dashboard: "Push launch metrics to internal KPI sheet"
+      - backlog_grooming:
+          - "List hotfix candidates tagged `launch-followup`"
+          - "Prioritize CRO tasks for Day 2 sprint"
 
 meta:
   author: "Nesheim & Vatten / Codex Automation"
-  last_updated: "2025-10-16"
-  next_action: "Commit file, open in Codex, and run 'execute phase 1'"
+  last_updated: "2025-10-16T18:05:00+02:00"
+  next_action: "Open docs/codex_launch_prompt.md and follow the Fast GO LIVE instructions"
