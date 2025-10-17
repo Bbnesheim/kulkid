@@ -1,44 +1,48 @@
 {% assign footer_id = section.id | replace: '_', '' | downcase %}
-{% assign gradient_color_ids = 'gradient_color_1,gradient_color_2,gradient_color_3,gradient_color_4,gradient_color_5,gradient_color_6,gradient_color_7' | split: ',' %}
+{% assign default_gradient_colors = '#ff6b6b,#4ecdc4,#45b7d1,#96ceb4,#feca57,#ff9ff3,#54a0ff' | split: ',' %}
 {% assign gradient_colors = '' %}
-{% for color_id in gradient_color_ids %}
-  {% assign color_value = section.settings[color_id] %}
-  {% if color_value != blank %}
-    {% if gradient_colors != '' %}
-      {% assign gradient_colors = gradient_colors | append: ', ' %}
-    {% endif %}
-    {% assign gradient_colors = gradient_colors | append: color_value %}
+{% for default_color in default_gradient_colors %}
+  {% assign color_key = 'gradient_color_' | append: forloop.index %}
+  {% assign color_value = section.settings[color_key] | default: default_color %}
+  {% if gradient_colors != '' %}
+    {% assign gradient_colors = gradient_colors | append: ', ' %}
   {% endif %}
+  {% assign gradient_colors = gradient_colors | append: color_value %}
 {% endfor %}
-{% if gradient_colors == '' %}
-  {% assign gradient_colors = '#ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff' %}
-{% endif %}
+{% assign gradient_speed = section.settings.gradient_speed | default: 18 %}
+{% assign static_bg_color = section.settings.static_bg_color | default: '#334fb4' %}
 {% assign text_color = section.settings.master_text_color | default: '#ffffff' %}
 
-{% style %}
+{% stylesheet %}
+  @keyframes rainbowGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
   .footer-section-{{ footer_id }} {
     position: relative;
     color: {{ text_color }};
-    {% if section.settings.enable_gradient_animation %}
-      background: linear-gradient({{ section.settings.gradient_direction }}deg, {{ gradient_colors }});
-      background-size: {{ section.settings.gradient_size }}% {{ section.settings.gradient_size }}%;
-      animation: footer-gradient-{{ footer_id }} {{ section.settings.animation_duration }}s ease infinite;
-    {% elsif section.settings.static_background_color != blank %}
-      background: {{ section.settings.static_background_color }};
-    {% else %}
-      background: linear-gradient({{ section.settings.gradient_direction }}deg, {{ gradient_colors }});
-    {% endif %}
-    padding: {{ section.settings.footer_padding }}px;
-    overflow: hidden;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: {{ section.settings.footer_padding }}px;
+    padding-right: {{ section.settings.footer_padding }}px;
+    overflow: visible !important;
   }
 
-  {% if section.settings.enable_gradient_animation %}
-    @keyframes footer-gradient-{{ footer_id }} {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-  {% endif %}
+  .footer-section {
+    overflow: visible !important;
+  }
+
+  .footer-section[style*='rainbowGradient'] {
+    position: relative;
+    overflow: visible !important;
+  }
+
+  .footer-section-{{ footer_id }}[style*='rainbowGradient'] {
+    position: relative;
+    overflow: visible !important;
+  }
 
   .footer-section-{{ footer_id }} a {
     color: inherit;
@@ -48,22 +52,200 @@
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
-    z-index: 1;
+    z-index: 30;
   }
 
-  .footer-section-{{ footer_id }} .footer__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  .footer-section-{{ footer_id }} .footer__icon {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .footer-section-{{ footer_id }} .footer__layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 2rem;
     padding: 2rem 0;
     margin-bottom: {{ section.settings.section_spacing }}px;
   }
 
   .footer-section-{{ footer_id }} .footer__block {
+    flex: 1 1 200px;
+    border-radius: 12px;
+    padding: 1rem;
+    background: transparent;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    justify-content: flex-start;
+    gap: 1rem;
+    box-sizing: border-box;
+  }
+
+  .footer-section-{{ footer_id }} .footer__block--newsletter {
+    flex: 0 0 50%;
+    max-width: 50%;
+    margin-right: auto;
+    padding: 0;
+  }
+
+  .footer-section-{{ footer_id }} .footer__block--link_group {
+    flex: 1 1 200px;
+    max-width: 320px;
+  }
+
+  .footer-section-{{ footer_id }} .footer__block--social_icons {
+    flex: 0 1 200px;
+    max-width: 240px;
+    align-self: flex-start;
+  }
+
+  .footer-section-{{ footer_id }} .footer__block--payments {
+    flex: 1 1 100%;
+    padding: 0;
+  }
+
+  .footer-section-{{ footer_id }} .footer__block .footer__heading,
+  .footer-section-{{ footer_id }} .footer__block h4 {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  .footer-section-{{ footer_id }} .footer__block--newsletter {
+    padding: 0;
+  }
+
+  .footer-section-{{ footer_id }} .footer__newsletter {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin-left: 0 !important;
+    margin-right: auto;
+    padding: 0 !important;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__card {
+    position: relative;
+    overflow: visible !important;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    box-sizing: border-box;
+    padding: 2rem;
+    max-width: 420px;
+    margin-left: 0;
+    margin-right: auto;
+    width: 100%;
+    transform: translateX(-0.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: flex-start;
+    gap: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__image {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 120px !important;
+    height: auto !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 40 !important;
+    pointer-events: none;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__card img[src=''] {
+    display: none;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__content {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__content .footer__newsletter-copy {
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__content--with-image .footer__newsletter-copy {
+    margin-right: 130px;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__form,
+  .footer-section-{{ footer_id }} .footer__newsletter-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__form input[type='email'],
+  .footer-section-{{ footer_id }} .footer__newsletter-form input[type='email'] {
+    flex: 1 1 auto;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    border: none;
+    background: #ffffff;
+    color: #1c1c1c;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__form input[type='email']:focus-visible,
+  .footer-section-{{ footer_id }} .footer__newsletter-form input[type='email']:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__button {
+    flex: 0 0 auto;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    margin-top: 0;
+    height: auto;
+  }
+
+  @media (max-width: 600px) {
+    .footer-section-{{ footer_id }} .footer-newsletter__card {
+      max-width: 100%;
+      transform: none;
+    }
+
+    .footer-section-{{ footer_id }} .footer-newsletter__image {
+      width: 80px !important;
+      height: auto !important;
+    }
+
+    .footer-section-{{ footer_id }} .footer-newsletter__content--with-image .footer__newsletter-copy {
+      margin-right: 100px;
+    }
+
+    .footer-section-{{ footer_id }} .footer-newsletter__form,
+    .footer-section-{{ footer_id }} .footer__newsletter-form {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .footer-section-{{ footer_id }} .footer-newsletter__button {
+      width: 100%;
+      text-align: center;
+    }
   }
 
   .footer-section-{{ footer_id }} .footer__heading {
@@ -79,6 +261,7 @@
     font-size: var(--footer-text-size, 0.95rem);
     line-height: 1.6;
     opacity: 0.92;
+    max-width: 520px;
   }
 
   .footer-section-{{ footer_id }} .footer__list {
@@ -101,56 +284,6 @@
   .footer-section-{{ footer_id }} .footer__link:focus-visible {
     opacity: 1;
     transform: translateX(2px);
-  }
-
-  .footer-section-{{ footer_id }} .footer__newsletter-brand {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .footer-section-{{ footer_id }} .footer__newsletter-icon {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .footer-section-{{ footer_id }} .footer__newsletter-icon img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  .footer-section-{{ footer_id }} .footer__newsletter-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    align-items: stretch;
-  }
-
-  .footer-section-{{ footer_id }} .footer__newsletter-field {
-    flex: 1 1 260px;
-    min-width: 220px;
-  }
-
-  .footer-section-{{ footer_id }} .footer__newsletter-form input[type='email'] {
-    width: 100%;
-    height: 52px;
-    padding: 0 16px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    background: #ffffff;
-    color: #1c1c1c;
-    font-size: 0.95rem;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-  }
-
-  .footer-section-{{ footer_id }} .footer__newsletter-form input[type='email']:focus-visible {
-    outline: 3px solid rgba(255, 255, 255, 0.8);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.25);
-    transform: translateY(-1px);
   }
 
   .footer-section-{{ footer_id }} .footer__button {
@@ -193,48 +326,41 @@
 
   .footer-section-{{ footer_id }} .footer__social {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.85rem;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
   }
 
   .footer-section-{{ footer_id }} .footer__social-link {
-    width: var(--footer-social-icon-size, 48px);
-    height: var(--footer-social-icon-size, 48px);
-    border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.15);
-    transition: transform 0.25s ease, background 0.25s ease;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    opacity: 0.88;
   }
 
   .footer-section-{{ footer_id }} .footer__social-link:hover,
   .footer-section-{{ footer_id }} .footer__social-link:focus-visible {
     transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.3);
+    opacity: 1;
     outline: 3px solid rgba(255, 255, 255, 0.6);
     outline-offset: 3px;
   }
 
-  .footer-section-{{ footer_id }} .footer__social-link img,
-  .footer-section-{{ footer_id }} .footer__social-link svg {
-    width: 60%;
-    height: auto;
+  .footer-section-{{ footer_id }} .footer__social img,
+  .footer-section-{{ footer_id }} .footer__social svg {
+    width: var(--footer-social-size, 28px);
+    height: var(--footer-social-size, 28px);
+    object-fit: contain;
   }
 
   .footer-section-{{ footer_id }} .footer__payments {
+    width: 100%;
     display: flex;
-    flex-wrap: nowrap;
-    gap: 1rem;
-    align-items: center;
-    overflow-x: auto;
-    padding-bottom: 0.25rem;
-    scrollbar-width: none;
-  }
-
-  .footer-section-{{ footer_id }} .footer__payments::-webkit-scrollbar {
-    display: none;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
   }
 
   .footer-section-{{ footer_id }} .footer__payment-item {
@@ -242,18 +368,13 @@
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
-    min-width: 74px;
-    padding: 0.45rem;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(4px);
   }
 
-  .footer-section-{{ footer_id }} .footer__payment-item img,
-  .footer-section-{{ footer_id }} .footer__payment-item svg {
-    display: block;
+  .footer-section-{{ footer_id }} .footer__payments img,
+  .footer-section-{{ footer_id }} .footer__payments svg {
+    height: var(--footer-payment-icon-height, 24px);
     width: auto;
-    height: var(--footer-payment-icon-height, 32px);
+    object-fit: contain;
   }
 
   .footer-section-{{ footer_id }} .footer__policies {
@@ -291,26 +412,47 @@
 
   @media (max-width: 1024px) {
     .footer-section-{{ footer_id }} {
-      padding: {{ section.settings.footer_padding | times: 0.8 | round }}px;
+      padding-left: {{ section.settings.footer_padding | times: 0.8 | round }}px;
+      padding-right: {{ section.settings.footer_padding | times: 0.8 | round }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.8 | round }}px !important;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.8 | round }}px !important;
+    }
+    .footer-section-{{ footer_id }} .footer__block--newsletter {
+      flex: 1 1 100%;
+      max-width: 100%;
+      margin-right: 0;
+    }
+
+    .footer-section-{{ footer_id }} .footer__block--link_group,
+    .footer-section-{{ footer_id }} .footer__block--social_icons {
+      max-width: 320px;
     }
   }
 
   @media (max-width: 768px) {
     .footer-section-{{ footer_id }} {
-      padding: {{ section.settings.footer_padding | times: 0.65 | round }}px;
+      padding-left: {{ section.settings.footer_padding | times: 0.65 | round }}px;
+      padding-right: {{ section.settings.footer_padding | times: 0.65 | round }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.65 | round }}px !important;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.65 | round }}px !important;
     }
 
-    .footer-section-{{ footer_id }} .footer__grid {
-      grid-template-columns: 1fr;
-      text-align: center;
+    .footer-section-{{ footer_id }} .footer__layout {
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
     .footer-section-{{ footer_id }} .footer__block {
+      max-width: 100%;
+    }
+
+    .footer-section-{{ footer_id }} .footer__newsletter {
       align-items: center;
+      text-align: center;
     }
 
     .footer-section-{{ footer_id }} .footer__newsletter-brand {
-      flex-direction: column;
+      align-items: center;
       text-align: center;
     }
 
@@ -326,85 +468,98 @@
     }
 
     .footer-section-{{ footer_id }} .footer__social {
-      justify-content: center;
-    }
-
-    .footer-section-{{ footer_id }} .footer__payments {
-      justify-content: center;
+      align-items: center;
     }
   }
-{% endstyle %}
+{% endstylesheet %}
 
-<footer class="footer-section-{{ footer_id }}" role="contentinfo" aria-label="{{ section.settings.footer_aria_label | default: 'Kul Kid footer' }}">
+<section
+  class="footer-section footer-section-{{ footer_id }}"
+  role="contentinfo"
+  aria-label="{{ section.settings.footer_aria_label | default: 'Kul Kid footer' }}"
+  style="
+    color: {{ text_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.enable_gradient %}
+      background: linear-gradient(270deg, {{ gradient_colors }});
+      background-size: 1200% 1200%;
+      animation: rainbowGradient {{ gradient_speed }}s ease infinite;
+    {% else %}
+      background-color: {{ static_bg_color }};
+    {% endif %}
+  "
+>
   <div class="footer__inner">
-    <div class="footer__grid">
+    <div class="footer__layout">
       {% for block in section.blocks %}
         <div class="footer__block footer__block--{{ block.type }}" {{ block.shopify_attributes }}>
           {% case block.type %}
             {% when 'newsletter' %}
-              {% assign heading_size = block.settings.heading_size | default: 28 | plus: 0 %}
-              {% assign description_size = block.settings.description_size | default: 16 | plus: 0 %}
-              {% assign button_size = block.settings.button_size | default: 15 | plus: 0 %}
-              {% assign icon_width = block.settings.club_icon_width | default: 160 | plus: 0 %}
+              {% assign heading_size = block.settings.heading_font_size | default: 28 | plus: 0 %}
+              {% assign description_size = block.settings.description_font_size | default: 16 | plus: 0 %}
+              {% assign button_size = block.settings.button_font_size | default: 15 | plus: 0 %}
+              {% assign newsletter_padding_top = block.settings.newsletter_padding_top | default: 24 | plus: 0 %}
+              {% assign newsletter_padding_bottom = block.settings.newsletter_padding_bottom | default: 24 | plus: 0 %}
+              {% assign newsletter_padding_side = block.settings.newsletter_padding_side | default: 24 | plus: 0 %}
 
-              {% if block.settings.heading != blank %}
-                <h2 class="footer__heading" style="--footer-heading-size: {{ heading_size }}px;">{{ block.settings.heading }}</h2>
-              {% endif %}
-
-              {% if block.settings.club_icon != blank or block.settings.description != blank %}
-                <div class="footer__newsletter-brand">
-                  {% if block.settings.club_icon != blank %}
-                    <div class="footer__newsletter-icon" style="max-width: {{ icon_width }}px;">
-                      <img src="{{ block.settings.club_icon | image_url: width: 320 }}" alt="{{ block.settings.club_icon_alt | default: 'Kul Kid klubbikon' | escape }}" loading="lazy">
-                    </div>
-                  {% endif %}
-                  {% if block.settings.description != blank %}
-                    <div class="footer__newsletter-copy" style="--footer-text-size: {{ description_size }}px;">{{ block.settings.description }}</div>
-                  {% endif %}
-                </div>
-              {% endif %}
-
-              {% assign newsletter_form_id = 'ContactFooter-' | append: block.id %}
-              {% assign newsletter_aria_label = block.settings.heading | default: 'Kul Kid nyhetsbrev' %}
-              {% form 'customer', id: newsletter_form_id, class: 'footer__newsletter-form', 'aria-label': newsletter_aria_label %}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-
-                <div class="footer__newsletter-field">
-                  <label class="visually-hidden" for="{{ newsletter_form_id }}-email">Din e-postadresse</label>
-                  <input
-                    id="{{ newsletter_form_id }}-email"
-                    type="email"
-                    name="contact[email]"
-                    value="{{ form.email }}"
-                    placeholder="{{ block.settings.email_placeholder | default: 'Din e-postadresse' }}"
-                    autocapitalize="off"
-                    autocomplete="email"
-                    spellcheck="false"
-                    required
-                    {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
-                    aria-describedby="{{ newsletter_form_id }}-feedback"
-                  >
-                </div>
-
-                <button
-                  type="submit"
-                  class="footer__button"
-                  style="--footer-button-size: {{ button_size }}px;"
-                  aria-label="{{ block.settings.button_text | default: 'Få 15% nå' }}"
+              <div
+                class="footer__newsletter"
+              >
+                <div
+                  class="footer-newsletter__card"
+                  style="padding: {{ newsletter_padding_top }}px {{ newsletter_padding_side }}px {{ newsletter_padding_bottom }}px;"
                 >
-                  {{ block.settings.button_text | default: 'Få 15% nå' }}
-                </button>
+                  <div class="footer-newsletter__content{% if block.settings.club_icon != blank %} footer-newsletter__content--with-image{% endif %}">
+                    {% if block.settings.heading != blank %}
+                      <h2 class="footer__heading" style="--footer-heading-size: {{ heading_size }}px;">{{ block.settings.heading }}</h2>
+                    {% endif %}
+                    {% if block.settings.description != blank %}
+                      <div class="footer__newsletter-copy" style="--footer-text-size: {{ description_size }}px;">{{ block.settings.description }}</div>
+                    {% endif %}
 
-                <div class="footer__newsletter-feedback" id="{{ newsletter_form_id }}-feedback" role="status" aria-live="polite">
-                  {% if form.posted_successfully? %}
-                    <p class="footer__newsletter-feedback--success">{{ block.settings.success_message | default: section.settings.newsletter_success_fallback }}</p>
-                  {% elsif form.errors %}
-                    <p class="footer__newsletter-feedback--error">
-                      {{ form.errors.translated_fields['email'] | default: 'E-postadresse' }} {{ form.errors.messages['email'] | default: 'er ugyldig eller allerede registrert.' }}
-                    </p>
+                    {% form 'customer', id: 'ContactFooter', class: 'footer__newsletter-form footer-newsletter__form' %}
+                      <input type="hidden" name="contact[tags]" value="newsletter">
+
+                      <label class="visually-hidden" for="ContactFooter-email">Din e-postadresse</label>
+                      <input
+                        id="ContactFooter-email"
+                        type="email"
+                        name="contact[email]"
+                        value="{{ form.email }}"
+                        placeholder="{{ block.settings.email_placeholder | default: 'Din e-postadresse' }}"
+                        autocapitalize="off"
+                        autocomplete="email"
+                        spellcheck="false"
+                        required
+                      >
+
+                      <button
+                        type="submit"
+                        class="footer__button footer-newsletter__button"
+                        style="--footer-button-size: {{ button_size }}px;"
+                      >
+                        {{ block.settings.button_text | default: 'Få 15% nå' }}
+                      </button>
+
+                      <div class="footer__newsletter-feedback">
+                        <p class="footer__newsletter-feedback--success">Success message placeholder</p>
+                      </div>
+                    {% endform %}
+                  </div>
+
+                  {% if block.settings.club_icon != blank %}
+                    <img
+                      src="{{ block.settings.club_icon | file_url }}"
+                      alt="{{ block.settings.club_icon_alt | escape }}"
+                      width="120"
+                      class="footer-newsletter__image"
+                      loading="eager"
+                      decoding="auto"
+                    >
                   {% endif %}
                 </div>
-              {% endform %}
+              </div>
 
             {% when 'link_group' %}
               {% assign heading_size = block.settings.heading_size | default: 20 | plus: 0 %}
@@ -441,7 +596,7 @@
 
             {% when 'social_icons', 'social' %}
               {% assign heading_size = block.settings.heading_size | default: 20 | plus: 0 %}
-              {% assign icon_size = block.settings.icon_size | default: 28 | plus: 0 %}
+              {% assign icon_size = block.settings.social_icon_size | default: 28 | plus: 0 %}
               {% assign fallback_size = heading_size | minus: 4 %}
               {% if fallback_size < 12 %}
                 {% assign fallback_size = 12 %}
@@ -451,40 +606,106 @@
                 <h2 class="footer__heading" style="--footer-heading-size: {{ heading_size }}px;">{{ block.settings.heading }}</h2>
               {% endif %}
 
-              {% assign networks = 'instagram,facebook,tiktok' | split: ',' %}
+              {% assign instagram_link = block.settings.instagram_link | default: block.settings.instagram_url %}
+              {% assign facebook_link = block.settings.facebook_link | default: block.settings.facebook_url %}
+              {% assign tiktok_link = block.settings.tiktok_link | default: block.settings.tiktok_url %}
+              {% assign spotify_link = block.settings.spotify_link | default: block.settings.spotify_url %}
+              {% assign youtube_link = block.settings.youtube_link %}
               {% assign has_social = false %}
 
-              <div class="footer__social" role="list">
-                {% for network in networks %}
-                  {% assign url_key = network | append: '_url' %}
-                  {% assign url = block.settings[url_key] %}
-                  {% if url != blank %}
-                    {% assign has_social = true %}
-                    {% assign network_label = '' %}
-                    {% case network %}
-                      {% when 'instagram' %}
-                        {% assign network_label = 'Instagram' %}
-                      {% when 'facebook' %}
-                        {% assign network_label = 'Facebook' %}
-                      {% else %}
-                        {% assign network_label = 'TikTok' %}
-                    {% endcase %}
-                    <a
-                      class="footer__social-link"
-                      style="--footer-social-icon-size: {{ icon_size }}px;"
-                      href="{{ url }}"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="Følg Kul Kid på {{ network_label }}"
-                    >
-                      <span class="visually-hidden">Følg Kul Kid på {{ network_label }}</span>
-                      {% render 'icon-social', name: network %}
-                    </a>
-                  {% endif %}
-                {% endfor %}
+              <div class="footer__social" style="--footer-social-size: {{ icon_size }}px;">
+                {% if instagram_link != blank %}
+                  {% assign has_social = true %}
+                  <a
+                    class="footer__social-link"
+                    href="{{ instagram_link }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                  >
+                    <span class="visually-hidden">Følg Kul Kid på Instagram</span>
+                    {% if block.settings.instagram_icon != blank %}
+                      <img src="{{ block.settings.instagram_icon | file_url }}" alt="Instagram" class="footer__icon" loading="eager" decoding="auto">
+                    {% else %}
+                      {% render 'icon-instagram' %}
+                    {% endif %}
+                  </a>
+                {% endif %}
+
+                {% if facebook_link != blank %}
+                  {% assign has_social = true %}
+                  <a
+                    class="footer__social-link"
+                    href="{{ facebook_link }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                  >
+                    <span class="visually-hidden">Følg Kul Kid på Facebook</span>
+                    {% if block.settings.facebook_icon != blank %}
+                      <img src="{{ block.settings.facebook_icon | file_url }}" alt="Facebook" class="footer__icon" loading="eager" decoding="auto">
+                    {% else %}
+                      {% render 'icon-facebook' %}
+                    {% endif %}
+                  </a>
+                {% endif %}
+
+                {% if tiktok_link != blank %}
+                  {% assign has_social = true %}
+                  <a
+                    class="footer__social-link"
+                    href="{{ tiktok_link }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="TikTok"
+                  >
+                    <span class="visually-hidden">Følg Kul Kid på TikTok</span>
+                    {% if block.settings.tiktok_icon != blank %}
+                      <img src="{{ block.settings.tiktok_icon | file_url }}" alt="TikTok" class="footer__icon" loading="eager" decoding="auto">
+                    {% else %}
+                      {% render 'icon-tiktok' %}
+                    {% endif %}
+                  </a>
+                {% endif %}
+
+                {% if spotify_link != blank %}
+                  {% assign has_social = true %}
+                  <a
+                    class="footer__social-link"
+                    href="{{ spotify_link }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Spotify"
+                  >
+                    <span class="visually-hidden">Følg Kul Kid på Spotify</span>
+                    {% if block.settings.spotify_icon != blank %}
+                      <img src="{{ block.settings.spotify_icon | file_url }}" alt="Spotify" class="footer__icon" loading="eager" decoding="auto">
+                    {% else %}
+                      {% render 'icon-spotify' %}
+                    {% endif %}
+                  </a>
+                {% endif %}
+
+                {% if youtube_link != blank %}
+                  {% assign has_social = true %}
+                  <a
+                    class="footer__social-link"
+                    href="{{ youtube_link }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube"
+                  >
+                    <span class="visually-hidden">Følg Kul Kid på YouTube</span>
+                    {% if block.settings.youtube_icon != blank %}
+                      <img src="{{ block.settings.youtube_icon | file_url }}" alt="YouTube" class="footer__icon" loading="eager" decoding="auto">
+                    {% else %}
+                      {% render 'icon-youtube' %}
+                    {% endif %}
+                  </a>
+                {% endif %}
 
                 {% unless has_social %}
-                  <span class="footer__text" style="--footer-text-size: {{ fallback_size }}px;">Legg til Instagram-, Facebook- eller TikTok-lenker direkte i blokkinnstillingene.</span>
+                  <span class="footer__text" style="--footer-text-size: {{ fallback_size }}px;">Legg til lenker for Instagram, Facebook, TikTok, Spotify eller YouTube i blokkinnstillingene.</span>
                 {% endunless %}
               </div>
 
@@ -503,7 +724,7 @@
                 {% if block.settings.show_visa %}
                   <div class="footer__payment-item">
                     {% if block.settings.visa_icon != blank %}
-                      <img src="{{ block.settings.visa_icon | image_url: width: 140 }}" alt="Visa" loading="lazy">
+                      <img src="{{ block.settings.visa_icon | file_url }}" alt="Visa" class="footer__icon" loading="eager" decoding="auto" style="height: {{ icon_height }}px; width: auto;">
                     {% else %}
                       {% render 'icon-payment', name: 'visa' %}
                     {% endif %}
@@ -513,7 +734,7 @@
                 {% if block.settings.show_mastercard %}
                   <div class="footer__payment-item">
                     {% if block.settings.mastercard_icon != blank %}
-                      <img src="{{ block.settings.mastercard_icon | image_url: width: 140 }}" alt="Mastercard" loading="lazy">
+                      <img src="{{ block.settings.mastercard_icon | file_url }}" alt="Mastercard" class="footer__icon" loading="eager" decoding="auto" style="height: {{ icon_height }}px; width: auto;">
                     {% else %}
                       {% render 'icon-payment', name: 'mastercard' %}
                     {% endif %}
@@ -523,7 +744,7 @@
                 {% if block.settings.show_amex %}
                   <div class="footer__payment-item">
                     {% if block.settings.amex_icon != blank %}
-                      <img src="{{ block.settings.amex_icon | image_url: width: 140 }}" alt="American Express" loading="lazy">
+                      <img src="{{ block.settings.amex_icon | file_url }}" alt="American Express" class="footer__icon" loading="eager" decoding="auto" style="height: {{ icon_height }}px; width: auto;">
                     {% else %}
                       {% render 'icon-payment', name: 'amex' %}
                     {% endif %}
@@ -533,7 +754,7 @@
                 {% if block.settings.show_paypal %}
                   <div class="footer__payment-item">
                     {% if block.settings.paypal_icon != blank %}
-                      <img src="{{ block.settings.paypal_icon | image_url: width: 140 }}" alt="PayPal" loading="lazy">
+                      <img src="{{ block.settings.paypal_icon | file_url }}" alt="PayPal" class="footer__icon" loading="eager" decoding="auto" style="height: {{ icon_height }}px; width: auto;">
                     {% else %}
                       {% render 'icon-payment', name: 'paypal' %}
                     {% endif %}
@@ -543,7 +764,7 @@
                 {% if block.settings.show_apple_pay %}
                   <div class="footer__payment-item">
                     {% if block.settings.apple_pay_icon != blank %}
-                      <img src="{{ block.settings.apple_pay_icon | image_url: width: 140 }}" alt="Apple Pay" loading="lazy">
+                      <img src="{{ block.settings.apple_pay_icon | file_url }}" alt="Apple Pay" class="footer__icon" loading="eager" decoding="auto" style="height: {{ icon_height }}px; width: auto;">
                     {% else %}
                       {% render 'icon-payment', name: 'apple_pay' %}
                     {% endif %}
@@ -553,7 +774,7 @@
                 {% if block.settings.show_klarna %}
                   <div class="footer__payment-item">
                     {% if block.settings.klarna_icon != blank %}
-                      <img src="{{ block.settings.klarna_icon | image_url: width: 140 }}" alt="Klarna" loading="lazy">
+                      <img src="{{ block.settings.klarna_icon | file_url }}" alt="Klarna" class="footer__icon" loading="eager" decoding="auto" style="height: {{ icon_height }}px; width: auto;">
                     {% else %}
                       {% render 'icon-payment', name: 'klarna' %}
                     {% endif %}
@@ -562,7 +783,7 @@
 
                 {% if block.settings.custom_payment_svg != blank %}
                   <div class="footer__payment-item">
-                    <img src="{{ block.settings.custom_payment_svg | image_url: width: 160 }}" alt="{{ block.settings.custom_payment_label | default: 'Tilleggsbetaling' | escape }}" loading="lazy">
+                    <img src="{{ block.settings.custom_payment_svg | file_url }}" alt="{{ block.settings.custom_payment_label | default: 'Tilleggsbetaling' | escape }}" class="footer__icon" loading="eager" decoding="auto" style="height: {{ icon_height }}px; width: auto;">
                   </div>
                 {% endif %}
 
@@ -629,7 +850,7 @@
       {{ section.settings.copyright_text | default: '© ' | append: shop.name | append: ' ' | append: now | date: '%Y' }}
     </div>
   </div>
-</footer>
+</section>
 
 {% schema %}
 {
@@ -643,19 +864,19 @@
     },
     {
       "type": "checkbox",
-      "id": "enable_gradient_animation",
+      "id": "enable_gradient",
       "label": "Aktiver animert bakgrunn",
       "default": true
     },
     {
       "type": "color",
-      "id": "static_background_color",
+      "id": "static_bg_color",
       "label": "Statisk bakgrunnsfarge",
       "default": "#334fb4"
     },
     {
       "type": "range",
-      "id": "animation_duration",
+      "id": "gradient_speed",
       "label": "Animasjonslengde",
       "min": 5,
       "max": 30,
@@ -734,6 +955,26 @@
       "id": "master_text_color",
       "label": "Hovedtekstfarge",
       "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding topp",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bunn",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
     },
     {
       "type": "range",
@@ -841,7 +1082,7 @@
         },
         {
           "type": "range",
-          "id": "heading_size",
+          "id": "heading_font_size",
           "label": "Skriftstørrelse overskrift",
           "min": 16,
           "max": 48,
@@ -857,7 +1098,7 @@
         },
         {
           "type": "range",
-          "id": "description_size",
+          "id": "description_font_size",
           "label": "Skriftstørrelse beskrivelse",
           "min": 14,
           "max": 26,
@@ -887,6 +1128,33 @@
           "default": 160
         },
         {
+          "type": "range",
+          "id": "newsletter_padding_top",
+          "label": "Topp-padding (px)",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "newsletter_padding_bottom",
+          "label": "Bunn-padding (px)",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "newsletter_padding_side",
+          "label": "Side-padding (px)",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "default": 24
+        },
+        {
           "type": "text",
           "id": "email_placeholder",
           "label": "Plassholder for e-post",
@@ -900,7 +1168,7 @@
         },
         {
           "type": "range",
-          "id": "button_size",
+          "id": "button_font_size",
           "label": "Skriftstørrelse knapp",
           "min": 12,
           "max": 24,
@@ -1005,9 +1273,19 @@
           "label": "Instagram-lenke"
         },
         {
+          "type": "image_picker",
+          "id": "instagram_icon",
+          "label": "Eget Instagram-ikon"
+        },
+        {
           "type": "url",
           "id": "facebook_url",
           "label": "Facebook-lenke"
+        },
+        {
+          "type": "image_picker",
+          "id": "facebook_icon",
+          "label": "Eget Facebook-ikon"
         },
         {
           "type": "url",
@@ -1015,10 +1293,35 @@
           "label": "TikTok-lenke"
         },
         {
+          "type": "image_picker",
+          "id": "tiktok_icon",
+          "label": "Eget TikTok-ikon"
+        },
+        {
+          "type": "url",
+          "id": "spotify_url",
+          "label": "Spotify-lenke"
+        },
+        {
+          "type": "image_picker",
+          "id": "spotify_icon",
+          "label": "Eget Spotify-ikon"
+        },
+        {
+          "type": "url",
+          "id": "youtube_link",
+          "label": "YouTube-lenke"
+        },
+        {
+          "type": "image_picker",
+          "id": "youtube_icon",
+          "label": "Eget YouTube-ikon"
+        },
+        {
           "type": "range",
-          "id": "icon_size",
+          "id": "social_icon_size",
           "label": "Ikonstørrelse",
-          "min": 20,
+          "min": 16,
           "max": 48,
           "step": 2,
           "unit": "px",

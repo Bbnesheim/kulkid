@@ -15,9 +15,9 @@
       "type": "main-footer",
       "name": "Main Footer",
       "settings": {
-        "enable_gradient_animation": true,
-        "static_background_color": "#334fb4",
-        "animation_duration": 15,
+        "enable_gradient": true,
+        "static_bg_color": "#334fb4",
+        "gradient_speed": 15,
         "gradient_direction": 45,
         "gradient_size": 400,
         "gradient_color_1": "#ff6b6b",
@@ -47,15 +47,15 @@
           "type": "newsletter",
           "settings": {
             "heading": "Bli med i klubben!",
-            "heading_size": 28,
+            "heading_font_size": 28,
             "description": "<p>Bli med i Kul Kid-klubben!<br/>Få 10% rabatt på første kjøp + tidlig tilgang til nye lanseringer, tilbud og rabatter.</p>",
-            "description_size": 16,
+            "description_font_size": 16,
             "club_icon": "shopify://shop_images/Kundeklubb_679653a3-53d7-496a-bacd-a3b696c13940.svg",
             "club_icon_alt": "Kul Kid klubbikon",
             "club_icon_width": 160,
             "email_placeholder": "Din e-postadresse",
             "button_text": "Få 15% nå",
-            "button_size": 15,
+            "button_font_size": 15,
             "success_message": "Tusen takk! Sjekk innboksen din."
           }
         },

@@ -45,18 +45,27 @@
       {%- if block.settings.image_1 == null -%}
         {%- render 'icon-accordion', icon: block.settings.icon_1 -%}
       {%- else -%}
+        {% assign decorative_image = block.settings.image_1 %}
+        {% assign icon_loading = 'lazy' %}
+        {% assign icon_decoding = 'async' %}
+        {% assign icon_fetchpriority = 'low' %}
+        {% if decorative_image != blank and decorative_image.width and decorative_image.width < 100 %}
+          {% assign icon_loading = 'eager' %}
+          {% assign icon_decoding = 'auto' %}
+          {% assign icon_fetchpriority = 'high' %}
+        {% endif %}
         <img
-          src="{{ block.settings.image_1 | image_url }}"
-          {% if block.settings.image_1.alt != blank %}
-            alt="{{ block.settings.image_1.alt | escape }}"
+          src="{{ decorative_image | image_url }}"
+          {% if decorative_image.alt != blank %}
+            alt="{{ decorative_image.alt | escape }}"
           {% else %}
             role="presentation"
           {% endif %}
           height="auto"
           width="auto"
-          loading="lazy"
-          decoding="async"
-          fetchpriority="low"
+          loading="{{ icon_loading }}"
+          decoding="{{ icon_decoding }}"
+          fetchpriority="{{ icon_fetchpriority }}"
         >
       {%- endif -%}
       <span class="h4 inline-richtext">
@@ -69,18 +78,27 @@
       {%- if block.settings.image_2 == null -%}
         {% render 'icon-accordion', icon: block.settings.icon_2 -%}
       {%- else -%}
+        {% assign decorative_image = block.settings.image_2 %}
+        {% assign icon_loading = 'lazy' %}
+        {% assign icon_decoding = 'async' %}
+        {% assign icon_fetchpriority = 'low' %}
+        {% if decorative_image != blank and decorative_image.width and decorative_image.width < 100 %}
+          {% assign icon_loading = 'eager' %}
+          {% assign icon_decoding = 'auto' %}
+          {% assign icon_fetchpriority = 'high' %}
+        {% endif %}
         <img
-          src="{{ block.settings.image_2 | image_url }}"
-          {% if block.settings.image_2.alt != blank %}
-            alt="{{ block.settings.image_2.alt | escape }}"
+          src="{{ decorative_image | image_url }}"
+          {% if decorative_image.alt != blank %}
+            alt="{{ decorative_image.alt | escape }}"
           {% else %}
             role="presentation"
           {% endif %}
           height="auto"
           width="auto"
-          loading="lazy"
-          decoding="async"
-          fetchpriority="low"
+          loading="{{ icon_loading }}"
+          decoding="{{ icon_decoding }}"
+          fetchpriority="{{ icon_fetchpriority }}"
         >
       {%- endif -%}
       <span class="h4 inline-richtext">
@@ -93,18 +111,27 @@
       {%- if block.settings.image_3 == null -%}
         {% render 'icon-accordion', icon: block.settings.icon_3 -%}
       {%- else -%}
+        {% assign decorative_image = block.settings.image_3 %}
+        {% assign icon_loading = 'lazy' %}
+        {% assign icon_decoding = 'async' %}
+        {% assign icon_fetchpriority = 'low' %}
+        {% if decorative_image != blank and decorative_image.width and decorative_image.width < 100 %}
+          {% assign icon_loading = 'eager' %}
+          {% assign icon_decoding = 'auto' %}
+          {% assign icon_fetchpriority = 'high' %}
+        {% endif %}
         <img
-          src="{{ block.settings.image_3 | image_url }}"
-          {% if block.settings.image_3.alt != blank %}
-            alt="{{ block.settings.image_3.alt | escape }}"
+          src="{{ decorative_image | image_url }}"
+          {% if decorative_image.alt != blank %}
+            alt="{{ decorative_image.alt | escape }}"
           {% else %}
             role="presentation"
           {% endif %}
           height="auto"
           width="auto"
-          loading="lazy"
-          decoding="async"
-          fetchpriority="low"
+          loading="{{ icon_loading }}"
+          decoding="{{ icon_decoding }}"
+          fetchpriority="{{ icon_fetchpriority }}"
         >
       {%- endif -%}
       <span class="h4 inline-richtext">
