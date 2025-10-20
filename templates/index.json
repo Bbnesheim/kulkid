@@ -42,49 +42,56 @@
         "kids_category_3Btmkg": {
           "type": "kids_category",
           "settings": {
-            "name": "Baby",
-            "link": ""
+            "name": "T-skjorter",
+            "image": "shopify://shop_images/toddler-jersey-t-shirt-black-front-2-68dd3bf37eef0.jpg",
+            "link": "shopify://collections/t-skjorter"
           }
         },
         "kids_category_xkKQUB": {
           "type": "kids_category",
           "settings": {
-            "name": "T-Shirts",
-            "link": ""
+            "name": "Body",
+            "image": "shopify://shop_images/Kortermet-Baby-Body-Turkis-Oekologisk-Myk_1.webp",
+            "link": "shopify://collections/bodyer"
           }
         },
         "kids_category_wPizLk": {
           "type": "kids_category",
           "settings": {
-            "name": "Pants",
+            "name": "Hoodies",
+            "image": "shopify://shop_images/kulkid-basic-hette-person.jpg",
             "link": ""
           }
         },
         "kids_category_iQfkAP": {
           "type": "kids_category",
           "settings": {
-            "name": "Dresses",
-            "link": ""
+            "name": "Heldresser",
+            "image": "shopify://shop_images/1_c3c2e6f8-b3b7-4000-b871-03a8f5238d79.png",
+            "link": "shopify://collections/heldresser-baby"
           }
         },
         "kids_category_rJFgN8": {
           "type": "kids_category",
           "settings": {
-            "name": "Outerwear",
+            "name": "Jakker",
+            "image": "shopify://shop_images/KUL-KID-Varsity-Jakke.webp",
             "link": ""
           }
         },
         "kids_category_6engpR": {
           "type": "kids_category",
           "settings": {
-            "name": "Accessories",
-            "link": ""
+            "name": "T-skjorter",
+            "image": "shopify://shop_images/14725403490468397260_2048.jpg",
+            "link": "shopify://collections/t-skjorter-baby"
           }
         },
         "kids_category_CeNChj": {
           "type": "kids_category",
           "settings": {
-            "name": "Toys",
+            "name": "Gensere",
+            "image": "shopify://shop_images/crew-basic-person.jpg",
             "link": ""
           }
         },
