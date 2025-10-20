@@ -153,6 +153,7 @@
     background-size: cover; background-position: center; background-repeat: no-repeat;
     transition: all .3s ease;
   }
+  .kk-category-item__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .kk-category-item:hover .kk-category-item__img { box-shadow: 0 6px 20px rgba(0,0,0,.15); transform: scale(1.05); }
 
   .kk-category-item__label { font-size: 14px; margin-top: 8px; line-height: 1.2; font-weight: 600; }
@@ -224,9 +225,29 @@
     {% for b in section.blocks %}
       {% if b.type == 'kids_slide' %}
         {% assign hero_image = b.settings.image %}
-        <div class="kk-hero-slide" style="{% if hero_image %}background-image: url('{{ hero_image | image_url: width: 1200 }}');{% else %}background-color:#f4f4f4;{% endif %}" {{ b.shopify_attributes }}>
+        <div class="kk-hero-slide" style="{% if hero_image %}background-color:#f4f4f4;{% else %}background-color:#f4f4f4;{% endif %}" {{ b.shopify_attributes }}>
           {% if hero_image %}
-            <img src="{{ hero_image | image_url: width: 1200 }}" alt="{{ hero_image.alt | escape }}" loading="lazy" width="{{ hero_image.width }}" height="{{ hero_image.height }}">
+            {% liquid
+              assign fetch_priority = 'auto'
+              assign loading_attr = 'lazy'
+              if section.index == 1 and forloop.first
+                assign fetch_priority = 'high'
+                assign loading_attr = 'eager'
+              endif
+            %}
+            {{
+              hero_image
+              | image_url: width: 3000
+              | image_tag:
+                width: hero_image.width,
+                height: hero_image.height,
+                loading: loading_attr,
+                decoding: 'async',
+                fetchpriority: fetch_priority,
+                sizes: '100vw',
+                widths: '375, 750, 1100, 1500, 1780, 2000, 3000',
+                alt: hero_image.alt | escape
+            }}
           {% endif %}
           <div class="ai-hero-overlay-{{ ai_gen_id }}"></div>
           <div class="ai-hero-content-{{ ai_gen_id }}">
@@ -257,10 +278,21 @@
             {% if b.type == 'kids_category' %}
               {% assign category_image = b.settings.image %}
               <a href="{{ b.settings.link | default: '#' }}" class="kk-category-item" {{ b.shopify_attributes }}>
-                <div class="kk-category-item__img" {% if category_image %}style="background-image:url('{{ category_image | image_url: width: 200 }}');"{% endif %}>
-                  {% unless category_image %}
+                <div class="kk-category-item__img">
+                  {% if category_image %}
+                    {{
+                      category_image
+                      | image_url: width: 240
+                      | image_tag:
+                        loading: 'lazy',
+                        decoding: 'async',
+                        sizes: '(max-width: 767px) {{ section.settings.category_bubble_size_mobile | default: 96 }}px, {{ section.settings.category_bubble_size | default: 112 }}px',
+                        widths: '60, 96, 110, 136, 160, 200, 240',
+                        alt: b.settings.name | escape
+                    }}
+                  {% else %}
                     {{ 'image' | placeholder_svg_tag }}
-                  {% endunless %}
+                  {% endif %}
                 </div>
                 {% if b.settings.name != blank %}
                   <span class="kk-category-item__label">{{ b.settings.name }}</span>
@@ -282,9 +314,25 @@
   (function() {
     class KidsHero{{ ai_gen_id }} extends HTMLElement {
       connectedCallback() {
-        this.setupCategoryScroller();
-        this.removeSliderHooks();
-        this.setupScrollArrows();
+        const init = () => {
+          this.setupCategoryScroller();
+          this.removeSliderHooks();
+          this.setupScrollArrows();
+        };
+        if ('IntersectionObserver' in window) {
+          const io = new IntersectionObserver((entries, obs) => {
+            if (entries[0].isIntersecting) {
+              obs.unobserve(this);
+              init();
+            }
+          }, { rootMargin: '0px 0px 200px 0px' });
+          io.observe(this);
+        } else if ('requestIdleCallback' in window) {
+          requestIdleCallback(init);
+        } else {
+          setTimeout(init, 0);
+        }
+      }
       setupCategoryScroller() {
         const scroller = this.querySelector('.kk-category-scroller');
         if (!scroller) return;
@@ -319,7 +367,7 @@
           rightArrow.style.pointerEvents = isAtEnd ? 'none' : 'auto';
           rightArrow.style.visibility = isAtEnd ? 'hidden' : 'visible';
         };
-        scroller.addEventListener('scroll', updateArrowVisibility);
+        scroller.addEventListener('scroll', updateArrowVisibility, { passive: true });
         window.addEventListener('resize', updateArrowVisibility);
         updateArrowVisibility();
       }

@@ -63,32 +63,45 @@ function initializeScrollZoomAnimationTrigger() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const animationTriggerElements = Array.from(document.getElementsByClassName(SCROLL_ZOOM_IN_TRIGGER_CLASSNAME));
-
   if (animationTriggerElements.length === 0) return;
 
   const scaleAmount = 0.2 / 100;
+  const visible = new Set();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (isIntersecting) {
+        visible.add(target);
+      } else {
+        visible.delete(target);
+      }
+    });
+  });
 
   animationTriggerElements.forEach((element) => {
-    let elementIsVisible = false;
-    const observer = new IntersectionObserver((elements) => {
-      elements.forEach((entry) => {
-        elementIsVisible = entry.isIntersecting;
-      });
-    });
     observer.observe(element);
-
+    // Initialize ratio for first paint
     element.style.setProperty('--zoom-in-ratio', 1 + scaleAmount * percentageSeen(element));
-
-    window.addEventListener(
-      'scroll',
-      throttle(() => {
-        if (!elementIsVisible) return;
-
-        element.style.setProperty('--zoom-in-ratio', 1 + scaleAmount * percentageSeen(element));
-      }),
-      { passive: true }
-    );
   });
+
+  let ticking = false;
+  const update = () => {
+    visible.forEach((element) => {
+      element.style.setProperty('--zoom-in-ratio', 1 + scaleAmount * percentageSeen(element));
+    });
+    ticking = false;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true }
+  );
 }
 
 function percentageSeen(element) {
