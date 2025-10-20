@@ -9,6 +9,148 @@
  */
 {
   "sections": {
+    "kids_hero_3GTdhb": {
+      "type": "kids-hero",
+      "blocks": {
+        "kids_slide_jKqNPx": {
+          "type": "kids_slide",
+          "settings": {
+            "title": "Seasonal Highlights",
+            "description": "Discover our latest seasonal collection for kids",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "kids_slide_LXyQn8": {
+          "type": "kids_slide",
+          "settings": {
+            "title": "Accessories Focus",
+            "description": "Discover our latest seasonal collection for kids",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "kids_slide_WFGftp": {
+          "type": "kids_slide",
+          "settings": {
+            "title": "Kids & Parents",
+            "description": "Discover our latest seasonal collection for kids",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "kids_category_3Btmkg": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Baby",
+            "link": ""
+          }
+        },
+        "kids_category_xkKQUB": {
+          "type": "kids_category",
+          "settings": {
+            "name": "T-Shirts",
+            "link": ""
+          }
+        },
+        "kids_category_wPizLk": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Pants",
+            "link": ""
+          }
+        },
+        "kids_category_iQfkAP": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Dresses",
+            "link": ""
+          }
+        },
+        "kids_category_rJFgN8": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Outerwear",
+            "link": ""
+          }
+        },
+        "kids_category_6engpR": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Accessories",
+            "link": ""
+          }
+        },
+        "kids_category_CeNChj": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Toys",
+            "link": ""
+          }
+        },
+        "kids_category_BmYyQC": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Home/Interior",
+            "link": ""
+          }
+        },
+        "kids_category_CGiHQq": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Baby",
+            "link": ""
+          }
+        },
+        "kids_category_q4BpXT": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Baby",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "kids_slide_jKqNPx",
+        "kids_slide_LXyQn8",
+        "kids_slide_WFGftp",
+        "kids_category_3Btmkg",
+        "kids_category_xkKQUB",
+        "kids_category_wPizLk",
+        "kids_category_iQfkAP",
+        "kids_category_rJFgN8",
+        "kids_category_6engpR",
+        "kids_category_CeNChj",
+        "kids_category_BmYyQC",
+        "kids_category_CGiHQq",
+        "kids_category_q4BpXT"
+      ],
+      "name": "KIds Hero",
+      "settings": {
+        "hero_height": 500,
+        "hero_radius": 0,
+        "overlay_opacity": 40,
+        "title_size": 28,
+        "description_size": 16,
+        "text_color": "#ffffff",
+        "button_bg_color": "#334fb4",
+        "button_text_color": "#ffffff",
+        "button_hover_color": "#121212",
+        "button_border_radius": 6,
+        "categories_margin_top": 60,
+        "categories_margin_bottom": 40,
+        "category_bg_color": "#f6f6f6",
+        "category_text_color": "#121212",
+        "category_bubble_size": 84,
+        "category_col_width": 136,
+        "category_gap_x": 28,
+        "category_gap_y": 24,
+        "category_bubble_size_mobile": 96,
+        "category_col_width_mobile": 110,
+        "category_gap_x_mobile": 22,
+        "category_gap_y_mobile": 20
+      }
+    },
     "blocks_M737Hn": {
       "type": "_blocks",
       "name": "Kids hero section",
@@ -365,6 +507,7 @@
     }
   },
   "order": [
+    "kids_hero_3GTdhb",
     "blocks_M737Hn",
     "collage_UyGffd",
     "featured_collection",
