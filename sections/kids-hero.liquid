@@ -277,19 +277,19 @@
           {% for b in section.blocks %}
             {% if b.type == 'kids_category' %}
               {% assign category_image = b.settings.image %}
+              {% assign mobile_size = section.settings.category_bubble_size_mobile | default: 96 %}
+              {% assign desktop_size = section.settings.category_bubble_size | default: 112 %}
               <a href="{{ b.settings.link | default: '#' }}" class="kk-category-item" {{ b.shopify_attributes }}>
                 <div class="kk-category-item__img">
                   {% if category_image %}
-                    {{
-                      category_image
-                      | image_url: width: 240
-                      | image_tag:
-                        loading: 'lazy',
-                        decoding: 'async',
-                        sizes: '(max-width: 767px) {{ section.settings.category_bubble_size_mobile | default: 96 }}px, {{ section.settings.category_bubble_size | default: 112 }}px',
-                        widths: '60, 96, 110, 136, 160, 200, 240',
-                        alt: b.settings.name | escape
-                    }}
+                    <img src="{{ category_image | image_url: width: 240 }}" 
+                         srcset="{{ category_image | image_url: width: 60 }} 60w, {{ category_image | image_url: width: 96 }} 96w, {{ category_image | image_url: width: 110 }} 110w, {{ category_image | image_url: width: 136 }} 136w, {{ category_image | image_url: width: 160 }} 160w, {{ category_image | image_url: width: 200 }} 200w, {{ category_image | image_url: width: 240 }} 240w"
+                         sizes="(max-width: 767px) {{ mobile_size }}px, {{ desktop_size }}px"
+                         alt="{{ b.settings.name | escape }}"
+                         loading="lazy"
+                         decoding="async"
+                         width="240"
+                         height="240">
                   {% else %}
                     {{ 'image' | placeholder_svg_tag }}
                   {% endif %}
