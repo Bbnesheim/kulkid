@@ -1123,30 +1123,42 @@
                   {% form 'customer', id: 'ContactFooter', class: 'footer__newsletter-form footer-newsletter__form' %}
                     <input type="hidden" name="contact[tags]" value="newsletter">
 
-                    <label class="visually-hidden" for="ContactFooter-email">Din e-postadresse</label>
                     <div class="newsletter-row">
-                      <input
-                        id="ContactFooter-email"
-                        type="email"
-                        name="contact[email]"
-                        value="{{ form.email }}"
-                        placeholder="{{ block.settings.email_placeholder | default: 'Din e-postadresse' }}"
-                        autocapitalize="off"
-                        autocomplete="email"
-                        spellcheck="false"
-                        required
-                      >
-
-                      <button
-                        type="submit"
-                        class="footer__button footer-newsletter__button"
-                        style="--footer-button-size: {{ button_size }}px;"
-                      >
-                        {{ block.settings.button_text | default: 'Få 15% nå' }}
-                      </button>
-                      <div class="newsletter-success footer__newsletter-feedback">
-                        <p class="footer__newsletter-feedback--success">Success message placeholder</p>
+                      <div class="field">
+                        <input
+                          id="ContactFooter-email"
+                          type="email"
+                          name="contact[email]"
+                          value="{{ form.email }}"
+                          placeholder="{{ block.settings.email_placeholder | default: 'Din e-postadresse' }}"
+                          autocapitalize="off"
+                          autocomplete="email"
+                          spellcheck="false"
+                          {% if form.errors %}aria-invalid="true" aria-describedby="ContactFooter-error" autofocus{% elsif form.posted_successfully? %}aria-describedby="ContactFooter-success"{% endif %}
+                          required
+                        >
+                        <label class="visually-hidden" for="ContactFooter-email">Din e-postadresse</label>
+                        <button
+                          type="submit"
+                          class="footer__button footer-newsletter__button"
+                          style="--footer-button-size: {{ button_size }}px;"
+                          aria-label="{{ block.settings.button_text | default: 'Få 15% nå' }}"
+                        >
+                          {{ block.settings.button_text | default: 'Få 15% nå' }}
+                        </button>
                       </div>
+
+                      {% if form.errors %}
+                        <small class="footer__newsletter-feedback footer__newsletter-feedback--error" id="ContactFooter-error" data-newsletter-error data-newsletter-error-text>
+                          {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
+                        </small>
+                      {% endif %}
+
+                      {% if form.posted_successfully? %}
+                        <h3 class="footer__newsletter-feedback footer__newsletter-feedback--success" id="ContactFooter-success" tabindex="-1" autofocus data-newsletter-success data-newsletter-success-text>
+                          {{ block.settings.success_message | default: section.settings.newsletter_success_fallback }}
+                        </h3>
+                      {% endif %}
                     </div>
                   {% endform %}
                 </div>
