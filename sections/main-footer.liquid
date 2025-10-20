@@ -1120,7 +1120,9 @@
                     {% endif %}
                   </div>
 
-                  {% form 'customer', id: 'ContactFooter', class: 'footer__newsletter-form footer-newsletter__form', data-newsletter-form: 'true', data-success-message: block.settings.success_message | default: section.settings.newsletter_success_fallback, data-error-message: block.settings.error_message | default: 'Vennligst skriv inn en gyldig e-postadresse.' %}
+                  {% assign footer_success_message = block.settings.success_message | default: section.settings.newsletter_success_fallback | escape %}
+                  {% assign footer_error_message = block.settings.error_message | default: 'Vennligst skriv inn en gyldig e-postadresse.' | escape %}
+                  {% form 'customer', id: 'ContactFooter', class: 'footer__newsletter-form footer-newsletter__form', data-newsletter-form: true, data-success-message: footer_success_message, data-error-message: footer_error_message %}
                     <input type="hidden" name="contact[tags]" value="newsletter">
 
                     <div class="newsletter-row">
