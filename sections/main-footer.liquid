@@ -438,7 +438,6 @@
     background: rgba(255, 255, 255, 0.12);
     color: {{ text_color }};
     font-family: 'Quicksand', var(--font-body-family, sans-serif);
-    border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
   }
@@ -450,9 +449,16 @@
 
   .footer-section-{{ footer_id }} .footer-newsletter__form input[type='email']:focus-visible,
   .footer-section-{{ footer_id }} .footer__newsletter-form input[type='email']:focus-visible {
-    outline: 3px solid rgba(255, 255, 255, 0.8);
-    outline-offset: 2px;
+    outline: none;
   }
+
+  /* Remove default Dawn field box-shadows/borders inside footer newsletter */
+  .footer-section-{{ footer_id }} .field::before,
+  .footer-section-{{ footer_id }} .field::after {
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .footer-section-{{ footer_id }} .field:hover.field::after { box-shadow: none !important; }
 
   .footer-section-{{ footer_id }} .footer-newsletter__button {
     border-radius: 8px;
@@ -583,8 +589,7 @@
   .footer-section-{{ footer_id }} .footer__button:focus-visible {
     transform: translateY(-1px);
     box-shadow: 0 14px 28px rgba(118, 75, 162, 0.45);
-    outline: 3px solid rgba(255, 255, 255, 0.6);
-    outline-offset: 3px;
+    outline: none;
   }
 
   .footer-section-{{ footer_id }} .footer__newsletter-form .footer__button,
