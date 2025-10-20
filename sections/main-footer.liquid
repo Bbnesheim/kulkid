@@ -1120,7 +1120,7 @@
                     {% endif %}
                   </div>
 
-                  {% form 'customer', id: 'ContactFooter', class: 'footer__newsletter-form footer-newsletter__form' %}
+                  {% form 'customer', id: 'ContactFooter', class: 'footer__newsletter-form footer-newsletter__form', data-newsletter-form: 'true', data-success-message: block.settings.success_message | default: section.settings.newsletter_success_fallback, data-error-message: block.settings.error_message | default: 'Vennligst skriv inn en gyldig e-postadresse.' %}
                     <input type="hidden" name="contact[tags]" value="newsletter">
 
                     <div class="newsletter-row">
@@ -1148,17 +1148,17 @@
                         </button>
                       </div>
 
-                      {% if form.errors %}
-                        <small class="footer__newsletter-feedback footer__newsletter-feedback--error" id="ContactFooter-error" data-newsletter-error data-newsletter-error-text>
-                          {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
-                        </small>
-                      {% endif %}
+                      <small class="footer__newsletter-feedback footer__newsletter-feedback--error" id="ContactFooter-error" data-newsletter-error {% unless form.errors %}hidden aria-hidden="true"{% endunless %}>
+                        <span data-newsletter-error-text>
+                          {% if form.errors %}{{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}{% endif %}
+                        </span>
+                      </small>
 
-                      {% if form.posted_successfully? %}
-                        <h3 class="footer__newsletter-feedback footer__newsletter-feedback--success" id="ContactFooter-success" tabindex="-1" autofocus data-newsletter-success data-newsletter-success-text>
+                      <h3 class="footer__newsletter-feedback footer__newsletter-feedback--success" id="ContactFooter-success" data-newsletter-success {% unless form.posted_successfully? %}hidden aria-hidden="true"{% endunless %} {% if form.posted_successfully? %}tabindex="-1" autofocus{% endif %}>
+                        <span data-newsletter-success-text>
                           {{ block.settings.success_message | default: section.settings.newsletter_success_fallback }}
-                        </h3>
-                      {% endif %}
+                        </span>
+                      </h3>
                     </div>
                   {% endform %}
                 </div>
@@ -2343,6 +2343,12 @@
           "id": "success_message",
           "label": "Suksessmelding",
           "default": "Tusen takk! Sjekk innboksen din."
+        },
+        {
+          "type": "text",
+          "id": "error_message",
+          "label": "Feilmelding",
+          "default": "Vennligst skriv inn en gyldig e-postadresse."
         }
       ]
     },
