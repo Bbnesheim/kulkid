@@ -175,7 +175,12 @@ if (!customElements.get('product-info')) {
             return;
           }
 
-          this.updateMedia(html, variant?.featured_media?.id);
+          // Try featured_media first, then fallback to color matching
+          let mediaId = variant?.featured_media?.id;
+          if (!mediaId && variant) {
+            mediaId = this.findMediaIdByColor(variant);
+          }
+          this.updateMedia(html, mediaId);
 
           const updateSourceFromDestination = (id, shouldHide = (source) => false) => {
             const source = html.getElementById(`${id}-${this.sectionId}`);
@@ -237,6 +242,54 @@ if (!customElements.get('product-info')) {
           .map((id) => `#${id}-${this.dataset.section}`)
           .join(', ');
         document.querySelectorAll(selectors).forEach(({ classList }) => classList.add('hidden'));
+      }
+
+      findMediaIdByColor(variant) {
+        if (!variant) return null;
+        
+        // Find color option value
+        let colorValue = null;
+        const colorOptionNames = ['Color', 'Colour', 'Farge', 'color', 'colour', 'farge'];
+        
+        for (let i = 1; i <= 3; i++) {
+          const optionName = variant[`option${i}`];
+          if (optionName && colorOptionNames.some(name => 
+            variant[`option${i}`] && (window.product?.options?.[i-1]?.toLowerCase().includes('color') || 
+            window.product?.options?.[i-1]?.toLowerCase().includes('farge'))
+          )) {
+            colorValue = optionName;
+            break;
+          }
+        }
+        
+        // Fallback: check each option
+        if (!colorValue) {
+          colorValue = variant.option1 || variant.option2 || variant.option3;
+        }
+        
+        if (!colorValue) return null;
+        
+        // Find media with matching alt text or filename
+        const colorLower = colorValue.toLowerCase();
+        const mediaGallery = this.querySelector('media-gallery');
+        if (!mediaGallery) return null;
+        
+        const mediaItems = mediaGallery.querySelectorAll('[data-media-id]');
+        for (const item of mediaItems) {
+          const mediaId = item.dataset.mediaId;
+          const img = item.querySelector('img');
+          if (img) {
+            const alt = (img.alt || '').toLowerCase();
+            const src = (img.src || '').toLowerCase();
+            
+            // Check if color name is in alt text or filename
+            if (alt.includes(colorLower) || src.includes(colorLower.replace(/[\s-]/g, ''))) {
+              return mediaId.split('-').pop(); // Extract just the ID part
+            }
+          }
+        }
+        
+        return null;
       }
 
       updateMedia(html, variantFeaturedMediaId) {
