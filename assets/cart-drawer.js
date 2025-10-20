@@ -116,35 +116,21 @@ class CartDrawer extends HTMLElement {
 
 customElements.define('cart-drawer', CartDrawer);
 
-if (window?.customElements) {
-  const registerCartDrawerItems = () => {
-    if (window.customElements.get('cart-drawer-items')) return;
-    const CartItemsCtor = window.customElements.get('cart-items');
-    if (!CartItemsCtor) return;
-
-    class CartDrawerItems extends CartItemsCtor {
-      getSectionsToRender() {
-        return [
-          {
-            id: 'CartDrawer',
-            section: 'cart-drawer',
-            selector: '.drawer__inner',
-          },
-          {
-            id: 'cart-icon-bubble',
-            section: 'cart-icon-bubble',
-            selector: '.shopify-section',
-          },
-        ];
-      }
-    }
-
-    window.customElements.define('cart-drawer-items', CartDrawerItems);
-  };
-
-  if (window.customElements.get('cart-items')) {
-    registerCartDrawerItems();
-  } else if (window.customElements.whenDefined) {
-    window.customElements.whenDefined('cart-items').then(registerCartDrawerItems).catch(() => {});
+class CartDrawerItems extends CartItems {
+  getSectionsToRender() {
+    return [
+      {
+        id: 'CartDrawer',
+        section: 'cart-drawer',
+        selector: '.drawer__inner',
+      },
+      {
+        id: 'cart-icon-bubble',
+        section: 'cart-icon-bubble',
+        selector: '.shopify-section',
+      },
+    ];
   }
 }
+
+customElements.define('cart-drawer-items', CartDrawerItems);

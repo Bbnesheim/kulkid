@@ -14,7 +14,6 @@ function onIntersection(elements, observer) {
           elementTarget.setAttribute('style', `--animation-order: ${index};`);
       }
       observer.unobserve(elementTarget);
-      delete elementTarget.dataset.kulkidScrollObserved;
     } else {
       element.target.classList.add(SCROLL_ANIMATION_OFFSCREEN_CLASSNAME);
       element.target.classList.remove(SCROLL_ANIMATION_CANCEL_CLASSNAME);
@@ -22,40 +21,21 @@ function onIntersection(elements, observer) {
   });
 }
 
-function getScrollAnimationObserver() {
-  if (!('IntersectionObserver' in window)) return null;
-  if (!window.KULKID_SCROLL_OBSERVER) {
-    window.KULKID_SCROLL_OBSERVER = new IntersectionObserver(onIntersection, {
-      rootMargin: '0px 0px -50px 0px',
-    });
-  }
-  return window.KULKID_SCROLL_OBSERVER;
-}
-
 function initializeScrollAnimationTrigger(rootEl = document, isDesignModeEvent = false) {
-  const context =
-    rootEl && typeof rootEl.getElementsByClassName === 'function' ? rootEl : document;
-  const allCandidates = Array.from(context.getElementsByClassName(SCROLL_ANIMATION_TRIGGER_CLASSNAME));
-  if (!allCandidates.length) return;
+  const animationTriggerElements = Array.from(rootEl.getElementsByClassName(SCROLL_ANIMATION_TRIGGER_CLASSNAME));
+  if (animationTriggerElements.length === 0) return;
 
   if (isDesignModeEvent) {
-    allCandidates.forEach((element) => {
+    animationTriggerElements.forEach((element) => {
       element.classList.add('scroll-trigger--design-mode');
     });
     return;
   }
 
-  const observer = getScrollAnimationObserver();
-  if (!observer) {
-    allCandidates.forEach((element) => element.classList.remove(SCROLL_ANIMATION_OFFSCREEN_CLASSNAME));
-    return;
-  }
-
-  allCandidates.forEach((element) => {
-    if (element.dataset.kulkidScrollObserved === 'true') return;
-    element.dataset.kulkidScrollObserved = 'true';
-    observer.observe(element);
+  const observer = new IntersectionObserver(onIntersection, {
+    rootMargin: '0px 0px -50px 0px',
   });
+  animationTriggerElements.forEach((element) => observer.observe(element));
 }
 
 // Zoom in animation logic
