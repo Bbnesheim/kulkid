@@ -148,57 +148,6 @@
       ],
       "settings": {}
     },
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Klar for små monstre!",
-            "heading_size": "h2"
-          }
-        },
-        "text_UK4ByM": {
-          "type": "text",
-          "settings": {
-            "text": "",
-            "text_style": "body"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop nyheter",
-            "button_link_1": "shopify://collections/nyheter",
-            "button_style_secondary_1": false,
-            "button_label_2": "Se baby-kolleksjonen",
-            "button_link_2": "shopify://collections/baby",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text_UK4ByM",
-        "button"
-      ],
-      "disabled": true,
-      "name": "HERO",
-      "settings": {
-        "image": "shopify://shop_images/all-over-print-kids-leggings-white-front-68dead95697c4.jpg",
-        "image_2": "shopify://shop_images/toddler-jersey-t-shirt-heather-left-front-68dd312b1b126.jpg",
-        "image_overlay_opacity": 0,
-        "image_height": "large",
-        "image_behavior": "none",
-        "desktop_content_position": "bottom-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-1",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
-      }
-    },
     "collage_UyGffd": {
       "type": "collage",
       "blocks": {
@@ -551,7 +500,6 @@
   },
   "order": [
     "1759515763e97dfa5c",
-    "image_banner",
     "collage_UyGffd",
     "featured_collection",
     "collection_list_gTXynP",
