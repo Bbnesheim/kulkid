@@ -2,6 +2,23 @@
 (function() {
   console.log('=== KULKID Debug Info ===');
   
+  // Monitor variant changes
+  document.addEventListener('change', (e) => {
+    if (e.target.closest('variant-selects')) {
+      console.log('Variant change:', e.target.name, '=', e.target.value);
+    }
+  });
+  
+  // Monitor publish events
+  if (typeof subscribe !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
+    subscribe(PUB_SUB_EVENTS.optionValueSelectionChange, (data) => {
+      console.log('Option change published:', data);
+    });
+    subscribe(PUB_SUB_EVENTS.variantChange, (data) => {
+      console.log('Variant changed:', data);
+    });
+  }
+  
   // Check facets
   const facetForms = document.querySelectorAll('facet-filters-form');
   console.log('Facet forms found:', facetForms.length);
