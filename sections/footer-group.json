@@ -15,7 +15,7 @@
       "type": "main-footer",
       "blocks": {
         "newsletter_block": {
-          "type": "newsletter",
+          "type": "newsletter_block",
           "settings": {
             "heading": "Bli med i klubben!",
             "heading_font_size": 28,

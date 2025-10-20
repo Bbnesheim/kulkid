@@ -134,12 +134,6 @@
         "settings": {
           "color_scheme": "scheme-1"
         }
-      },
-      "main-password-footer": {
-        "type": "main-password-footer",
-        "settings": {
-          "color_scheme": "scheme-1"
-        }
       }
     },
     "content_for_index": [],
@@ -387,12 +381,6 @@
       "sections": {
         "main-password-header": {
           "type": "main-password-header",
-          "settings": {
-            "color_scheme": "scheme-1"
-          }
-        },
-        "main-password-footer": {
-          "type": "main-password-footer",
           "settings": {
             "color_scheme": "scheme-1"
           }

@@ -326,20 +326,26 @@
     z-index: 20;
   }
 
+  .footer-section-{{ footer_id }} .footer-newsletter__body {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.5vw, 20px);
+    width: 100%;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__body--with-image {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(80px, var(--newsletter-icon-width, 180px), 240px);
+    gap: var(--newsletter-icon-gap, 18px);
+    align-items: flex-start;
+  }
+
   .footer-section-{{ footer_id }} .footer-newsletter__image {
-    position: absolute;
-    top: var(--newsletter-icon-top, 1rem);
-    right: var(--newsletter-icon-right, 1rem);
-    width: var(--newsletter-icon-width, 120px);
+    width: 100%;
     max-width: 100%;
     height: auto;
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    z-index: 40 !important;
-    pointer-events: none;
-    filter: none !important;
-    mix-blend-mode: normal !important;
+    display: block;
+    margin-top: 0;
   }
 
   .footer-section-{{ footer_id }} .footer-newsletter__card img[src=''] {
@@ -358,8 +364,7 @@
   }
 
   .footer-section-{{ footer_id }} .footer-newsletter__content--with-image {
-    --newsletter-content-offset: calc(var(--newsletter-icon-width, 120px) + var(--newsletter-icon-gap, 4px) + var(--newsletter-icon-right, 0px));
-    padding-right: var(--newsletter-content-offset);
+    padding-right: 0;
   }
 
   .footer-section-{{ footer_id }} .footer__newsletter-form,
@@ -370,14 +375,23 @@
     gap: clamp(12px, 1.3vw, 20px);
     margin-top: var(--newsletter-action-spacing, 1rem);
     width: 100%;
+    max-width: 100%;
   }
 
   .footer-section-{{ footer_id }} .newsletter-row {
-    display: grid;
-    grid-template-columns: 1fr max-content;
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     align-items: stretch;
     width: 100%;
+  }
+
+  .footer-section-{{ footer_id }} .footer-newsletter__media {
+    width: clamp(80px, var(--newsletter-icon-width, 180px), 240px);
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
   }
 
   .footer-section-{{ footer_id }} .newsletter-row input[type='email'] {
@@ -387,13 +401,14 @@
 
   .footer-section-{{ footer_id }} .newsletter-row button {
     height: 48px;
-    padding: 0 20px;
-    min-width: 140px;
+    padding: 0 24px;
+    width: 100%;
+    border-radius: 6px;
   }
 
   .footer-section-{{ footer_id }} .newsletter-success {
-    grid-column: 1 / -1;
-    margin-top: 8px;
+    width: 100%;
+    margin-top: 4px;
     text-align: left;
   }
 
@@ -406,7 +421,7 @@
 
   .footer-section-{{ footer_id }} .footer-newsletter__content--with-image .footer__newsletter-copy {
     margin-right: 0;
-    padding-right: clamp(8px, var(--newsletter-icon-gap, 4px) + 8px, 24px);
+    padding-right: 0;
   }
 
   .footer-section-{{ footer_id }} .footer-newsletter__content--with-image .footer-newsletter__form,
@@ -511,6 +526,9 @@
     font-weight: 600;
     margin: 0;
     letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: {{ text_color }};
   }
 
@@ -919,6 +937,45 @@
       margin: 0 auto !important;
     }
 
+    .footer-section-{{ footer_id }} .footer-newsletter__body {
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-section-{{ footer_id }} .footer-newsletter__body--with-image {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, calc(var(--newsletter-icon-mobile-width, var(--newsletter-icon-width, 180px)) * 0.12), 28px);
+    }
+
+    .footer-section-{{ footer_id }} .footer-newsletter__media {
+      order: -1;
+      position: static;
+      margin-bottom: clamp(1rem, 4vw, 1.75rem);
+      width: clamp(
+        80px,
+        var(--newsletter-icon-mobile-width, var(--newsletter-icon-width, 180px)),
+        220px
+      );
+      max-width: clamp(
+        80px,
+        var(--newsletter-icon-mobile-width, var(--newsletter-icon-width, 180px)),
+        220px
+      );
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .footer-section-{{ footer_id }} .footer-newsletter__image {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .footer-section-{{ footer_id }} .footer-newsletter__content--with-image {
+      align-items: center;
+      padding-right: 0;
+    }
+
     .footer-section-{{ footer_id }} .footer__newsletter-brand {
       align-items: center;
       text-align: center;
@@ -927,6 +984,11 @@
     .footer-section-{{ footer_id }} .footer__newsletter-form {
       grid-template-columns: 1fr;
       gap: 0.75rem;
+      max-width: 100%;
+    }
+
+    .footer-section-{{ footer_id }} .newsletter-row {
+      max-width: 100%;
     }
 
     .footer-section-{{ footer_id }} .footer-newsletter__content--with-image .footer-newsletter__form,
@@ -988,14 +1050,18 @@
       {% endif %}
       {% assign block_style_attr = '' %}
       {% assign block_extra_class = '' %}
+      {% assign normalized_block_type = block.type %}
+      {% if block.type == 'newsletter_block' %}
+        {% assign normalized_block_type = 'newsletter' %}
+      {% endif %}
       {% if block.type == 'social_icons' or block.type == 'social' %}
         {% assign social_spacing_bottom_setting = block.settings.social_spacing_bottom | default: 32 | plus: 0 %}
         {% assign block_style_attr = ' style="--footer-social-block-spacing: ' | append: social_spacing_bottom_setting | append: 'px;"' %}
         {% assign block_extra_class = ' footer-social' %}
       {% endif %}
       {% capture block_markup %}
-        <div class="footer__block footer__block--{{ block.type }}{{ block_extra_class }}"{% if block_style_attr != '' %}{{ block_style_attr }}{% endif %} {{ block.shopify_attributes }}>
-          {% case block.type %}
+        <div class="footer__block footer__block--{{ normalized_block_type }}{{ block_extra_class }}"{% if block_style_attr != '' %}{{ block_style_attr }}{% endif %} {{ block.shopify_attributes }}>
+          {% case normalized_block_type %}
             {% when 'newsletter' %}
               {% assign heading_size = block.settings.heading_font_size | default: 28 | plus: 0 %}
               {% assign description_size = block.settings.description_font_size | default: 16 | plus: 0 %}
@@ -1010,6 +1076,10 @@
               {% else %}
                 {% assign club_icon_width_mobile = club_icon_width_mobile | plus: 0 %}
               {% endif %}
+              {% assign icon_gap = club_icon_width | times: 0.12 | round: 0 %}
+              {% assign icon_gap = icon_gap | at_least: 12 %}
+              {% assign icon_gap = icon_gap | at_most: 28 %}
+              {% assign newsletter_form_max_width = block.settings.newsletter_form_max_width | default: 520 | plus: 0 %}
               {% assign action_spacing_desktop = block.settings.action_spacing_desktop | default: 16 | plus: 0 %}
               {% assign action_spacing_mobile = block.settings.action_spacing_mobile %}
               {% if action_spacing_mobile == blank %}
@@ -1022,60 +1092,63 @@
                 class="footer__newsletter"
                 style="--newsletter-action-spacing: {{ action_spacing_desktop }}px; --newsletter-action-spacing-mobile: {{ action_spacing_mobile }}px;"
               >
-                <div
+              <div
                   class="footer-newsletter__card"
-                  style="padding: {{ newsletter_padding_top }}px {{ newsletter_padding_side }}px {{ newsletter_padding_bottom }}px;{% if block.settings.club_icon != blank %} --newsletter-icon-gap: 4px;{% endif %}"
+                  style="padding: {{ newsletter_padding_top }}px {{ newsletter_padding_side }}px {{ newsletter_padding_bottom }}px; --newsletter-icon-width: {{ club_icon_width }}px; --newsletter-icon-mobile-width: {{ club_icon_width_mobile }}px; --newsletter-icon-gap: {{ icon_gap }}px; --newsletter-icon-top: {{ newsletter_padding_top }}px;"
                 >
-                  <div class="footer-newsletter__content{% if block.settings.club_icon != blank %} footer-newsletter__content--with-image{% endif %}">
-                    {% if block.settings.heading != blank %}
-                      <h2 class="footer__heading" style="--footer-heading-size: {{ heading_size }}px;">{{ block.settings.heading }}</h2>
-                    {% endif %}
-                    {% if block.settings.description != blank %}
-                      <div class="footer__newsletter-copy" style="--footer-text-size: {{ description_size }}px;">{{ block.settings.description }}</div>
-                    {% endif %}
+                  <div class="footer-newsletter__body{% if block.settings.club_icon != blank %} footer-newsletter__body--with-image{% endif %}">
+                    <div class="footer-newsletter__content{% if block.settings.club_icon != blank %} footer-newsletter__content--with-image{% endif %}">
+                      {% if block.settings.heading != blank %}
+                        <h2 class="footer__heading" style="--footer-heading-size: {{ heading_size }}px;">{{ block.settings.heading }}</h2>
+                      {% endif %}
+                      {% if block.settings.description != blank %}
+                        <div class="footer__newsletter-copy" style="--footer-text-size: {{ description_size }}px;">{{ block.settings.description }}</div>
+                      {% endif %}
+                    </div>
 
-                    {% form 'customer', id: 'ContactFooter', class: 'footer__newsletter-form footer-newsletter__form' %}
-                      <input type="hidden" name="contact[tags]" value="newsletter">
-
-                      <label class="visually-hidden" for="ContactFooter-email">Din e-postadresse</label>
-                      <div class="newsletter-row">
-                        <input
-                          id="ContactFooter-email"
-                          type="email"
-                          name="contact[email]"
-                          value="{{ form.email }}"
-                          placeholder="{{ block.settings.email_placeholder | default: 'Din e-postadresse' }}"
-                          autocapitalize="off"
-                          autocomplete="email"
-                          spellcheck="false"
-                          required
+                    {% if block.settings.club_icon != blank %}
+                      <div class="footer-newsletter__media">
+                        <img
+                          src="{{ block.settings.club_icon | image_url: width: club_icon_width }}"
+                          alt="{{ block.settings.club_icon_alt | escape }}"
+                          width="{{ club_icon_width }}"
+                          class="footer-newsletter__image"
+                          loading="eager"
+                          decoding="auto"
                         >
-
-                        <button
-                          type="submit"
-                          class="footer__button footer-newsletter__button"
-                          style="--footer-button-size: {{ button_size }}px;"
-                        >
-                          {{ block.settings.button_text | default: 'Få 15% nå' }}
-                        </button>
-                        <div class="newsletter-success footer__newsletter-feedback">
-                          <p class="footer__newsletter-feedback--success">Success message placeholder</p>
-                        </div>
                       </div>
-                    {% endform %}
+                    {% endif %}
                   </div>
 
-                  {% if block.settings.club_icon != blank %}
-                    <img
-                      src="{{ block.settings.club_icon | image_url: width: club_icon_width }}"
-                      alt="{{ block.settings.club_icon_alt | escape }}"
-                      width="{{ club_icon_width }}"
-                      class="footer-newsletter__image"
-                      loading="eager"
-                      decoding="auto"
-                      style="--newsletter-icon-width: {{ club_icon_width }}px; --newsletter-icon-mobile-width: {{ club_icon_width_mobile }}px; --newsletter-icon-top: {{ newsletter_padding_top }}px; --newsletter-icon-right: {{ newsletter_padding_side }}px;"
-                    >
-                  {% endif %}
+                  {% form 'customer', id: 'ContactFooter', class: 'footer__newsletter-form footer-newsletter__form' %}
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+
+                    <label class="visually-hidden" for="ContactFooter-email">Din e-postadresse</label>
+                    <div class="newsletter-row">
+                      <input
+                        id="ContactFooter-email"
+                        type="email"
+                        name="contact[email]"
+                        value="{{ form.email }}"
+                        placeholder="{{ block.settings.email_placeholder | default: 'Din e-postadresse' }}"
+                        autocapitalize="off"
+                        autocomplete="email"
+                        spellcheck="false"
+                        required
+                      >
+
+                      <button
+                        type="submit"
+                        class="footer__button footer-newsletter__button"
+                        style="--footer-button-size: {{ button_size }}px;"
+                      >
+                        {{ block.settings.button_text | default: 'Få 15% nå' }}
+                      </button>
+                      <div class="newsletter-success footer__newsletter-feedback">
+                        <p class="footer__newsletter-feedback--success">Success message placeholder</p>
+                      </div>
+                    </div>
+                  {% endform %}
                 </div>
               </div>
 
@@ -1603,7 +1676,7 @@
         </div>
       {% endcapture %}
 
-      {% case block.type %}
+      {% case normalized_block_type %}
         {% when 'newsletter' %}
           {% capture footer_left_newsletter %}{{ footer_left_newsletter }}{{ block_markup }}{% endcapture %}
         {% when 'social_icons' %}
@@ -2107,7 +2180,7 @@
   ],
   "blocks": [
     {
-      "type": "newsletter",
+      "type": "newsletter_block",
       "name": "Nyhetsbrev",
       "limit": 1,
       "settings": [
@@ -2163,6 +2236,16 @@
           "step": 10,
           "unit": "px",
           "default": 160
+        },
+        {
+          "type": "range",
+          "id": "newsletter_form_max_width",
+          "label": "Maks bredde på inputfelt",
+          "min": 360,
+          "max": 720,
+          "step": 10,
+          "unit": "px",
+          "default": 520
         },
         {
           "type": "range",
@@ -2637,7 +2720,7 @@
       "name": "Kul Kid Main Footer",
       "blocks": [
         {
-          "type": "newsletter"
+          "type": "newsletter_block"
         },
         {
           "type": "link_group",
