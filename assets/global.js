@@ -1695,7 +1695,52 @@ function initNewsletterForms(root = document) {
 }
 
 initNewsletterForms();
+forceEagerDecorativeImages();
 
 document.addEventListener('shopify:section:load', (event) => {
   initNewsletterForms(event.target);
+  forceEagerDecorativeImages(event.target);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  forceEagerDecorativeImages();
+});
+
+if (document?.documentElement) {
+  document.documentElement.addEventListener('kulkid:facets:updated', (event) => {
+    const root = event?.detail?.root || document;
+    forceEagerDecorativeImages(root);
+  });
+}
+
+function forceEagerDecorativeImages(root = document) {
+  if (!root || typeof root.querySelectorAll !== 'function') return;
+
+  const eagerTargets = [
+    { selector: '.footer-newsletter__image', priority: 'high' },
+    { selector: '.footer__icon', priority: 'auto' },
+    { selector: '.header__heading-logo img', priority: 'high' },
+  ];
+
+  eagerTargets.forEach(({ selector, priority }) => {
+    root.querySelectorAll(selector).forEach((node) => {
+      if (!(node instanceof HTMLImageElement)) return;
+
+      if (node.loading !== 'eager') {
+        node.loading = 'eager';
+      }
+
+      if (!node.hasAttribute('decoding') || node.decoding === 'async') {
+        node.decoding = 'auto';
+      }
+
+      if (typeof priority === 'string' && 'fetchPriority' in node) {
+        try {
+          node.fetchPriority = priority;
+        } catch (error) {
+          // Silently ignore browsers that do not support fetchPriority assignment.
+        }
+      }
+    });
+  });
+}
