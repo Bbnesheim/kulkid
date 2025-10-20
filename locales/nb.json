@@ -288,6 +288,11 @@
     }
   },
   "sections": {
+    "kids-hero": {
+      "name": "Kids hero",
+      "scroll_left": "Bla til venstre",
+      "scroll_right": "Bla til høyre"
+    },
     "header": {
       "announcement": "Kunngjøring",
       "menu": "Meny",

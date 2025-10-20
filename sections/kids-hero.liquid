@@ -196,8 +196,8 @@
     .ai-hero-description-{{ ai_gen_id }} { font-size: {{ section.settings.description_size | times: 0.9 }}px; }
     .ai-hero-content-{{ ai_gen_id }} { inset: auto 0 16px 16px; }
 
-    .kk-category-scroller { --col-width: {{ section.settings.category_col_width | times: 0.8 | round }}px; --gap-y: {{ section.settings.category_gap_y | times: 0.85 | round }}px; --gap-x: {{ section.settings.category_gap_x | times: 0.85 | round }}px; }
-    .kk-category-item__img { width: {{ section.settings.category_bubble_size | times: 0.85 | round }}px; height: {{ section.settings.category_bubble_size | times: 0.85 | round }}px; }
+    .kk-category-scroller { --col-width: {{ section.settings.category_col_width_mobile }}px; --gap-y: {{ section.settings.category_gap_y_mobile }}px; --gap-x: {{ section.settings.category_gap_x_mobile }}px; }
+    .kk-category-item__img { width: {{ section.settings.category_bubble_size_mobile }}px; height: {{ section.settings.category_bubble_size_mobile }}px; }
   }
 
   @media (min-width: 768px) {
@@ -248,7 +248,7 @@
   <div class="ai-categories-section-{{ ai_gen_id }}">
     <div class="ai-categories-wrapper-{{ ai_gen_id }}">
       <div class="kk-category-scroller-wrap">
-        <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-left-{{ ai_gen_id }}" aria-label="Scroll left">
+        <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-left-{{ ai_gen_id }}" aria-label="{{ 'sections.kids-hero.scroll_left' | t }}">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
         </button>
 
@@ -270,7 +270,7 @@
           {% endfor %}
         </div>
 
-        <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-right-{{ ai_gen_id }}" aria-label="Scroll right">
+        <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-right-{{ ai_gen_id }}" aria-label="{{ 'sections.kids-hero.scroll_right' | t }}">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
         </button>
       </div>
@@ -285,14 +285,16 @@
         this.setupCategoryScroller();
         this.removeSliderHooks();
         this.setupScrollArrows();
-      }
       setupCategoryScroller() {
         const scroller = this.querySelector('.kk-category-scroller');
         if (!scroller) return;
+
         scroller.classList.remove('slider', 'swiper', 'slick');
         scroller.removeAttribute('data-slider');
         const existingDots = scroller.parentElement.querySelectorAll('.slick-dots, .swiper-pagination, .slider__dots');
         existingDots.forEach(d => d.remove());
+
+        this.enableWheelAndKeys(scroller);
       }
       setupScrollArrows() {
         const scroller = this.querySelector('.kk-category-scroller');
@@ -321,6 +323,30 @@
         window.addEventListener('resize', updateArrowVisibility);
         updateArrowVisibility();
       }
+      enableWheelAndKeys(scroller) {
+        // Keyboard support
+        scroller.setAttribute('tabindex', '0');
+        scroller.addEventListener('keydown', (e) => {
+          const step = Math.max(120, scroller.clientWidth * 0.8);
+          if (e.key === 'ArrowLeft') { scroller.scrollBy({ left: -120, behavior: 'smooth' }); e.preventDefault(); }
+          if (e.key === 'ArrowRight') { scroller.scrollBy({ left: 120, behavior: 'smooth' }); e.preventDefault(); }
+          if (e.key === 'Home') { scroller.scrollTo({ left: 0, behavior: 'smooth' }); e.preventDefault(); }
+          if (e.key === 'End') { scroller.scrollTo({ left: scroller.scrollWidth, behavior: 'smooth' }); e.preventDefault(); }
+          if (e.key === 'PageUp') { scroller.scrollBy({ left: -step, behavior: 'smooth' }); e.preventDefault(); }
+          if (e.key === 'PageDown') { scroller.scrollBy({ left: step, behavior: 'smooth' }); e.preventDefault(); }
+        });
+        // Mouse wheel (vertical -> horizontal) on desktop only
+        scroller.addEventListener('wheel', (e) => {
+          const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+          const canScroll = scroller.scrollWidth > scroller.clientWidth;
+          if (!isDesktop || !canScroll) return; // let normal behavior on mobile or no overflow
+          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            scroller.scrollLeft += e.deltaY;
+            e.preventDefault();
+          }
+        }, { passive: false });
+      }
+
       removeSliderHooks() {
         const heroTrack = this.querySelector('.kk-hero-track');
         if (!heroTrack) return;
@@ -341,7 +367,7 @@
 
 {% schema %}
 {
-  "name": "Kids hero",
+  "name": "t:sections.kids-hero.name",
   "settings": [
     { "type": "range", "id": "hero_height", "min": 300, "max": 800, "step": 50, "unit": "px", "label": "Hero height", "default": 500 },
     { "type": "range", "id": "hero_radius", "min": 0, "max": 24, "step": 2, "unit": "px", "label": "Hero corner radius", "default": 0 },
@@ -363,10 +389,18 @@
     { "type": "range", "id": "categories_margin_bottom", "min": 0, "max": 100, "step": 10, "unit": "px", "label": "Categories bottom margin", "default": 40 },
     { "type": "color", "id": "category_bg_color", "label": "Category circle background", "default": "#f6f6f6" },
     { "type": "color", "id": "category_text_color", "label": "Category text color", "default": "#121212" },
-    { "type": "range", "id": "category_bubble_size", "min": 60, "max": 200, "step": 2, "unit": "px", "label": "Category bubble size", "default": 112 },
-    { "type": "range", "id": "category_col_width", "min": 80, "max": 240, "step": 2, "unit": "px", "label": "Category column width", "default": 136 },
-    { "type": "range", "id": "category_gap_x", "min": 8, "max": 60, "step": 2, "unit": "px", "label": "Category horizontal gap", "default": 28 },
-    { "type": "range", "id": "category_gap_y", "min": 8, "max": 60, "step": 2, "unit": "px", "label": "Category vertical gap", "default": 24 }
+
+    { "type": "header", "content": "Category sizing (desktop/tablet)" },
+    { "type": "range", "id": "category_bubble_size", "min": 60, "max": 200, "step": 2, "unit": "px", "label": "Bubble size", "default": 112 },
+    { "type": "range", "id": "category_col_width", "min": 80, "max": 240, "step": 2, "unit": "px", "label": "Column width", "default": 136 },
+    { "type": "range", "id": "category_gap_x", "min": 8, "max": 60, "step": 2, "unit": "px", "label": "Horizontal gap", "default": 28 },
+    { "type": "range", "id": "category_gap_y", "min": 8, "max": 60, "step": 2, "unit": "px", "label": "Vertical gap", "default": 24 },
+
+    { "type": "header", "content": "Category sizing (mobile ≤767px)" },
+    { "type": "range", "id": "category_bubble_size_mobile", "min": 48, "max": 160, "step": 2, "unit": "px", "label": "Bubble size (mobile)", "default": 96 },
+    { "type": "range", "id": "category_col_width_mobile", "min": 72, "max": 220, "step": 2, "unit": "px", "label": "Column width (mobile)", "default": 110 },
+    { "type": "range", "id": "category_gap_x_mobile", "min": 6, "max": 60, "step": 2, "unit": "px", "label": "Horizontal gap (mobile)", "default": 22 },
+    { "type": "range", "id": "category_gap_y_mobile", "min": 6, "max": 60, "step": 2, "unit": "px", "label": "Vertical gap (mobile)", "default": 20 }
   ],
   "blocks": [
     {
@@ -393,7 +427,7 @@
   ],
   "presets": [
     {
-      "name": "Kids hero",
+      "name": "t:sections.kids-hero.name",
       "blocks": [
         { "type": "kids_slide", "settings": { "title": "Seasonal Highlights" } },
         { "type": "kids_slide", "settings": { "title": "Accessories Focus" } },
