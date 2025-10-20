@@ -248,7 +248,7 @@
   <div class="ai-categories-section-{{ ai_gen_id }}">
     <div class="ai-categories-wrapper-{{ ai_gen_id }}">
       <div class="kk-category-scroller-wrap">
-        <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-left-{{ ai_gen_id }}" aria-label="Scroll left">
+        <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-left-{{ ai_gen_id }}" aria-label="{{ 'sections.kids-hero.scroll_left' | t }}">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
         </button>
 
@@ -270,7 +270,7 @@
           {% endfor %}
         </div>
 
-        <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-right-{{ ai_gen_id }}" aria-label="Scroll right">
+        <button class="ai-scroll-arrow-{{ ai_gen_id }} ai-scroll-arrow-right-{{ ai_gen_id }}" aria-label="{{ 'sections.kids-hero.scroll_right' | t }}">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
         </button>
       </div>
@@ -367,7 +367,7 @@
 
 {% schema %}
 {
-  "name": "Kids hero",
+  "name": "t:sections.kids-hero.name",
   "settings": [
     { "type": "range", "id": "hero_height", "min": 300, "max": 800, "step": 50, "unit": "px", "label": "Hero height", "default": 500 },
     { "type": "range", "id": "hero_radius", "min": 0, "max": 24, "step": 2, "unit": "px", "label": "Hero corner radius", "default": 0 },
@@ -427,7 +427,7 @@
   ],
   "presets": [
     {
-      "name": "Kids hero",
+      "name": "t:sections.kids-hero.name",
       "blocks": [
         { "type": "kids_slide", "settings": { "title": "Seasonal Highlights" } },
         { "type": "kids_slide", "settings": { "title": "Accessories Focus" } },

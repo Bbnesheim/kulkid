@@ -146,6 +146,20 @@
       "block_order": [],
       "settings": {}
     },
+    "kids_hero": {
+      "type": "kids-hero",
+      "blocks": {
+        "slide1": {"type": "kids_slide", "settings": {"title": "Seasonal Highlights"}},
+        "slide2": {"type": "kids_slide", "settings": {"title": "Accessories Focus"}},
+        "slide3": {"type": "kids_slide", "settings": {"title": "Kids & Parents"}},
+        "cat1": {"type": "kids_category", "settings": {"name": "Baby"}},
+        "cat2": {"type": "kids_category", "settings": {"name": "T-Shirts"}},
+        "cat3": {"type": "kids_category", "settings": {"name": "Pants"}},
+        "cat4": {"type": "kids_category", "settings": {"name": "Dresses"}}
+      },
+      "block_order": ["slide1","slide2","slide3","cat1","cat2","cat3","cat4"],
+      "settings": {}
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -548,7 +562,7 @@
     }
   },
   "order": [
-    "1759515763e97dfa5c",
+    "kids_hero",
     "image_banner",
     "collage_UyGffd",
     "featured_collection",
