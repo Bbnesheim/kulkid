@@ -403,7 +403,7 @@
     height: 48px;
     padding: 0 24px;
     width: 100%;
-    border-radius: 6px;
+    border-radius: 8px;
   }
 
   .footer-section-{{ footer_id }} .newsletter-success {
@@ -433,7 +433,7 @@
   .footer-section-{{ footer_id }} .footer-newsletter__form input[type='email'],
   .footer-section-{{ footer_id }} .footer__newsletter-form input[type='email'] {
     padding: 0.75rem 1.2rem;
-    border-radius: 6px;
+    border-radius: 8px;
     border: none;
     background: rgba(255, 255, 255, 0.12);
     color: {{ text_color }};
@@ -455,7 +455,7 @@
   }
 
   .footer-section-{{ footer_id }} .footer-newsletter__button {
-    border-radius: 6px;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     margin-top: 0;
@@ -1430,7 +1430,7 @@
                       >
                         <span class="visually-hidden">Følg {{ shop.name }} på Instagram</span>
                     {% else %}
-                      <span class="footer__social-link footer__social-link--instagram footer__social-link--static" aria-hidden="true">
+                      <span class="footer__social-link footer__social-link--instagram footer__social-link--static" aria-label="Instagram">
                     {% endif %}
                       {% if instagram_has_icon %}
                         <img src="{{ instagram_icon_url }}" alt="Instagram" class="footer__icon" loading="lazy" decoding="async">
@@ -1456,7 +1456,7 @@
                       >
                         <span class="visually-hidden">Følg {{ shop.name }} på Facebook</span>
                     {% else %}
-                      <span class="footer__social-link footer__social-link--facebook footer__social-link--static" aria-hidden="true">
+                      <span class="footer__social-link footer__social-link--facebook footer__social-link--static" aria-label="Facebook">
                     {% endif %}
                       {% if facebook_has_icon %}
                         <img src="{{ facebook_icon_url }}" alt="Facebook" class="footer__icon" loading="lazy" decoding="async">
@@ -1482,7 +1482,7 @@
                       >
                         <span class="visually-hidden">Følg {{ shop.name }} på TikTok</span>
                     {% else %}
-                      <span class="footer__social-link footer__social-link--tiktok footer__social-link--static" aria-hidden="true">
+                      <span class="footer__social-link footer__social-link--tiktok footer__social-link--static" aria-label="TikTok">
                     {% endif %}
                       {% if tiktok_has_icon %}
                         <img src="{{ tiktok_icon_url }}" alt="TikTok" class="footer__icon" loading="lazy" decoding="async">
@@ -1508,7 +1508,7 @@
                       >
                         <span class="visually-hidden">Følg {{ shop.name }} på Spotify</span>
                     {% else %}
-                      <span class="footer__social-link footer__social-link--spotify footer__social-link--static" aria-hidden="true">
+                      <span class="footer__social-link footer__social-link--spotify footer__social-link--static" aria-label="Spotify">
                     {% endif %}
                       {% if spotify_has_icon %}
                         <img src="{{ spotify_icon_url }}" alt="Spotify" class="footer__icon" loading="lazy" decoding="async">
@@ -1534,7 +1534,7 @@
                       >
                         <span class="visually-hidden">Følg {{ shop.name }} på YouTube</span>
                     {% else %}
-                      <span class="footer__social-link footer__social-link--youtube footer__social-link--static" aria-hidden="true">
+                      <span class="footer__social-link footer__social-link--youtube footer__social-link--static" aria-label="YouTube">
                     {% endif %}
                       {% if youtube_has_icon %}
                         <img src="{{ youtube_icon_url }}" alt="YouTube" class="footer__icon" loading="lazy" decoding="async">
