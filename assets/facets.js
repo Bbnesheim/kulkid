@@ -20,7 +20,9 @@ class FacetFiltersForm extends HTMLElement {
     }, 800);
 
     const facetForm = this.querySelector('form');
+    // Listen to both input and change to catch selects and checkboxes across browsers
     facetForm.addEventListener('input', this.debouncedOnSubmit.bind(this));
+    facetForm.addEventListener('change', this.debouncedOnSubmit.bind(this));
 
     const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
@@ -509,7 +511,8 @@ class FacetFiltersForm extends HTMLElement {
   onSubmitHandler(event) {
     event.preventDefault();
     const sortFilterForms = document.querySelectorAll('facet-filters-form form');
-    if (event.srcElement.className == 'mobile-facets__checkbox') {
+    const srcEl = event.target || event.srcElement;
+    if (srcEl && srcEl.classList && srcEl.classList.contains('mobile-facets__checkbox')) {
       const searchParams = this.createSearchParams(event.target.closest('form'));
       this.onSubmitForm(searchParams, event);
     } else {
@@ -607,6 +610,7 @@ class FacetRemove extends HTMLElement {
   constructor() {
     super();
     const facetLink = this.querySelector('a');
+    if (!facetLink) return; // Safeguard against empty wrappers
     facetLink.setAttribute('role', 'button');
     facetLink.addEventListener('click', this.closeFilter.bind(this));
     facetLink.addEventListener('keyup', (event) => {
