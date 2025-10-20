@@ -245,50 +245,58 @@ if (!customElements.get('product-info')) {
       }
 
       findMediaIdByColor(variant) {
-        if (!variant) return null;
+        if (!variant) {
+          console.log('findMediaIdByColor: No variant provided');
+          return null;
+        }
         
-        // Find color option value
+        console.log('findMediaIdByColor: variant =', variant);
+        
+        // Get color value from variant options
         let colorValue = null;
-        const colorOptionNames = ['Color', 'Colour', 'Farge', 'color', 'colour', 'farge'];
         
-        for (let i = 1; i <= 3; i++) {
-          const optionName = variant[`option${i}`];
-          if (optionName && colorOptionNames.some(name => 
-            variant[`option${i}`] && (window.product?.options?.[i-1]?.toLowerCase().includes('color') || 
-            window.product?.options?.[i-1]?.toLowerCase().includes('farge'))
-          )) {
-            colorValue = optionName;
-            break;
-          }
-        }
+        // Check which option is the color (usually option1)
+        // For this product it's likely option1 (Mark Rosa, Marine, etc)
+        if (variant.option1) colorValue = variant.option1;
+        else if (variant.option2) colorValue = variant.option2;
+        else if (variant.option3) colorValue = variant.option3;
         
-        // Fallback: check each option
         if (!colorValue) {
-          colorValue = variant.option1 || variant.option2 || variant.option3;
+          console.log('findMediaIdByColor: No color value found');
+          return null;
         }
         
-        if (!colorValue) return null;
+        console.log('findMediaIdByColor: Looking for color:', colorValue);
         
         // Find media with matching alt text or filename
-        const colorLower = colorValue.toLowerCase();
+        const colorLower = colorValue.toLowerCase().replace(/[\s-]/g, '').normalize('NFD').replace(/\p{Diacritic}/gu, '');
         const mediaGallery = this.querySelector('media-gallery');
-        if (!mediaGallery) return null;
+        if (!mediaGallery) {
+          console.log('findMediaIdByColor: No media gallery found');
+          return null;
+        }
         
         const mediaItems = mediaGallery.querySelectorAll('[data-media-id]');
+        console.log('findMediaIdByColor: Found', mediaItems.length, 'media items');
+        
         for (const item of mediaItems) {
           const mediaId = item.dataset.mediaId;
           const img = item.querySelector('img');
           if (img) {
-            const alt = (img.alt || '').toLowerCase();
+            const alt = (img.alt || '').toLowerCase().replace(/[\s-]/g, '').normalize('NFD').replace(/\p{Diacritic}/gu, '');
             const src = (img.src || '').toLowerCase();
             
+            console.log('  Checking media:', mediaId, 'alt:', img.alt, 'src snippet:', src.substring(src.length - 50));
+            
             // Check if color name is in alt text or filename
-            if (alt.includes(colorLower) || src.includes(colorLower.replace(/[\s-]/g, ''))) {
+            if (alt.includes(colorLower) || src.includes(colorLower)) {
+              console.log('  ✓ MATCH FOUND:', mediaId);
               return mediaId.split('-').pop(); // Extract just the ID part
             }
           }
         }
         
+        console.log('findMediaIdByColor: No match found for color:', colorValue);
         return null;
       }
 
