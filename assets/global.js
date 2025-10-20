@@ -575,7 +575,8 @@ class HeaderDrawer extends MenuDrawer {
     });
 
     summaryElement.setAttribute('aria-expanded', true);
-    window.addEventListener('resize', this.onResize);
+    this.onResizeThrottled = this.onResizeThrottled || (typeof throttle === 'function' ? throttle(this.onResize, 150) : this.onResize);
+    window.addEventListener('resize', this.onResizeThrottled);
     trapFocus(this.mainDetailsToggle, summaryElement);
     document.body.classList.add(`overflow-hidden-${this.dataset.breakpoint}`);
   }
@@ -584,7 +585,9 @@ class HeaderDrawer extends MenuDrawer {
     if (!elementToFocus) return;
     super.closeMenuDrawer(event, elementToFocus);
     this.header.classList.remove('menu-open');
-    window.removeEventListener('resize', this.onResize);
+    if (this.onResizeThrottled) {
+      window.removeEventListener('resize', this.onResizeThrottled);
+    }
   }
 
   onResize = () => {
@@ -1719,7 +1722,6 @@ function forceEagerDecorativeImages(root = document) {
   const eagerTargets = [
     { selector: '.footer-newsletter__image', priority: 'high' },
     { selector: '.footer__icon', priority: 'auto' },
-    { selector: '.header__heading-logo img', priority: 'high' },
   ];
 
   eagerTargets.forEach(({ selector, priority }) => {
