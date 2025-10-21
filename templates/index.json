@@ -18,7 +18,7 @@
             "image": "shopify://shop_images/youth-crew-neck-sweatshirt-black-front-68e6ecf67af7f.jpg",
             "title": "Klar – ferdig – KUL",
             "description": "Mykt, trygt og 100 % KUL.",
-            "button_text": "KUL KID starter her",
+            "button_text": "KUL KID Starter Her",
             "button_link": "shopify://products/cool-kid-baby-long-sleeve-organic-bodysuit-cute-infant-outfit-eco-friendly-baby-clothes-baby-shower-gift-newborn-essentials"
           }
         },
@@ -35,7 +35,7 @@
         "kids_slide_WFGftp": {
           "type": "kids_slide",
           "settings": {
-            "image": "shopify://shop_images/kul-kid-barneklaer-hero-fb.webp",
+            "image": "shopify://shop_images/kul-kid-barneklaer-hero_02.jpg",
             "title": "Kule valg varer lenger.",
             "description": "EU-trygg og god samvittighet.",
             "button_text": "Shop med Stil og Samvittighet",
@@ -141,10 +141,10 @@
       "name": "KIds Hero",
       "settings": {
         "hero_height": 500,
-        "hero_radius": 0,
+        "hero_radius": 2,
         "overlay_opacity": 20,
         "title_size": 28,
-        "description_size": 17,
+        "description_size": 18,
         "text_color": "#000000",
         "button_bg_color": "#000000",
         "button_text_color": "#ffffff",
