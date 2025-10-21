@@ -1,9 +1,9 @@
 # .theme-check.yml
 
-exclude_patterns:
-  - "kulkid/**"
-  - "snapshot/**"
-  - "docs/**"
+ignore:
+  - kulkid/**
+  - snapshot/**
+  - docs/**
 
 LiquidTag:
   enabled: true
