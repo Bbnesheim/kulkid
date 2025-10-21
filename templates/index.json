@@ -101,21 +101,24 @@
         "kids_category_BmYyQC": {
           "type": "kids_category",
           "settings": {
-            "name": "Home/Interior",
+            "name": "Hettegensere",
+            "image": "shopify://shop_images/KUL-KID-Baby-Hettegenser-eco.webp",
             "link": ""
           }
         },
         "kids_category_CGiHQq": {
           "type": "kids_category",
           "settings": {
-            "name": "Baby",
-            "link": ""
+            "name": "Lue og Caps",
+            "image": "shopify://shop_images/mockup-b7497940cf225211d716e40530b2b1a2.png",
+            "link": "shopify://collections/luer"
           }
         },
         "kids_category_q4BpXT": {
           "type": "kids_category",
           "settings": {
             "name": "Baby",
+            "image": "shopify://shop_images/babybugz-denim-jacket.jpg",
             "link": ""
           }
         }
