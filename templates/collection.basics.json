@@ -85,6 +85,15 @@
         "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": false,
+        "enable_card_gradient": false,
+        "gradient_speed": 18,
+        "gradient_color_1": "#ff6b6b",
+        "gradient_color_2": "#4ecdc4",
+        "gradient_color_3": "#45b7d1",
+        "gradient_color_4": "#96ceb4",
+        "gradient_color_5": "#feca57",
+        "gradient_color_6": "#ff9ff3",
+        "gradient_color_7": "#54a0ff",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -156,6 +165,15 @@
         "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": false,
+        "enable_card_gradient": false,
+        "gradient_speed": 18,
+        "gradient_color_1": "#ff6b6b",
+        "gradient_color_2": "#4ecdc4",
+        "gradient_color_3": "#45b7d1",
+        "gradient_color_4": "#96ceb4",
+        "gradient_color_5": "#feca57",
+        "gradient_color_6": "#ff9ff3",
+        "gradient_color_7": "#54a0ff",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -186,6 +204,15 @@
         "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": false,
+        "enable_card_gradient": false,
+        "gradient_speed": 18,
+        "gradient_color_1": "#ff6b6b",
+        "gradient_color_2": "#4ecdc4",
+        "gradient_color_3": "#45b7d1",
+        "gradient_color_4": "#96ceb4",
+        "gradient_color_5": "#feca57",
+        "gradient_color_6": "#ff9ff3",
+        "gradient_color_7": "#54a0ff",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -206,6 +233,15 @@
         "enable_filtering": true,
         "filter_type": "horizontal",
         "enable_sorting": true,
+        "enable_card_gradient": true,
+        "gradient_speed": 26,
+        "gradient_color_1": "#ff6b6b",
+        "gradient_color_2": "#4ecdc4",
+        "gradient_color_3": "#45b7d1",
+        "gradient_color_4": "#96ceb4",
+        "gradient_color_5": "#feca57",
+        "gradient_color_6": "#ff9ff3",
+        "gradient_color_7": "#54a0ff",
         "padding_top": 36,
         "padding_bottom": 36
       }
