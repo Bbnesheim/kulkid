@@ -35,11 +35,11 @@
         "kids_slide_WFGftp": {
           "type": "kids_slide",
           "settings": {
-            "image": "shopify://shop_images/youth-crew-neck-sweatshirt-royal-front-68e6ecf67a082.jpg",
-            "title": "Kids & Parents",
+            "image": "shopify://shop_images/kul-kid-barneklaer-hero-fb.webp",
+            "title": "Kule valg varer lenger.",
             "description": "Discover our latest seasonal collection for kids",
             "button_text": "Shop Now",
-            "button_link": ""
+            "button_link": "shopify://collections/basics"
           }
         },
         "kids_category_3Btmkg": {
