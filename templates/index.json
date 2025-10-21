@@ -63,7 +63,7 @@
           "settings": {
             "name": "Hoodies",
             "image": "shopify://shop_images/kulkid-basic-hette-person.jpg",
-            "link": ""
+            "link": "shopify://collections/baby-hettegensere"
           }
         },
         "kids_category_iQfkAP": {
@@ -79,7 +79,7 @@
           "settings": {
             "name": "Jakker",
             "image": "shopify://shop_images/KUL-KID-Varsity-Jakke.webp",
-            "link": ""
+            "link": "shopify://collections/jakker-barn"
           }
         },
         "kids_category_6engpR": {
@@ -95,7 +95,7 @@
           "settings": {
             "name": "Gensere",
             "image": "shopify://shop_images/crew-basic-person.jpg",
-            "link": ""
+            "link": "shopify://collections/gensere"
           }
         },
         "kids_category_BmYyQC": {
@@ -103,7 +103,7 @@
           "settings": {
             "name": "Hettegensere",
             "image": "shopify://shop_images/KUL-KID-Baby-Hettegenser-eco.webp",
-            "link": ""
+            "link": "shopify://collections/gensere-til-baby-varme-behagelige-plagg-kulkid-no"
           }
         },
         "kids_category_CGiHQq": {
@@ -119,7 +119,7 @@
           "settings": {
             "name": "Jakker",
             "image": "shopify://shop_images/babybugz-denim-jacket.jpg",
-            "link": ""
+            "link": "shopify://collections/jakker-til-baby-kule-og-komfortable-kulkid-no"
           }
         }
       },
