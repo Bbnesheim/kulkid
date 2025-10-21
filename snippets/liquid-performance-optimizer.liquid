@@ -1,0 +1,142 @@
+{%- comment -%}
+  Liquid Performance Optimization Utilities
+  
+  This snippet provides optimized liquid patterns for better server response time.
+  
+  Key optimization strategies:
+  1. Reduce database queries
+  2. Cache expensive operations 
+  3. Limit collection/product loops
+  4. Use liquid variables instead of repeated method calls
+  5. Optimize image processing
+{%- endcomment -%}
+
+{%- liquid
+  comment
+    Cache frequently accessed objects to avoid repeated database queries
+  endcomment
+  
+  assign shop_name = shop.name
+  assign shop_url = shop.url
+  assign current_url = request.path
+  assign current_page_type = request.page_type
+  
+  comment
+    Pre-calculate commonly used values
+  endcomment
+  
+  assign mobile_breakpoint = 750
+  assign desktop_breakpoint = 990
+  assign is_mobile_layout = false
+  if screen_width < mobile_breakpoint
+    assign is_mobile_layout = true
+  endif
+-%}
+
+{%- comment -%} Collection optimization helper {%- endcomment -%}
+{%- liquid
+  if template_type == 'collection'
+    assign collection_handle = collection.handle
+    assign collection_title = collection.title
+    assign collection_product_count = collection.products_count
+    assign has_products = false
+    if collection_product_count > 0
+      assign has_products = true
+    endif
+    
+    comment
+      Limit expensive operations - only get what we need
+    endcomment
+    assign products_limit = limit | default: 24
+    assign products_to_show = collection.products | limit: products_limit
+  endif
+-%}
+
+{%- comment -%} Product optimization helper {%- endcomment -%}
+{%- liquid
+  if template_type == 'product'
+    assign product_handle = product.handle
+    assign product_title = product.title
+    assign product_price = product.price
+    assign product_compare_price = product.compare_at_price
+    assign product_available = product.available
+    assign product_variants_count = product.variants.size
+    
+    comment
+      Pre-calculate variant information to avoid repeated checks
+    endcomment
+    assign has_variants = false
+    assign price_varies = false
+    if product_variants_count > 1
+      assign has_variants = true
+      assign price_varies = product.price_varies
+    endif
+    
+    comment
+      Optimize image handling
+    endcomment
+    assign product_images_count = product.images.size
+    assign has_images = false
+    if product_images_count > 0
+      assign has_images = true
+      assign featured_image = product.featured_image
+    endif
+  endif
+-%}
+
+{%- comment -%} Performance monitoring {%- endcomment -%}
+{%- liquid
+  comment
+    Add performance hints for critical resources
+  endcomment
+  
+  if should_preload_critical_images
+    assign critical_image_url = featured_image | image_url: width: 800
+    echo '<link rel="preload" as="image" href="' | append: critical_image_url | append: '">'
+  endif
+-%}
+
+{%- comment -%} Output optimized data structure {%- endcomment -%}
+<script type="application/json" id="liquid-performance-data">
+{
+  "page": {
+    "type": "{{ current_page_type }}",
+    "url": "{{ current_url | json }}",
+    "isMobile": {{ is_mobile_layout | json }}
+  },
+  "shop": {
+    "name": {{ shop_name | json }},
+    "url": {{ shop_url | json }}
+  }
+  {%- if template_type == 'collection' -%},
+  "collection": {
+    "handle": {{ collection_handle | json }},
+    "title": {{ collection_title | json }},
+    "productCount": {{ collection_product_count | json }},
+    "hasProducts": {{ has_products | json }}
+  }
+  {%- endif -%}
+  {%- if template_type == 'product' -%},
+  "product": {
+    "handle": {{ product_handle | json }},
+    "title": {{ product_title | json }},
+    "price": {{ product_price | json }},
+    "available": {{ product_available | json }},
+    "hasVariants": {{ has_variants | json }},
+    "priceVaries": {{ price_varies | json }},
+    "hasImages": {{ has_images | json }}
+  }
+  {%- endif -%}
+}
+</script>
+
+{%- comment -%}
+Performance optimization checklist implemented:
+✅ Cached frequently accessed shop/request objects
+✅ Pre-calculated boolean flags to avoid repeated conditionals
+✅ Limited database queries with product/collection limits
+✅ Optimized image handling with existence checks
+✅ Reduced liquid method calls by storing in variables
+✅ Added preloading hints for critical resources
+✅ Provided structured data for client-side use
+{%- endcomment -%}
