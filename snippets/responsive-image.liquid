@@ -1,0 +1,87 @@
+{%- comment -%}
+  Renders a responsive image with WebP support and lazy loading.
+  
+  Parameters:
+  - image: Image object
+  - alt: Alt text for the image
+  - loading: Loading strategy ('lazy' or 'eager')
+  - sizes: Sizes attribute for responsive images
+  - class: CSS classes
+  - width: Max width for the image
+  - height: Max height for the image
+
+  Usage:
+  {% render 'responsive-image', image: product.featured_image, alt: product.title, loading: 'lazy' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign loading_strategy = loading | default: 'lazy'
+  assign max_width = width | default: 1600
+  assign max_height = height | default: 1600
+  assign image_alt = alt | default: image.alt | escape
+  assign image_class = class | default: ''
+  assign image_sizes = sizes | default: '(min-width: 1200px) 1200px, (min-width: 750px) 750px, 100vw'
+  
+  if image
+    assign webp_supported = true
+    assign avif_supported = true
+  endif
+-%}
+
+{%- if image -%}
+  <picture class="{{ image_class }}">
+    {%- comment -%} AVIF format for modern browsers {%- endcomment -%}
+    {%- if avif_supported -%}
+      <source
+        srcset="
+          {%- if image.width >= 375 -%}{{ image | image_url: width: 375 }} 375w,{%- endif -%}
+          {%- if image.width >= 750 -%}{{ image | image_url: width: 750 }} 750w,{%- endif -%}
+          {%- if image.width >= 1100 -%}{{ image | image_url: width: 1100 }} 1100w,{%- endif -%}
+          {%- if image.width >= 1500 -%}{{ image | image_url: width: 1500 }} 1500w,{%- endif -%}
+          {{ image | image_url }} {{ image.width }}w"
+        sizes="{{ image_sizes }}"
+        type="image/avif">
+    {%- endif -%}
+    
+    {%- comment -%} WebP format for better compression {%- endcomment -%}
+    {%- if webp_supported -%}
+      <source
+        srcset="
+          {%- if image.width >= 375 -%}{{ image | image_url: width: 375 }} 375w,{%- endif -%}
+          {%- if image.width >= 750 -%}{{ image | image_url: width: 750 }} 750w,{%- endif -%}
+          {%- if image.width >= 1100 -%}{{ image | image_url: width: 1100 }} 1100w,{%- endif -%}
+          {%- if image.width >= 1500 -%}{{ image | image_url: width: 1500 }} 1500w,{%- endif -%}
+          {{ image | image_url }} {{ image.width }}w"
+        sizes="{{ image_sizes }}"
+        type="image/webp">
+    {%- endif -%}
+    
+    {%- comment -%} Fallback for all browsers {%- endcomment -%}
+    <img
+      src="{{ image | image_url: width: 750 }}"
+      srcset="
+        {%- if image.width >= 375 -%}{{ image | image_url: width: 375 }} 375w,{%- endif -%}
+        {%- if image.width >= 750 -%}{{ image | image_url: width: 750 }} 750w,{%- endif -%}
+        {%- if image.width >= 1100 -%}{{ image | image_url: width: 1100 }} 1100w,{%- endif -%}
+        {%- if image.width >= 1500 -%}{{ image | image_url: width: 1500 }} 1500w,{%- endif -%}
+        {{ image | image_url }} {{ image.width }}w"
+      sizes="{{ image_sizes }}"
+      alt="{{ image_alt }}"
+      loading="{{ loading_strategy }}"
+      width="{{ image.width | at_most: max_width }}"
+      height="{{ image.height | at_most: max_height }}"
+      class="{{ image_class }}"
+      {%- if loading_strategy == 'lazy' -%}
+        decoding="async"
+      {%- endif -%}
+    >
+  </picture>
+{%- else -%}
+  {%- comment -%} Placeholder image when no image is provided {%- endcomment -%}
+  <div class="placeholder-image {{ image_class }}" role="img" aria-label="No image available">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" fill="#f0f0f0"/>
+      <text x="50" y="50" font-family="Arial, sans-serif" font-size="12" fill="#999" text-anchor="middle" dominant-baseline="middle">No Image</text>
+    </svg>
+  </div>
+{%- endif -%}

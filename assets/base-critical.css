@@ -1,0 +1,192 @@
+/* Critical Base CSS - Only Essential Styles */
+
+:root {
+  --alpha-button-background: 1;
+  --alpha-button-border: 1;
+  --alpha-link: 0.85;
+  --alpha-badge-border: 0.1;
+  --focused-base-outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  --focused-base-outline-offset: 0.3rem;
+  --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+}
+
+/* Essential Layout Classes */
+.page-width {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .page-width {
+    padding: 0 5rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .page-width--narrow {
+    max-width: 72.6rem;
+    padding: 0;
+  }
+}
+
+/* Essential Utilities */
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  word-wrap: normal !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.list-unstyled {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Essential Grid System */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -1rem;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.grid__item {
+  width: calc(25% - 1rem);
+  padding-left: 1rem;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 749px) {
+  .grid__item {
+    width: calc(50% - 1rem);
+  }
+}
+
+/* Essential Buttons */
+.button {
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  padding: 1.5rem 3rem;
+  text-decoration: none;
+  background-color: rgba(var(--color-button), var(--alpha-button-background));
+  color: rgb(var(--color-button-text));
+  border-radius: var(--buttons-radius);
+  box-shadow: 0 0 0 var(--buttons-border-width) rgba(var(--color-button), var(--alpha-button-border));
+}
+
+.button--primary {
+  background-color: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+}
+
+.button--secondary {
+  background-color: rgba(var(--color-secondary-button), var(--alpha-button-background));
+  color: rgb(var(--color-secondary-button-text));
+}
+
+/* Essential Typography */
+.h0, .h1, .h2, .h3, .h4, .h5 {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
+  color: rgba(var(--color-foreground), 0.75);
+  line-height: calc(1 + 0.3 / max(1, var(--font-heading-scale)));
+  word-break: break-word;
+}
+
+.h0 { font-size: calc(var(--font-heading-scale) * 4rem); }
+.h1 { font-size: calc(var(--font-heading-scale) * 3rem); }
+.h2 { font-size: calc(var(--font-heading-scale) * 2rem); }
+
+/* Essential Links */
+.link {
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  color: rgba(var(--color-link), var(--alpha-link));
+  text-underline-offset: 0.3rem;
+  text-decoration-thickness: 0.1rem;
+  transition: color var(--duration-short) ease;
+}
+
+/* Essential Product Card */
+.card {
+  position: relative;
+  box-sizing: border-box;
+  border-radius: var(--border-radius);
+  border: var(--border-width) solid rgba(var(--color-foreground), var(--border-opacity));
+  box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius) rgba(var(--color-base-outline-button-labels), var(--shadow-opacity));
+}
+
+.card__media {
+  position: relative;
+  padding: var(--image-padding);
+}
+
+.card__inner {
+  padding: 2rem;
+}
+
+/* Essential Header */
+.header {
+  display: grid;
+  grid-template-areas: 'left-icons heading icons';
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+}
+
+.header__heading {
+  margin: 0;
+  line-height: 0;
+  grid-area: heading;
+  justify-self: center;
+}
+
+.header__icons {
+  display: flex;
+  grid-area: icons;
+  justify-self: end;
+}
+
+/* Essential Media Queries */
+@media screen and (min-width: 750px) {
+  .section + .section {
+    margin-top: var(--spacing-sections-desktop);
+  }
+}
+
+/* Essential Loading States */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: none;
+  z-index: 999;
+}
+
+.loading-overlay--on {
+  display: block;
+}

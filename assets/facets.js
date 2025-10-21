@@ -20,9 +20,11 @@ class FacetFiltersForm extends HTMLElement {
     }, 800);
 
     const facetForm = this.querySelector('form');
-    // Listen to both input and change to catch selects and checkboxes across browsers
-    facetForm.addEventListener('input', this.debouncedOnSubmit.bind(this));
-    facetForm.addEventListener('change', this.debouncedOnSubmit.bind(this));
+    if (facetForm) {
+      // Listen to both input and change to catch selects and checkboxes across browsers
+      facetForm.addEventListener('input', this.debouncedOnSubmit.bind(this));
+      facetForm.addEventListener('change', this.debouncedOnSubmit.bind(this));
+    }
 
     const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
