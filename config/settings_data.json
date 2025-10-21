@@ -160,6 +160,28 @@
           "zoom-in-preview": false,
           "enable-manual-save-draft": false
         }
+      },
+      "15672197709734641723": {
+        "type": "shopify://apps/vipps-mobilepay-login/blocks/account-page-login/a3e6453f-e8c7-4577-9564-b00d9396a109",
+        "disabled": true,
+        "settings": {
+          "fullwidth": true,
+          "brand": "vipps",
+          "language": "no",
+          "font_size": 1,
+          "margin_top": 0,
+          "margin_bottom": 0,
+          "border_radius": 5,
+          "custom_css_button": "",
+          "custom_css_wrapper": ""
+        }
+      },
+      "2326504073756833932": {
+        "type": "shopify://apps/vipps-mobilepay-companion/blocks/vippslogo-block/46265abd-78e3-4040-985b-519c47957219",
+        "disabled": true,
+        "settings": {
+          "brand": "vipps"
+        }
       }
     },
     "color_schemes": {
