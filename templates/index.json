@@ -137,6 +137,22 @@
             "image": "shopify://shop_images/5222915031787780461_2048.jpg",
             "link": "shopify://collections/babytilbehor"
           }
+        },
+        "kids_category_7Mni64": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Joggebukser",
+            "image": "shopify://shop_images/svartjoggebukse-person.jpg",
+            "link": "shopify://collections/joggebukser-til-barn"
+          }
+        },
+        "kids_category_gMfNia": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Sekker",
+            "image": "shopify://shop_images/KUL_KID_sekk.png",
+            "link": "shopify://collections/sekk"
+          }
         }
       },
       "block_order": [
@@ -154,7 +170,9 @@
         "kids_category_CGiHQq",
         "kids_category_q4BpXT",
         "kids_category_3dKYgp",
-        "kids_category_fzVjCy"
+        "kids_category_fzVjCy",
+        "kids_category_7Mni64",
+        "kids_category_gMfNia"
       ],
       "name": "KIds Hero",
       "settings": {
