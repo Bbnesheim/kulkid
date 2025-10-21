@@ -129,6 +129,14 @@
             "image": "shopify://shop_images/all-over-print-kids-leggings-white-left-68de9dc54374b.jpg",
             "link": "shopify://collections/leggings"
           }
+        },
+        "kids_category_fzVjCy": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Tilbehør",
+            "image": "shopify://shop_images/5222915031787780461_2048.jpg",
+            "link": "shopify://collections/babytilbehor"
+          }
         }
       },
       "block_order": [
@@ -145,7 +153,8 @@
         "kids_category_BmYyQC",
         "kids_category_CGiHQq",
         "kids_category_q4BpXT",
-        "kids_category_3dKYgp"
+        "kids_category_3dKYgp",
+        "kids_category_fzVjCy"
       ],
       "name": "KIds Hero",
       "settings": {
