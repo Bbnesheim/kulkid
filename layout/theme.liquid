@@ -16,10 +16,6 @@
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     
-    {%- comment -%} Preload critical assets {%- endcomment -%}
-    <link rel="preload" as="script" href="{{ 'constants.js' | asset_url }}">
-    <link rel="preload" as="script" href="{{ 'global.js' | asset_url }}">
-    <link rel="preload" as="style" href="{{ 'base.css' | asset_url }}">
     {%- comment -%} Optimize font loading with font-display: swap {%- endcomment -%}
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -34,6 +30,27 @@
       type="font/woff2"
       crossorigin
     >
+
+    {%- comment -%} Promote likely LCP image with priority hint (safe no-op if none found) {%- endcomment -%}
+    <script>
+      (function () {
+        function promoteLCP() {
+          try {
+            var list = document.querySelectorAll('.banner__media img, .product__media img, img[loading="eager"]');
+            if (!list || !list.length) return;
+            var img = list[0];
+            if (img && !img.getAttribute('fetchpriority')) {
+              img.setAttribute('fetchpriority', 'high');
+            }
+          } catch (e) {}
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', promoteLCP, { once: true });
+        } else {
+          promoteLCP();
+        }
+      })();
+    </script>
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
