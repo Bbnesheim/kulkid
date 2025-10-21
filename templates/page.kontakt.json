@@ -175,7 +175,7 @@
             "input_border_radius": 2,
             "input_padding": 16,
             "textarea_height": 120,
-            "button_background": "#48dbfb",
+            "button_background": "#121212",
             "button_hover_background": "#0abde3",
             "button_text_color": "#ffffff",
             "button_border_radius": 2,
