@@ -141,6 +141,16 @@
 .card__media {
   position: relative;
   padding: var(--image-padding);
+  overflow: hidden;
+  width: calc(100% - 2 * var(--image-padding));
+  margin: var(--image-padding);
+}
+
+.card__media .media img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  width: 100%;
 }
 
 .card__inner {
