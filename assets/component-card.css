@@ -1,3 +1,9 @@
+@keyframes rainbowCardGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .card-wrapper {
   color: inherit;
   height: 100%;
@@ -96,8 +102,11 @@
 .card__media,
 .card .media {
   bottom: 0;
+  left: 0;
   position: absolute;
+  right: 0;
   top: 0;
+  overflow: hidden;
 }
 
 .card .media {
@@ -107,6 +116,8 @@
 .card__media {
   margin: var(--image-padding);
   width: calc(100% - 2 * var(--image-padding));
+  max-width: 100%;
+  left: var(--image-padding);
 }
 
 .card--standard .card__media {
@@ -115,6 +126,11 @@
 
 .card__inner {
   width: 100%;
+  position: relative;
+}
+
+.card__inner.ratio {
+  height: auto;
 }
 
 .card--media .card__inner .card__content {
@@ -294,6 +310,8 @@
   object-fit: cover;
   object-position: center center;
   width: 100%;
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .card__inner:not(.ratio) > .card__content {
@@ -507,6 +525,22 @@
 }
 
 /* Card Shapes */
+
+/* Rainbow gradient animation for cards */
+.card--card.rainbow-gradient {
+  background: linear-gradient(
+    270deg,
+    #ff6b6b,
+    #4ecdc4,
+    #45b7d1,
+    #96ceb4,
+    #feca57,
+    #ff9ff3,
+    #54a0ff
+  );
+  background-size: 1200% 1200%;
+  animation: rainbowCardGradient 18s ease infinite;
+}
 
 .card--shape .card__content {
   padding-top: 0;
