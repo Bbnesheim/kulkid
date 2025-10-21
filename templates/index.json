@@ -26,9 +26,9 @@
           "type": "kids_slide",
           "settings": {
             "image": "shopify://shop_images/9902332282040282511_2048.jpg",
-            "title": "Når mini er kulere",
-            "description": "Og du er helt ok med det",
-            "button_text": "HANDLE KOLLEKSJONEN",
+            "title": "Når Mini er kulere",
+            "description": "Og du er helt ok med det.",
+            "button_text": "Handle kolleksjonen",
             "button_link": "shopify://collections/baby"
           }
         },
