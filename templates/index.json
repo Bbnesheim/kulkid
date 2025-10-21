@@ -15,15 +15,17 @@
         "kids_slide_jKqNPx": {
           "type": "kids_slide",
           "settings": {
+            "image": "shopify://shop_images/youth-crew-neck-sweatshirt-black-front-68e6ecf67af7f.jpg",
             "title": "Seasonal Highlights",
             "description": "Discover our latest seasonal collection for kids",
             "button_text": "Shop Now",
-            "button_link": ""
+            "button_link": "shopify://products/cool-kid-baby-long-sleeve-organic-bodysuit-cute-infant-outfit-eco-friendly-baby-clothes-baby-shower-gift-newborn-essentials"
           }
         },
         "kids_slide_LXyQn8": {
           "type": "kids_slide",
           "settings": {
+            "image": "shopify://shop_images/9902332282040282511_2048.jpg",
             "title": "Accessories Focus",
             "description": "Discover our latest seasonal collection for kids",
             "button_text": "Shop Now",
@@ -33,6 +35,7 @@
         "kids_slide_WFGftp": {
           "type": "kids_slide",
           "settings": {
+            "image": "shopify://shop_images/youth-crew-neck-sweatshirt-royal-front-68e6ecf67a082.jpg",
             "title": "Kids & Parents",
             "description": "Discover our latest seasonal collection for kids",
             "button_text": "Shop Now",
@@ -140,7 +143,7 @@
         "title_size": 28,
         "description_size": 16,
         "text_color": "#ffffff",
-        "button_bg_color": "#334fb4",
+        "button_bg_color": "#000000",
         "button_text_color": "#ffffff",
         "button_hover_color": "#121212",
         "button_border_radius": 6,
