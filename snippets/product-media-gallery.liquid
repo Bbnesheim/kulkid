@@ -40,6 +40,16 @@
   elsif section.settings.media_size == 'small'
     assign media_width = 0.45
   endif
+
+  assign color_option_position = 0
+  assign _color_option_names = 'color|colour|farge' | split: '|'
+  for _opt in product.options_with_values
+    assign _opt_name = _opt.name | downcase
+    if _color_option_names contains _opt_name
+      assign color_option_position = forloop.index
+      break
+    endif
+  endfor
 -%}
 
 <media-gallery
@@ -237,6 +247,32 @@
               aria-controls="GalleryViewer-{{ section.id }}"
               aria-describedby="{{ thumbnail_id }}"
             >
+{%- liquid
+                assign computed_alt = ''
+                assign color_value = ''
+                if color_option_position > 0
+                  for v in product.variants
+                    if v.featured_media and v.featured_media.id == featured_media.id
+                      case color_option_position
+                        when 1
+                          assign color_value = v.option1
+                        when 2
+                          assign color_value = v.option2
+                        when 3
+                          assign color_value = v.option3
+                      endcase
+                      break
+                    endif
+                  endfor
+                endif
+                if color_value != ''
+                  assign computed_alt = product.title | append: ' - ' | append: color_value
+                elsif featured_media.alt != blank
+                  assign computed_alt = featured_media.alt
+                else
+                  assign computed_alt = product.title
+                endif
+              -%}
               {{
                 featured_media.preview_image
                 | image_url: width: 416
@@ -245,7 +281,7 @@
                   sizes: sizes,
                   widths: '54, 74, 104, 162, 208, 324, 416',
                   id: thumbnail_id,
-                  alt: featured_media.alt,
+                  alt: computed_alt,
                   decoding: 'async',
                   fetchpriority: 'low'
                 | escape
@@ -301,6 +337,32 @@
                 aria-controls="GalleryViewer-{{ section.id }}"
                 aria-describedby="{{ thumbnail_id }}"
               >
+{%- liquid
+                  assign computed_alt = ''
+                  assign color_value = ''
+                  if color_option_position > 0
+                    for v in product.variants
+                      if v.featured_media and v.featured_media.id == media.id
+                        case color_option_position
+                          when 1
+                            assign color_value = v.option1
+                          when 2
+                            assign color_value = v.option2
+                          when 3
+                            assign color_value = v.option3
+                        endcase
+                        break
+                      endif
+                    endfor
+                  endif
+                  if color_value != ''
+                    assign computed_alt = product.title | append: ' - ' | append: color_value
+                  elsif media.alt != blank
+                    assign computed_alt = media.alt
+                  else
+                    assign computed_alt = product.title
+                  endif
+                -%}
                 {{
                   media.preview_image
                   | image_url: width: 416
@@ -309,7 +371,7 @@
                     sizes: sizes,
                     widths: '54, 74, 104, 162, 208, 324, 416',
                     id: thumbnail_id,
-                    alt: media.alt,
+                    alt: computed_alt,
                     decoding: 'async',
                     fetchpriority: 'low'
                   | escape

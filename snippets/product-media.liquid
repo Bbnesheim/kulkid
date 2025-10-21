@@ -14,6 +14,41 @@
   %}
 {% endcomment %}
 
+{%- liquid
+  assign color_option_position = 0
+  assign _color_option_names = 'color|colour|farge' | split: '|'
+  for _opt in product.options_with_values
+    assign _opt_name = _opt.name | downcase
+    if _color_option_names contains _opt_name
+      assign color_option_position = forloop.index
+      break
+    endif
+  endfor
+  assign computed_alt = ''
+  assign color_value = ''
+  if color_option_position > 0
+    for v in product.variants
+      if v.featured_media and v.featured_media.id == media.id
+        case color_option_position
+          when 1
+            assign color_value = v.option1
+          when 2
+            assign color_value = v.option2
+          when 3
+            assign color_value = v.option3
+        endcase
+        break
+      endif
+    endfor
+  endif
+  if color_value != ''
+    assign computed_alt = product.title | append: ' - ' | append: color_value
+  elsif media.alt != blank
+    assign computed_alt = media.alt
+  else
+    assign computed_alt = product.title
+  endif
+-%}
 {%- if media.media_type == 'image' -%}
   <img
     class="global-media-settings global-media-settings--no-shadow{% if variant_image %} product__media-item--variant{% endif %}"
@@ -30,7 +65,7 @@
     "
     sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
     src="{{ media.preview_image | image_url: width: 1445 }}"
-    alt="{{ media.alt | escape }}"
+    alt="{{ computed_alt | escape }}"
     loading="lazy"
     decoding="async"
     fetchpriority="low"
@@ -61,7 +96,7 @@
         <span class="svg-wrapper">{{ 'icon-play.svg' | inline_asset_content }}</span>
       {%- endif -%}
     </span>
-    <img
+<img
       srcset="
         {% if media.preview_image.width >= 288 %}{{ media.preview_image | image_url: width: 288 }} 288w,{% endif %}
         {% if media.preview_image.width >= 576 %}{{ media.preview_image | image_url: width: 576 }} 576w,{% endif %}
@@ -76,7 +111,7 @@
       fetchpriority="low"
       width="576"
       height="{{ 576 | divided_by: media.preview_image.aspect_ratio }}"
-      alt="{{ media.preview_image.alt | escape }}"
+      alt="{{ computed_alt | escape }}"
     >
   </button>
   <template>
