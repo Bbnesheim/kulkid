@@ -75,13 +75,25 @@
         "featured_collection_7zqry7": {
           "type": "featured_collection",
           "settings": {
-            "collection": "babytilbehor"
+            "collection": "gensere-til-baby-varme-behagelige-plagg-kulkid-no"
           }
         },
         "featured_collection_HBpdxr": {
           "type": "featured_collection",
           "settings": {
-            "collection": "tilbehor-til-baby-og-barn"
+            "collection": "heldresser-baby"
+          }
+        },
+        "featured_collection_4ct6JB": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "babytilbehor"
+          }
+        },
+        "featured_collection_mkeT9B": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "superhelter"
           }
         }
       },
@@ -89,7 +101,9 @@
         "featured_collection_rnDQDa",
         "featured_collection_gYfWE9",
         "featured_collection_7zqry7",
-        "featured_collection_HBpdxr"
+        "featured_collection_HBpdxr",
+        "featured_collection_4ct6JB",
+        "featured_collection_mkeT9B"
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
@@ -123,25 +137,25 @@
         "featured_collection_rkGFLP": {
           "type": "featured_collection",
           "settings": {
-            "collection": "leggings"
+            "collection": "gymtime"
           }
         },
         "featured_collection_LgpjKw": {
           "type": "featured_collection",
           "settings": {
-            "collection": "gensere-barn"
+            "collection": "jakker-barn"
           }
         },
         "featured_collection_whEXjw": {
           "type": "featured_collection",
           "settings": {
-            "collection": "capser"
+            "collection": "luer"
           }
         },
         "featured_collection_Az6fG7": {
           "type": "featured_collection",
           "settings": {
-            "collection": "sekk"
+            "collection": "skole"
           }
         }
       },
