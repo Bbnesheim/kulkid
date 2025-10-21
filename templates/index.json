@@ -121,6 +121,14 @@
             "image": "shopify://shop_images/babybugz-denim-jacket.jpg",
             "link": "shopify://collections/jakker-til-baby-kule-og-komfortable-kulkid-no"
           }
+        },
+        "kids_category_3dKYgp": {
+          "type": "kids_category",
+          "settings": {
+            "name": "Leggings",
+            "image": "shopify://shop_images/all-over-print-kids-leggings-white-left-68de9dc54374b.jpg",
+            "link": "shopify://collections/leggings"
+          }
         }
       },
       "block_order": [
@@ -136,7 +144,8 @@
         "kids_category_CeNChj",
         "kids_category_BmYyQC",
         "kids_category_CGiHQq",
-        "kids_category_q4BpXT"
+        "kids_category_q4BpXT",
+        "kids_category_3dKYgp"
       ],
       "name": "KIds Hero",
       "settings": {
