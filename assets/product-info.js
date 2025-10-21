@@ -177,20 +177,10 @@ if (!customElements.get('product-info')) {
 
           // Try featured_media first, then fallback to color matching
           let mediaId = variant?.featured_media?.id;
-          console.log('🎯 Variant featured_media.id:', mediaId);
-          
           if (!mediaId && variant) {
-            console.log('⚠️ No featured_media, trying color matching fallback...');
             mediaId = this.findMediaIdByColor(variant);
-            console.log('🎯 Color matching result:', mediaId);
           }
-          
-          if (mediaId) {
-            console.log('📸 Calling updateMedia with mediaId:', mediaId);
-            this.updateMedia(html, mediaId);
-          } else {
-            console.log('❌ No mediaId available (neither featured_media nor color match)');
-          }
+          this.updateMedia(html, mediaId);
 
           const updateSourceFromDestination = (id, shouldHide = (source) => false) => {
             const source = html.getElementById(`${id}-${this.sectionId}`);
@@ -256,84 +246,62 @@ if (!customElements.get('product-info')) {
 
       findMediaIdByColor(variant) {
         if (!variant) {
-          console.log('🔍 findMediaIdByColor: No variant provided');
+          console.log('findMediaIdByColor: No variant provided');
           return null;
         }
         
-        console.log('🔍 findMediaIdByColor: Full variant data:', JSON.stringify(variant, null, 2));
+        console.log('findMediaIdByColor: variant =', variant);
         
         // Get color value from variant options
         let colorValue = null;
-        let colorOptionName = null;
         
         // Check which option is the color (usually option1)
-        if (variant.option1) {
-          colorValue = variant.option1;
-          colorOptionName = 'option1';
-        } else if (variant.option2) {
-          colorValue = variant.option2;
-          colorOptionName = 'option2';
-        } else if (variant.option3) {
-          colorValue = variant.option3;
-          colorOptionName = 'option3';
-        }
+        // For this product it's likely option1 (Mark Rosa, Marine, etc)
+        if (variant.option1) colorValue = variant.option1;
+        else if (variant.option2) colorValue = variant.option2;
+        else if (variant.option3) colorValue = variant.option3;
         
         if (!colorValue) {
-          console.log('🔍 findMediaIdByColor: No color value found in any option');
+          console.log('findMediaIdByColor: No color value found');
           return null;
         }
         
-        console.log(`🔍 findMediaIdByColor: Using ${colorOptionName} = "${colorValue}"`);
+        console.log('findMediaIdByColor: Looking for color:', colorValue);
         
-        // Normalize color for matching
-        const colorLower = colorValue.toLowerCase().replace(/[\s-_]/g, '').normalize('NFD').replace(/\p{Diacritic}/gu, '');
-        console.log('🔍 Normalized search term:', colorLower);
-        
+        // Find media with matching alt text or filename
+        const colorLower = colorValue.toLowerCase().replace(/[\s-]/g, '').normalize('NFD').replace(/\p{Diacritic}/gu, '');
         const mediaGallery = this.querySelector('media-gallery');
         if (!mediaGallery) {
-          console.log('🔍 findMediaIdByColor: No media gallery found');
+          console.log('findMediaIdByColor: No media gallery found');
           return null;
         }
         
         const mediaItems = mediaGallery.querySelectorAll('[data-media-id]');
-        console.log(`🔍 findMediaIdByColor: Found ${mediaItems.length} media items to search`);
+        console.log('findMediaIdByColor: Found', mediaItems.length, 'media items');
         
         for (const item of mediaItems) {
-          const fullMediaId = item.dataset.mediaId;
+          const mediaId = item.dataset.mediaId;
           const img = item.querySelector('img');
-          
           if (img) {
-            const alt = img.alt || '';
-            const src = img.src || '';
-            const altNormalized = alt.toLowerCase().replace(/[\s-_]/g, '').normalize('NFD').replace(/\p{Diacritic}/gu, '');
-            const srcNormalized = src.toLowerCase().replace(/[\s-_]/g, '').normalize('NFD').replace(/\p{Diacritic}/gu, '');
+            const alt = (img.alt || '').toLowerCase().replace(/[\s-]/g, '').normalize('NFD').replace(/\p{Diacritic}/gu, '');
+            const src = (img.src || '').toLowerCase();
             
-            console.log(`  📷 Media: ${fullMediaId}`);
-            console.log(`     Alt: "${alt}" → normalized: "${altNormalized}"`);
-            console.log(`     Src: ${src.substring(src.lastIndexOf('/') + 1)}`);
+            console.log('  Checking media:', mediaId, 'alt:', img.alt, 'src snippet:', src.substring(src.length - 50));
             
             // Check if color name is in alt text or filename
-            const matchInAlt = altNormalized.includes(colorLower);
-            const matchInSrc = srcNormalized.includes(colorLower);
-            
-            if (matchInAlt || matchInSrc) {
-              console.log(`  ✅ MATCH FOUND in ${matchInAlt ? 'alt' : 'src'}!`);
-              console.log(`     Returning full media ID: ${fullMediaId}`);
-              return fullMediaId; // Return the FULL media ID with section prefix
+            if (alt.includes(colorLower) || src.includes(colorLower)) {
+              console.log('  ✓ MATCH FOUND:', mediaId);
+              return mediaId.split('-').pop(); // Extract just the ID part
             }
           }
         }
         
-        console.log('❌ findMediaIdByColor: No match found for color:', colorValue);
+        console.log('findMediaIdByColor: No match found for color:', colorValue);
         return null;
       }
 
       updateMedia(html, variantFeaturedMediaId) {
-        console.log('🖼️ updateMedia called with mediaId:', variantFeaturedMediaId);
-        if (!variantFeaturedMediaId) {
-          console.log('⚠️ updateMedia: No mediaId provided, exiting');
-          return;
-        }
+        if (!variantFeaturedMediaId) return;
 
         const mediaGallerySource = this.querySelector('media-gallery ul');
         const mediaGalleryDestination = html.querySelector(`media-gallery ul`);
@@ -392,15 +360,10 @@ if (!customElements.get('product-info')) {
         }
 
         // set featured media as active in the media gallery
-        const mediaIdToSet = variantFeaturedMediaId.toString().includes('-') 
-          ? variantFeaturedMediaId 
-          : `${this.dataset.section}-${variantFeaturedMediaId}`;
-        
-        console.log(`🎬 setActiveMedia: this.dataset.section = "${this.dataset.section}"`);
-        console.log(`🎬 setActiveMedia: variantFeaturedMediaId = "${variantFeaturedMediaId}"`);
-        console.log(`🎬 setActiveMedia: Final mediaId = "${mediaIdToSet}"`);
-        
-        this.querySelector(`media-gallery`)?.setActiveMedia?.(mediaIdToSet, true);
+        this.querySelector(`media-gallery`)?.setActiveMedia?.(
+          `${this.dataset.section}-${variantFeaturedMediaId}`,
+          true
+        );
 
         // update media modal
         const modalContent = this.productModal?.querySelector(`.product-media-modal__content`);

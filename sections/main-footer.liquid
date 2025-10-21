@@ -1251,18 +1251,12 @@
                 {% assign fallback_size = 12 %}
               {% endif %}
               {% assign social_icon_blocks = section.blocks | where: 'type', 'social_icon' %}
-              {% assign configured_social_count = 0 %}
-              {% for icon_block in social_icon_blocks %}
-                {% if icon_block.settings.link != blank or icon_block.settings.custom_icon != blank %}
-                  {% assign configured_social_count = configured_social_count | plus: 1 %}
-                {% endif %}
-              {% endfor %}
 
               {% if block.settings.heading != blank %}
                 <h2 class="footer__heading" style="--footer-heading-size: {{ heading_size }}px;">{{ block.settings.heading }}</h2>
               {% endif %}
 
-              {% if configured_social_count > 0 %}
+              {% if social_icon_blocks.size > 0 %}
                 <div class="footer__social" style="--footer-social-size: {{ icon_size }}px; --footer-social-gap: {{ icon_gap }}px; --footer-social-size-mobile: {{ icon_size_mobile }}px; --footer-social-gap-mobile: {{ icon_gap_mobile }}px;">
                   {% assign rendered_icons = 0 %}
                   {% for icon_block in social_icon_blocks %}

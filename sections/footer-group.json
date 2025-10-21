@@ -83,7 +83,7 @@
           "type": "social_icons",
           "settings": {
             "heading": "Følg oss",
-            "heading_size": 28,
+            "heading_size": 20,
             "instagram_url": "shopify://collections",
             "instagram_icon": "shopify://shop_images/instagram-fill-svgrepo-com.svg",
             "facebook_url": "shopify://collections/babyshower",
@@ -94,10 +94,10 @@
             "spotify_icon": "shopify://shop_images/spotify-fill-svgrepo-com.svg",
             "youtube_link": "shopify://policies/terms-of-service",
             "youtube_icon": "shopify://shop_images/youtube-168-svgrepo-com.svg",
-            "social_icon_size": 48,
-            "social_icon_gap": 36,
-            "social_icon_size_mobile": 38,
-            "social_icon_gap_mobile": 30,
+            "social_icon_size": 24,
+            "social_icon_gap": 12,
+            "social_icon_size_mobile": 24,
+            "social_icon_gap_mobile": 10,
             "social_spacing_bottom": 32
           }
         },
