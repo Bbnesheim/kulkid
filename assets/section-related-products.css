@@ -5,11 +5,3 @@
 .related-products__heading {
   margin: 0 0 3rem;
 }
-
-.related-products__empty {
-  margin: 0 auto;
-  max-width: 48rem;
-  text-align: center;
-  font-size: var(--font-body-scale, 1.6rem);
-  color: rgba(var(--color-foreground), 0.75);
-}

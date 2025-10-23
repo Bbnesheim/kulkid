@@ -20,23 +20,6 @@
   assign sort_by = results.sort_by | default: results.default_sort_by
   assign total_active_values = 0
   assign default_presentation = 'text'
-  assign translated_size = 'products.facets.labels.size' | t
-  if translated_size contains 'products.facets.labels.size'
-    assign translated_size = 'Size'
-  endif
-  assign translated_color = 'products.facets.labels.color' | t
-  if translated_color contains 'products.facets.labels.color'
-    assign translated_color = 'Color'
-  endif
-  assign translated_category = 'products.facets.labels.category' | t
-  if translated_category contains 'products.facets.labels.category'
-    assign translated_category = 'Category'
-  endif
-  assign translated_price = 'products.facets.labels.price' | t
-  if translated_price contains 'products.facets.labels.price'
-    assign translated_price = 'Price'
-  endif
-  assign primary_filter_keys = 'size,color,category,price'
   if results.url
     assign results_url = results.url
   else
@@ -47,7 +30,7 @@
 
 <div class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
   {%- if filter_type == 'vertical' or filter_type == 'horizontal' -%}
-    <facet-filters-form class="facets small-hide" data-dynamic-facets="true" data-primary-facets="{{ primary_filter_keys }}">
+    <facet-filters-form class="facets small-hide">
       <form
         id="FacetFiltersForm"
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
@@ -89,56 +72,16 @@
                     </a>
                   </facet-remove>
                 </div>
-            {%- for filter in results.filters -%}
-              {%- liquid
-                assign filter_display_label = filter.label | strip
-                assign filter_key = ''
-                assign sanitized_label = filter_display_label | downcase | strip
-                assign sanitized_label = sanitized_label | replace: ':', '' | replace: '.', '' | replace: ',', ''
-                assign sanitized_label = sanitized_label | replace: '(', '' | replace: ')', '' | replace: '-', ' '
-                assign sanitized_label = sanitized_label | replace: '  ', ' ' | strip
-                assign param_name_downcase = filter.param_name | downcase
-                if filter.type == 'price_range'
-                  assign filter_key = 'price'
-                  assign filter_display_label = translated_price
-                elsif param_name_downcase contains 'product_type'
-                  assign filter_key = 'category'
-                  assign filter_display_label = translated_category
-                elsif sanitized_label contains 'str'
-                  assign filter_key = 'size'
-                  assign filter_display_label = translated_size
-                elsif sanitized_label contains 'size'
-                  assign filter_key = 'size'
-                  assign filter_display_label = translated_size
-                elsif param_name_downcase contains 'option.size'
-                  assign filter_key = 'size'
-                  assign filter_display_label = translated_size
-                elsif sanitized_label contains 'farge'
-                  assign filter_key = 'color'
-                  assign filter_display_label = translated_color
-                elsif sanitized_label contains 'color'
-                  assign filter_key = 'color'
-                  assign filter_display_label = translated_color
-                elsif sanitized_label contains 'colour'
-                  assign filter_key = 'color'
-                  assign filter_display_label = translated_color
-                elsif param_name_downcase contains 'option.color'
-                  assign filter_key = 'color'
-                  assign filter_display_label = translated_color
-                elsif sanitized_label contains 'product type' or sanitized_label contains 'kategori'
-                  assign filter_key = 'category'
-                  assign filter_display_label = translated_category
-                endif
-              -%}
-              {%- for value in filter.active_values -%}
-                <facet-remove>
-                  <a href="{{ value.url_to_remove }}" class="active-facets__button active-facets__button--light">
-                    <span class="active-facets__button-inner button button--tertiary">
-                      {{ filter_display_label | escape }}: {{ value.label | escape }}
-                      <span class="svg-wrapper">
-                        {{- 'icon-close-small.svg' | inline_asset_content -}}
-                      </span>
-                      <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
+                {%- for filter in results.filters -%}
+                  {%- for value in filter.active_values -%}
+                    <facet-remove>
+                      <a href="{{ value.url_to_remove }}" class="active-facets__button active-facets__button--light">
+                        <span class="active-facets__button-inner button button--tertiary">
+                          {{ filter.label | escape }}: {{ value.label | escape }}
+                          <span class="svg-wrapper">
+                            {{- 'icon-close-small.svg' | inline_asset_content -}}
+                          </span>
+                          <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
                         </span>
                       </a>
                     </facet-remove>
@@ -178,45 +121,6 @@
                   assign show_more_number = 10
                   assign visual_layout_class = 'facets-layout facets-layout-list facets-layout-list--' | append: presentation
                 endif
-
-                assign filter_display_label = filter.label | strip
-                assign filter_key = ''
-                assign sanitized_label = filter_display_label | downcase | strip
-                assign sanitized_label = sanitized_label | replace: ':', '' | replace: '.', '' | replace: ',', ''
-                assign sanitized_label = sanitized_label | replace: '(', '' | replace: ')', '' | replace: '-', ' '
-                assign sanitized_label = sanitized_label | replace: '  ', ' ' | strip
-                assign param_name_downcase = filter.param_name | downcase
-                if filter.type == 'price_range'
-                  assign filter_key = 'price'
-                  assign filter_display_label = translated_price
-                elsif param_name_downcase contains 'product_type'
-                  assign filter_key = 'category'
-                  assign filter_display_label = translated_category
-                elsif sanitized_label contains 'str'
-                  assign filter_key = 'size'
-                  assign filter_display_label = translated_size
-                elsif sanitized_label contains 'size'
-                  assign filter_key = 'size'
-                  assign filter_display_label = translated_size
-                elsif param_name_downcase contains 'option.size'
-                  assign filter_key = 'size'
-                  assign filter_display_label = translated_size
-                elsif sanitized_label contains 'farge'
-                  assign filter_key = 'color'
-                  assign filter_display_label = translated_color
-                elsif sanitized_label contains 'color'
-                  assign filter_key = 'color'
-                  assign filter_display_label = translated_color
-                elsif sanitized_label contains 'colour'
-                  assign filter_key = 'color'
-                  assign filter_display_label = translated_color
-                elsif param_name_downcase contains 'option.color'
-                  assign filter_key = 'color'
-                  assign filter_display_label = translated_color
-                elsif sanitized_label contains 'product type' or sanitized_label contains 'kategori'
-                  assign filter_key = 'category'
-                  assign filter_display_label = translated_category
-                endif
               %}
 
               {% case filter.type %}
@@ -225,21 +129,17 @@
                     id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
                     class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
                     data-index="{{ forloop.index }}"
-                    {% if filter_key != '' %}
-                      data-filter-key="{{ filter_key }}"
-                    {% endif %}
-                    data-filter-source="{{ filter.label | escape }}"
                     {% if filter_type == 'vertical' and forloop.index == 1 %}
                       open
                     {% endif %}
                   >
                     <summary
                       class="facets__summary caption-large focus-offset"
-                      aria-label="{{ filter_display_label | escape }} ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})"
+                      aria-label="{{ filter.label | escape }} ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})"
                     >
                       <div>
                         <span class="facets__summary-label">
-                          {{- filter_display_label | escape }}
+                          {{- filter.label | escape }}
                           {%- if filter_type == 'vertical' -%}
                             <span class="facets__selected{% if filter.active_values.size == 0 %} hidden{% endif %}">
                               ({{ filter.active_values.size }})</span
@@ -278,7 +178,7 @@
                         </div>
                       {%- endif -%}
                       <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
-                        <legend class="visually-hidden">{{ filter_display_label | escape }}</legend>
+                        <legend class="visually-hidden">{{ filter.label | escape }}</legend>
                         {%- liquid
                           assign sorted_values = filter.values
                           # Keep the selected values grouped together when operator is AND
@@ -291,9 +191,6 @@
                         <ul
                           class="{{ visual_layout_class }}{% if filter_type == 'vertical' %} facets__list--vertical{% else %} facets__list{% endif %} list-unstyled"
                           role="list"
-                          {% if filter_key != '' %}
-                            data-filter-key="{{ filter_key }}"
-                          {% endif %}
                         >
                           {%- for value in sorted_values -%}
                             {% liquid
@@ -403,17 +300,13 @@
                     id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
                     class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
                     data-index="{{ forloop.index }}"
-                    {% if filter_key != '' %}
-                      data-filter-key="{{ filter_key }}"
-                    {% endif %}
-                    data-filter-source="{{ filter.label | escape }}"
                     {% if filter_type == 'vertical' and forloop.index == 1 %}
                       open
                     {% endif %}
                   >
                     <summary class="facets__summary caption-large focus-offset">
                       <div>
-                        <span>{{ filter_display_label | escape }}</span>
+                        <span>{{ filter.label | escape }}</span>
                         {{- 'icon-caret.svg' | inline_asset_content -}}
                       </div>
                     </summary>
@@ -446,40 +339,11 @@
           {%- if filter_type == 'horizontal' -%}
             <div class="active-facets active-facets-desktop">
               {%- for filter in results.filters -%}
-                {%- liquid
-                assign filter_display_label = filter.label | strip
-                assign sanitized_label = filter_display_label | downcase | strip
-                assign sanitized_label = sanitized_label | replace: ':', '' | replace: '.', '' | replace: ',', ''
-                assign sanitized_label = sanitized_label | replace: '(', '' | replace: ')', '' | replace: '-', ' '
-                assign sanitized_label = sanitized_label | replace: '  ', ' ' | strip
-                assign param_name_downcase = filter.param_name | downcase
-                if filter.type == 'price_range'
-                  assign filter_display_label = translated_price
-                elsif param_name_downcase contains 'product_type'
-                  assign filter_display_label = translated_category
-                elsif sanitized_label contains 'str'
-                  assign filter_display_label = translated_size
-                elsif sanitized_label contains 'size'
-                  assign filter_display_label = translated_size
-                elsif param_name_downcase contains 'option.size'
-                  assign filter_display_label = translated_size
-                elsif sanitized_label contains 'farge'
-                  assign filter_display_label = translated_color
-                elsif sanitized_label contains 'color'
-                  assign filter_display_label = translated_color
-                elsif sanitized_label contains 'colour'
-                  assign filter_display_label = translated_color
-                elsif param_name_downcase contains 'option.color'
-                  assign filter_display_label = translated_color
-                elsif sanitized_label contains 'product type' or sanitized_label contains 'kategori'
-                  assign filter_display_label = translated_category
-                endif
-              -%}
                 {%- for value in filter.active_values -%}
                   <facet-remove>
                     <a href="{{ value.url_to_remove }}" class="active-facets__button active-facets__button--light">
                       <span class="active-facets__button-inner button button--tertiary">
-                        {{ filter_display_label | escape }}: {{ value.label | escape }}
+                        {{ filter.label | escape }}: {{ value.label | escape }}
                         <span class="svg-wrapper">
                           {{- 'icon-close-small.svg' | inline_asset_content -}}
                         </span>
@@ -606,7 +470,7 @@
           </span>
         </span>
       </summary>
-      <facet-filters-form data-dynamic-facets="true" data-primary-facets="{{ primary_filter_keys }}">
+      <facet-filters-form>
         <form id="FacetFiltersFormMobile" class="mobile-facets">
           <div class="mobile-facets__inner gradient">
             <div class="mobile-facets__header">
@@ -652,45 +516,6 @@
                     else
                       assign visual_layout_class = 'facets-layout facets-layout-list facets-layout-list--' | append: presentation
                     endif
-
-                    assign filter_display_label = filter.label | strip
-                    assign filter_key = ''
-                    assign sanitized_label = filter_display_label | downcase | strip
-                    assign sanitized_label = sanitized_label | replace: ':', '' | replace: '.', '' | replace: ',', ''
-                    assign sanitized_label = sanitized_label | replace: '(', '' | replace: ')', '' | replace: '-', ' '
-                    assign sanitized_label = sanitized_label | replace: '  ', ' ' | strip
-                    assign param_name_downcase = filter.param_name | downcase
-                    if filter.type == 'price_range'
-                      assign filter_key = 'price'
-                      assign filter_display_label = translated_price
-                    elsif param_name_downcase contains 'product_type'
-                      assign filter_key = 'category'
-                      assign filter_display_label = translated_category
-                    elsif sanitized_label contains 'str'
-                      assign filter_key = 'size'
-                      assign filter_display_label = translated_size
-                    elsif sanitized_label contains 'size'
-                      assign filter_key = 'size'
-                      assign filter_display_label = translated_size
-                    elsif param_name_downcase contains 'option.size'
-                      assign filter_key = 'size'
-                      assign filter_display_label = translated_size
-                    elsif sanitized_label contains 'farge'
-                      assign filter_key = 'color'
-                      assign filter_display_label = translated_color
-                    elsif sanitized_label contains 'color'
-                      assign filter_key = 'color'
-                      assign filter_display_label = translated_color
-                    elsif sanitized_label contains 'colour'
-                      assign filter_key = 'color'
-                      assign filter_display_label = translated_color
-                    elsif param_name_downcase contains 'option.color'
-                      assign filter_key = 'color'
-                      assign filter_display_label = translated_color
-                    elsif sanitized_label contains 'product type' or sanitized_label contains 'kategori'
-                      assign filter_key = 'category'
-                      assign filter_display_label = translated_category
-                    endif
                   %}
 
                   {% case filter.type %}
@@ -699,14 +524,10 @@
                         id="Details-Mobile-{{ filter.param_name | escape }}-{{ section.id }}"
                         class="mobile-facets__details js-filter"
                         data-index="mobile-{{ forloop.index }}"
-                        {% if filter_key != '' %}
-                          data-filter-key="{{ filter_key }}"
-                        {% endif %}
-                        data-filter-source="{{ filter.label | escape }}"
                       >
                         <summary class="mobile-facets__summary focus-inset">
                           <div>
-                            <span>{{ filter_display_label | escape }}</span>
+                            <span>{{ filter.label | escape }}</span>
                             <span class="mobile-facets__arrow">
                               {{- 'icon-arrow.svg' | inline_asset_content -}}
                             </span>
@@ -722,20 +543,14 @@
                             type="button"
                           >
                             {{- 'icon-arrow.svg' | inline_asset_content -}}
-                            <span>{{ filter_display_label | escape }}</span>
+                            <span>{{ filter.label | escape }}</span>
                             {%- if filter.operator == 'AND' -%}
                               <span class="facets__and-helptext">
                                 {{ 'products.facets.filter_and_operator_subtitle' | t }}
                               </span>
                             {%- endif -%}
                           </button>
-                          <ul
-                            class="{{ visual_layout_class }} mobile-facets__list list-unstyled"
-                            role="list"
-                            {% if filter_key != '' %}
-                              data-filter-key="{{ filter_key }}"
-                            {% endif %}
-                          >
+                          <ul class="{{ visual_layout_class }} mobile-facets__list list-unstyled" role="list">
                             {%- liquid
                               assign sorted_values = filter.values
                               # Keep the selected values grouped together when operator is AND
@@ -851,14 +666,10 @@
                         id="Details-Mobile-{{ filter.param_name | escape }}-{{ section.id }}"
                         class="mobile-facets__details js-filter"
                         data-index="mobile-{{ forloop.index }}"
-                        {% if filter_key != '' %}
-                          data-filter-key="{{ filter_key }}"
-                        {% endif %}
-                        data-filter-source="{{ filter.label | escape }}"
                       >
                         <summary class="mobile-facets__summary focus-inset">
                           <div>
-                            <span>{{ filter_display_label | escape }}</span>
+                            <span>{{ filter.label | escape }}</span>
                             <span class="mobile-facets__arrow">
                               {{- 'icon-arrow.svg' | inline_asset_content -}}
                             </span>
@@ -874,7 +685,7 @@
                             type="button"
                           >
                             {{- 'icon-arrow.svg' | inline_asset_content -}}
-                            {{ filter_display_label | escape }}
+                            {{ filter.label | escape }}
                           </button>
 
                           {%- assign max_price_amount = filter.range_max | money | strip_html | escape -%}
@@ -973,40 +784,11 @@
 
   <div class="active-facets active-facets-mobile medium-hide large-up-hide">
     {%- for filter in results.filters -%}
-      {%- liquid
-        assign filter_display_label = filter.label | strip
-        assign sanitized_label = filter_display_label | downcase | strip
-        assign sanitized_label = sanitized_label | replace: ':', '' | replace: '.', '' | replace: ',', ''
-        assign sanitized_label = sanitized_label | replace: '(', '' | replace: ')', '' | replace: '-', ' '
-        assign sanitized_label = sanitized_label | replace: '  ', ' ' | strip
-        assign param_name_downcase = filter.param_name | downcase
-        if filter.type == 'price_range'
-          assign filter_display_label = translated_price
-        elsif param_name_downcase contains 'product_type'
-          assign filter_display_label = translated_category
-        elsif sanitized_label contains 'str'
-          assign filter_display_label = translated_size
-        elsif sanitized_label contains 'size'
-          assign filter_display_label = translated_size
-        elsif param_name_downcase contains 'option.size'
-          assign filter_display_label = translated_size
-        elsif sanitized_label contains 'farge'
-          assign filter_display_label = translated_color
-        elsif sanitized_label contains 'color'
-          assign filter_display_label = translated_color
-        elsif sanitized_label contains 'colour'
-          assign filter_display_label = translated_color
-        elsif param_name_downcase contains 'option.color'
-          assign filter_display_label = translated_color
-        elsif sanitized_label contains 'product type' or sanitized_label contains 'kategori'
-          assign filter_display_label = translated_category
-        endif
-      -%}
       {%- for value in filter.active_values -%}
         <facet-remove>
           <a href="{{ value.url_to_remove }}" class="active-facets__button active-facets__button--light">
             <span class="active-facets__button-inner button button--tertiary">
-              {{ filter_display_label | escape }}: {{ value.label | escape }}
+              {{ filter.label | escape }}: {{ value.label | escape }}
               <span class="svg-wrapper">
                 {{- 'icon-close-small.svg' | inline_asset_content -}}
               </span>
@@ -1107,44 +889,15 @@
     {%- render 'loading-spinner' -%}
   </div>
   {%- if filter_type == 'drawer' -%}
-    <facet-filters-form class="facets facets-pill small-hide" data-dynamic-facets="true" data-primary-facets="{{ primary_filter_keys }}">
+    <facet-filters-form class="facets facets-pill small-hide">
       <form id="FacetFiltersPillsForm" class="facets__form">
         <div class="active-facets active-facets-desktop">
           {%- for filter in results.filters -%}
-            {%- liquid
-              assign filter_display_label = filter.label | strip
-              assign sanitized_label = filter_display_label | downcase | strip
-              assign sanitized_label = sanitized_label | replace: ':', '' | replace: '.', '' | replace: ',', ''
-              assign sanitized_label = sanitized_label | replace: '(', '' | replace: ')', '' | replace: '-', ' '
-              assign sanitized_label = sanitized_label | replace: '  ', ' ' | strip
-              assign param_name_downcase = filter.param_name | downcase
-              if filter.type == 'price_range'
-                assign filter_display_label = translated_price
-              elsif param_name_downcase contains 'product_type'
-                assign filter_display_label = translated_category
-              elsif sanitized_label contains 'str'
-                assign filter_display_label = translated_size
-              elsif sanitized_label contains 'size'
-                assign filter_display_label = translated_size
-              elsif param_name_downcase contains 'option.size'
-                assign filter_display_label = translated_size
-              elsif sanitized_label contains 'farge'
-                assign filter_display_label = translated_color
-              elsif sanitized_label contains 'color'
-                assign filter_display_label = translated_color
-              elsif sanitized_label contains 'colour'
-                assign filter_display_label = translated_color
-              elsif param_name_downcase contains 'option.color'
-                assign filter_display_label = translated_color
-              elsif sanitized_label contains 'product type' or sanitized_label contains 'kategori'
-                assign filter_display_label = translated_category
-              endif
-            -%}
             {%- for value in filter.active_values -%}
               <facet-remove>
                 <a href="{{ value.url_to_remove }}" class="active-facets__button active-facets__button--light">
                   <span class="active-facets__button-inner button button--tertiary">
-                    {{ filter_display_label | escape }}: {{ value.label | escape }}
+                    {{ filter.label | escape }}: {{ value.label | escape }}
                     <span class="svg-wrapper">
                       {{- 'icon-close-small.svg' | inline_asset_content -}}
                     </span>

@@ -6,51 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
-    <link rel="dns-prefetch" href="//cdn.shopify.com">
-    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-    <link rel="dns-prefetch" href="//fonts.shopifycdn.com">
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    
-    {%- comment -%} Optimize font loading with font-display: swap {%- endcomment -%}
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap">
-    </noscript>
-    <link
-      rel="preload"
-      as="font"
-      href="https://fonts.gstatic.com/s/luckiestguy/v25/_gP_1RrxsjcxVyin9l9n_j2hTd52ijl7aQ.woff2"
-      type="font/woff2"
-      crossorigin
-    >
 
-    {%- comment -%} Promote likely LCP image with priority hint (safe no-op if none found) {%- endcomment -%}
-    <script>
-      (function () {
-        function promoteLCP() {
-          try {
-            var list = document.querySelectorAll('.banner__media img, .product__media img, img[loading="eager"]');
-            if (!list || !list.length) return;
-            var img = list[0];
-            if (img && !img.getAttribute('fetchpriority')) {
-              img.setAttribute('fetchpriority', 'high');
-            }
-          } catch (e) {}
-        }
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', promoteLCP, { once: true });
-        } else {
-          promoteLCP();
-        }
-      })();
-    </script>
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
@@ -71,14 +27,19 @@
     {% endif %}
 
     {% render 'meta-tags' %}
-    {% capture kulkid_header %}
-      {{ content_for_header }}
-    {% endcapture %}
-    {{ kulkid_header
-      | replace: '<script src', '<script defer src'
-      | replace: 'defer defer', 'defer'
-      | replace: '<script type="text/javascript" src', '<script type="text/javascript" defer src'
-    }}
+
+    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+
+    {%- if settings.animations_reveal_on_scroll -%}
+      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {{ content_for_header }}
 
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
@@ -294,11 +255,7 @@
       }
     {% endstyle %}
 
-    {% render 'critical-fold-css' %}
-
-    {%- comment -%} Use critical CSS for better performance {%- endcomment -%}
-    {{ 'base-critical.css' | asset_url | stylesheet_tag }}
-    {% render 'lazy-css', file: 'base.css', id: 'base-css-full' %}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -322,6 +279,7 @@
 
     {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
       {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
     {%- if settings.predictive_search_enabled -%}
@@ -336,41 +294,6 @@
     <script>
       if (Shopify.designMode) {
         document.documentElement.classList.add('shopify-design-mode');
-      }
-      
-      // Add loading="lazy" to all images below fold automatically
-      function addLazyLoadingToImages() {
-        const images = document.querySelectorAll('img:not([loading])');
-        const observer = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const img = entry.target;
-              if (img.dataset.src) {
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-              }
-              observer.unobserve(img);
-            }
-          });
-        }, { rootMargin: '50px' });
-        
-        images.forEach((img, index) => {
-          // Skip first 2-3 images (above the fold)
-          if (index > 2) {
-            img.setAttribute('loading', 'lazy');
-            if (img.src && img.src !== '') {
-              img.dataset.src = img.src;
-              img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E';
-              observer.observe(img);
-            }
-          }
-        });
-      }
-      
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', addLazyLoadingToImages);
-      } else {
-        addLazyLoadingToImages();
       }
     </script>
   </head>
@@ -441,108 +364,13 @@
         countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
       };
     </script>
-    {%- liquid
-      assign localization_requires_script = false
-      if localization.available_countries.size > 1 or localization.available_languages.size > 1
-        assign localization_requires_script = true
-      endif
-    -%}
-    <script id="kulkid-critical-runtime">
-      (function () {
-        var sequentialScripts = [
-          { src: {{ 'constants.js' | asset_url | json }} },
-          { src: {{ 'pubsub.js' | asset_url | json }} },
-          { src: {{ 'global-critical.js' | asset_url | json }} },
-          { src: {{ 'details-disclosure.js' | asset_url | json }} },
-          { src: {{ 'details-modal.js' | asset_url | json }} },
-          { src: {{ 'search-form.js' | asset_url | json }} }
-        ];
 
-        if ({{ settings.animations_reveal_on_scroll | json }}) {
-          sequentialScripts.push({ src: {{ 'animations.js' | asset_url | json }} });
-        }
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
 
-        if ({{ localization_requires_script | json }}) {
-          sequentialScripts.push({ src: {{ 'localization-form.js' | asset_url | json }} });
-        }
-
-        if ({{ settings.predictive_search_enabled | json }}) {
-          sequentialScripts.push({ src: {{ 'predictive-search.js' | asset_url | json }} });
-        }
-
-        if ({{ settings.cart_type == 'drawer' | json }}) {
-          sequentialScripts.push({ src: {{ 'cart-drawer.js' | asset_url | json }} });
-        }
-
-        function loadScript(definition) {
-          return new Promise(function (resolve) {
-            if (!definition || !definition.src) return resolve();
-            var script = document.createElement('script');
-            script.src = definition.src;
-            if (definition.async) {
-              script.async = true;
-            } else {
-              script.defer = true;
-            }
-            if (definition.id) script.id = definition.id;
-            if (definition.type) script.type = definition.type;
-            script.onload = resolve;
-            script.onerror = resolve;
-            (definition.parent || document.head).appendChild(script);
-          });
-        }
-
-        function loadSequential(queue) {
-          return queue.reduce(function (promise, definition) {
-            return promise.then(function () {
-              return loadScript(definition);
-            });
-          }, Promise.resolve());
-        }
-
-        function loadDeferredScripts() {
-          if (window.KulKidScriptsLoading) {
-            return window.KulKidScriptsLoading;
-          }
-
-          window.KulKidScriptsLoading = loadSequential(sequentialScripts).then(function () {
-            window.KulKidScriptsLoaded = true;
-            document.documentElement.dispatchEvent(new CustomEvent('kulkid:scripts:ready'));
-          });
-
-          return window.KulKidScriptsLoading;
-        }
-
-        function triggerDeferredScripts() {
-          if ('requestIdleCallback' in window) {
-            requestIdleCallback(function () {
-              loadDeferredScripts();
-            }, { timeout: 800 }); // Reduced timeout for faster loading
-          } else {
-            setTimeout(loadDeferredScripts, 100); // Faster fallback
-          }
-        }
-
-        function attachInteractionTriggers() {
-          var selectors = ['header-drawer summary', '#cart-icon-bubble', 'predictive-search input', '.search__input'];
-          selectors.forEach(function (selector) {
-            var element = document.querySelector(selector);
-            if (!element) return;
-            var eventName = selector === '#cart-icon-bubble' ? 'pointerdown' : 'focusin';
-            element.addEventListener(eventName, function handleInteraction() {
-              loadDeferredScripts();
-            }, { once: true, passive: true });
-          });
-        }
-
-        document.addEventListener('DOMContentLoaded', attachInteractionTriggers);
-
-        if (document.readyState === 'complete') {
-          triggerDeferredScripts();
-        } else {
-          window.addEventListener('load', triggerDeferredScripts, { once: true });
-        }
-      })();
-    </script>
+    {%- if settings.cart_type == 'drawer' -%}
+      <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
   </body>
 </html>

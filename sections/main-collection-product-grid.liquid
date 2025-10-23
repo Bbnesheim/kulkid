@@ -34,33 +34,9 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-
-  {% if section.settings.enable_card_gradient %}
-    {% assign gradient_colors = '' %}
-    {% for i in (1..7) %}
-      {% assign color_key = 'gradient_color_' | append: i %}
-      {% assign color_value = section.settings[color_key] %}
-      {% if gradient_colors != '' %}
-        {% assign gradient_colors = gradient_colors | append: ', ' %}
-      {% endif %}
-      {% assign gradient_colors = gradient_colors | append: color_value %}
-    {% endfor %}
-
-    #product-grid .card--card {
-      background: linear-gradient(270deg, {{ gradient_colors }});
-      background-size: 1200% 1200%;
-      animation: rainbowCardGradient {{ section.settings.gradient_speed }}s ease infinite;
-    }
-  {% endif %}
 {%- endstyle -%}
 
-<div
-  id="main-collection-product-grid"
-  data-section-id="{{ section.id }}"
-  class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
-  data-section-type="collection-grid"
-  data-dynamic-facets="true"
->
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
@@ -124,8 +100,6 @@
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
-      <script src="{{ 'facets-color-groups.js' | asset_url }}" defer="defer"></script>
-      <script src="{{ 'debug-facets.js' | asset_url }}" defer="defer"></script>
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         <aside
           aria-labelledby="verticalTitle"
@@ -146,7 +120,6 @@
       <div
         class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
         id="ProductGridContainer"
-        data-facets-root="collection"
         {% if settings.animations_reveal_on_scroll %}
           data-cascade
         {% endif %}
@@ -407,68 +380,6 @@
       "id": "enable_sorting",
       "default": true,
       "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
-    },
-    {
-      "type": "header",
-      "content": "Card Animation"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_card_gradient",
-      "label": "Enable rainbow gradient animation",
-      "default": false
-    },
-    {
-      "type": "range",
-      "id": "gradient_speed",
-      "label": "Animation speed",
-      "min": 5,
-      "max": 30,
-      "step": 1,
-      "unit": "s",
-      "default": 18
-    },
-    {
-      "type": "color",
-      "id": "gradient_color_1",
-      "label": "Gradient color 1",
-      "default": "#ff6b6b"
-    },
-    {
-      "type": "color",
-      "id": "gradient_color_2",
-      "label": "Gradient color 2",
-      "default": "#4ecdc4"
-    },
-    {
-      "type": "color",
-      "id": "gradient_color_3",
-      "label": "Gradient color 3",
-      "default": "#45b7d1"
-    },
-    {
-      "type": "color",
-      "id": "gradient_color_4",
-      "label": "Gradient color 4",
-      "default": "#96ceb4"
-    },
-    {
-      "type": "color",
-      "id": "gradient_color_5",
-      "label": "Gradient color 5",
-      "default": "#feca57"
-    },
-    {
-      "type": "color",
-      "id": "gradient_color_6",
-      "label": "Gradient color 6",
-      "default": "#ff9ff3"
-    },
-    {
-      "type": "color",
-      "id": "gradient_color_7",
-      "label": "Gradient color 7",
-      "default": "#54a0ff"
     },
     {
       "type": "header",

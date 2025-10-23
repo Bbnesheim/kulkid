@@ -1,30 +1,14 @@
-function debounce(func, wait) {
-  let timeout;
-  return function (...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func.apply(this, args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
 class FacetFiltersForm extends HTMLElement {
   constructor() {
     super();
-    this.onActiveFilterClick = debounce(this.onActiveFilterClick.bind(this), 300);
+    this.onActiveFilterClick = this.onActiveFilterClick.bind(this);
 
     this.debouncedOnSubmit = debounce((event) => {
       this.onSubmitHandler(event);
     }, 800);
 
     const facetForm = this.querySelector('form');
-    if (facetForm) {
-      // Listen to both input and change to catch selects and checkboxes across browsers
-      facetForm.addEventListener('input', this.debouncedOnSubmit.bind(this));
-      facetForm.addEventListener('change', this.debouncedOnSubmit.bind(this));
-    }
+    facetForm.addEventListener('input', this.debouncedOnSubmit.bind(this));
 
     const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
@@ -45,79 +29,6 @@ class FacetFiltersForm extends HTMLElement {
     });
   }
 
-  static getBaseUrl() {
-    if (!FacetFiltersForm.baseUrl) {
-      try {
-        FacetFiltersForm.baseUrl = new URL(window.location.href);
-      } catch (error) {
-        FacetFiltersForm.baseUrl = { pathname: window.location.pathname || '/' };
-      }
-    }
-    return FacetFiltersForm.baseUrl;
-  }
-
-  static getInitialQueryParams() {
-    if (!FacetFiltersForm.initialQueryParams) {
-      FacetFiltersForm.initialQueryParams = new URLSearchParams(window.location.search);
-    }
-    return new URLSearchParams(FacetFiltersForm.initialQueryParams.toString());
-  }
-
-  static normalizeSearchParams(searchParams) {
-    if (searchParams instanceof URLSearchParams) return searchParams;
-    return new URLSearchParams(searchParams || '');
-  }
-
-  static mergeSearchParams(searchParams, { includeSectionId = false, sectionId = '' } = {}) {
-    const baseParams = FacetFiltersForm.getInitialQueryParams();
-    const nextParams = FacetFiltersForm.normalizeSearchParams(searchParams);
-
-    baseParams.delete('page');
-
-    if (!includeSectionId) {
-      baseParams.delete('section_id');
-    }
-
-    const seenKeys = new Set();
-    nextParams.forEach((_, key) => {
-      seenKeys.add(key);
-    });
-
-    seenKeys.forEach((key) => {
-      baseParams.delete(key);
-    });
-
-    nextParams.forEach((value, key) => {
-      baseParams.append(key, value);
-    });
-
-    if (includeSectionId && sectionId) {
-      baseParams.set('section_id', sectionId);
-    }
-
-    return baseParams;
-  }
-
-  static buildSectionFetchUrl(sectionId, searchParams) {
-    const base = FacetFiltersForm.getBaseUrl();
-    const url = new URL(base.pathname || '/', window.location.origin);
-    const mergedParams = FacetFiltersForm.mergeSearchParams(searchParams, { includeSectionId: true, sectionId });
-    url.search = mergedParams.toString();
-    return url.toString();
-  }
-
-  static buildHistoryTarget(searchParams) {
-    const base = FacetFiltersForm.getBaseUrl();
-    const mergedParams = FacetFiltersForm.mergeSearchParams(searchParams);
-    const queryString = mergedParams.toString();
-    return `${base.pathname || '/'}${queryString ? `?${queryString}` : ''}`;
-  }
-
-  static navigateToSearch(searchParams) {
-    const target = FacetFiltersForm.buildHistoryTarget(searchParams);
-    window.location.href = target;
-  }
-
   static renderPage(searchParams, event, updateURLHash = true) {
     FacetFiltersForm.searchParamsPrev = searchParams;
     const sections = FacetFiltersForm.getSections();
@@ -127,11 +38,7 @@ class FacetFiltersForm extends HTMLElement {
       '.facets-container .loading__spinner, facet-filters-form .loading__spinner'
     );
     loadingSpinners.forEach((spinner) => spinner.classList.remove('hidden'));
-    const productGridContainer = document.getElementById('ProductGridContainer');
-    const productGrid = productGridContainer ? productGridContainer.querySelector('.collection') : null;
-    if (productGrid) {
-      productGrid.classList.add('loading');
-    }
+    document.getElementById('ProductGridContainer').querySelector('.collection').classList.add('loading');
     if (countContainer) {
       countContainer.classList.add('loading');
     }
@@ -139,40 +46,28 @@ class FacetFiltersForm extends HTMLElement {
       countContainerDesktop.classList.add('loading');
     }
 
-    FacetFiltersForm.latestSearchParams = searchParams;
-
     sections.forEach((section) => {
-      const url = FacetFiltersForm.buildSectionFetchUrl(section.section, searchParams);
+      const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
       const filterDataUrl = (element) => element.url === url;
 
       FacetFiltersForm.filterData.some(filterDataUrl)
         ? FacetFiltersForm.renderSectionFromCache(filterDataUrl, event)
-        : FacetFiltersForm.renderSectionFromFetch(url, event, searchParams);
+        : FacetFiltersForm.renderSectionFromFetch(url, event);
     });
 
     if (updateURLHash) FacetFiltersForm.updateURLHash(searchParams);
   }
 
-  static renderSectionFromFetch(url, event, searchParams) {
-    fetch(url, { credentials: 'same-origin' })
-      .then((response) => {
-        if (!response.ok) {
-          const error = new Error(`Facets request failed with status ${response.status}`);
-          error.response = response;
-          throw error;
-        }
-        return response.text();
-      })
+  static renderSectionFromFetch(url, event) {
+    fetch(url)
+      .then((response) => response.text())
       .then((responseText) => {
         const html = responseText;
         FacetFiltersForm.filterData = [...FacetFiltersForm.filterData, { html, url }];
         FacetFiltersForm.renderFilters(html, event);
         FacetFiltersForm.renderProductGridContainer(html);
         FacetFiltersForm.renderProductCount(html);
-      })
-      .catch((error) => {
-        console.error('FacetFiltersForm fetch failed, falling back to full page navigation.', error);
-        FacetFiltersForm.navigateToSearch(searchParams || FacetFiltersForm.latestSearchParams || '');
+        if (typeof initializeScrollAnimationTrigger === 'function') initializeScrollAnimationTrigger(html.innerHTML);
       });
   }
 
@@ -181,26 +76,20 @@ class FacetFiltersForm extends HTMLElement {
     FacetFiltersForm.renderFilters(html, event);
     FacetFiltersForm.renderProductGridContainer(html);
     FacetFiltersForm.renderProductCount(html);
+    if (typeof initializeScrollAnimationTrigger === 'function') initializeScrollAnimationTrigger(html.innerHTML);
   }
 
   static renderProductGridContainer(html) {
-    const productGridContainer = document.getElementById('ProductGridContainer');
-    if (!productGridContainer) return;
-
-    productGridContainer.innerHTML = new DOMParser()
+    document.getElementById('ProductGridContainer').innerHTML = new DOMParser()
       .parseFromString(html, 'text/html')
       .getElementById('ProductGridContainer').innerHTML;
 
-    productGridContainer.querySelectorAll('.scroll-trigger').forEach((element) => {
-      element.classList.add('scroll-trigger--cancel');
-    });
-
-    if (typeof initializeScrollAnimationTrigger === 'function') {
-      initializeScrollAnimationTrigger(productGridContainer);
-    }
-
-    FacetFiltersForm.observeLazyImages(productGridContainer);
-    FacetFiltersForm.dispatchFacetsUpdated(productGridContainer);
+    document
+      .getElementById('ProductGridContainer')
+      .querySelectorAll('.scroll-trigger')
+      .forEach((element) => {
+        element.classList.add('scroll-trigger--cancel');
+      });
   }
 
   static renderProductCount(html) {
@@ -266,7 +155,6 @@ class FacetFiltersForm extends HTMLElement {
 
     FacetFiltersForm.renderActiveFacets(parsedHTML);
     FacetFiltersForm.renderAdditionalElements(parsedHTML);
-    FacetFiltersForm.normalizeDuplicateFilters();
 
     if (countsToRender) {
       const closestJSFilterID = event.target.closest('.js-filter').id;
@@ -308,145 +196,7 @@ class FacetFiltersForm extends HTMLElement {
       document.querySelector(selector).innerHTML = html.querySelector(selector).innerHTML;
     });
 
-    const mobileFacetForm = document.getElementById('FacetFiltersFormMobile');
-    const mobileFacetDrawer = mobileFacetForm ? mobileFacetForm.closest('menu-drawer') : null;
-    if (mobileFacetDrawer && typeof mobileFacetDrawer.bindEvents === 'function') {
-      mobileFacetDrawer.bindEvents();
-    }
-  }
-
-  static normalizeDuplicateFilters() {
-    const contexts = [
-      document.getElementById('FacetFiltersForm'),
-      document.getElementById('FacetFiltersFormMobile'),
-      document.getElementById('FacetFiltersPillsForm'),
-    ].filter(Boolean);
-
-    contexts.forEach((form) => {
-      const detailsNodes = Array.from(form.querySelectorAll('[data-filter-key]')).filter(
-        (node) =>
-          node.dataset.filterKey &&
-          node.dataset.filterKey !== '' &&
-          node.matches('details')
-      );
-
-      const seen = new Map();
-      detailsNodes.forEach((details) => {
-        const key = details.dataset.filterKey;
-        const scope = form.id || 'facets';
-        const surface = details.closest('.mobile-facets__wrapper') ? 'mobile' : 'desktop';
-        const mapKey = `${scope}-${surface}-${key}`;
-
-        if (!seen.has(mapKey)) {
-          seen.set(mapKey, details);
-          return;
-        }
-
-        FacetFiltersForm.mergeFilterValues(seen.get(mapKey), details);
-      });
-    });
-  }
-
-  static ensureLazyImageObserver() {
-    if (!('IntersectionObserver' in window)) return null;
-    if (!window.KULKID_IMAGE_OBSERVER) {
-      window.KULKID_IMAGE_OBSERVER = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const img = entry.target;
-          FacetFiltersForm.loadLazyImage(img);
-          observer.unobserve(img);
-        });
-      }, { rootMargin: '200px 0px' });
-    }
-    return window.KULKID_IMAGE_OBSERVER;
-  }
-
-  static loadLazyImage(img) {
-    if (!img) return;
-    const { dataset } = img;
-    const dataSrc = dataset.kulkidSrc || dataset.src;
-    const dataSrcset = dataset.kulkidSrcset || dataset.srcset;
-    if (dataSrc) {
-      img.src = dataSrc;
-      delete dataset.kulkidSrc;
-      delete dataset.src;
-    }
-    if (dataSrcset) {
-      img.srcset = dataSrcset;
-      delete dataset.kulkidSrcset;
-      delete dataset.srcset;
-    }
-    delete dataset.kulkidLazyObserved;
-    dataset.kulkidLazyLoaded = 'true';
-  }
-
-  static observeLazyImages(root = document) {
-    if (!root || typeof root.querySelectorAll !== 'function') return;
-    const lazyImages = root.querySelectorAll(
-      'img[data-kulkid-src], img[data-kulkid-srcset], img[data-src], img[data-srcset]'
-    );
-    if (!lazyImages.length) return;
-
-    const observer = FacetFiltersForm.ensureLazyImageObserver();
-    lazyImages.forEach((img) => {
-      if (img.dataset.kulkidLazyLoaded === 'true') return;
-      if (!observer) {
-        FacetFiltersForm.loadLazyImage(img);
-        return;
-      }
-      if (img.dataset.kulkidLazyObserved === 'true') return;
-      observer.observe(img);
-      img.dataset.kulkidLazyObserved = 'true';
-    });
-  }
-
-  static dispatchFacetsUpdated(root) {
-    if (typeof document === 'undefined' || !document.documentElement) return;
-    const detail = { root };
-    document.documentElement.dispatchEvent(new CustomEvent('kulkid:facets:updated', { detail }));
-  }
-
-  static mergeFilterValues(primary, duplicate) {
-    if (!primary || !duplicate) return;
-    if (duplicate.hasAttribute('open')) {
-      primary.setAttribute('open', '');
-    }
-
-    const targetList = primary.querySelector('[data-filter-key][role="list"]');
-    const duplicateList = duplicate.querySelector('[data-filter-key][role="list"]');
-
-    if (!targetList || !duplicateList) {
-      duplicate.remove();
-      return;
-    }
-
-    const existingInputs = new Set();
-    targetList.querySelectorAll('input[name][value]').forEach((input) => {
-      existingInputs.add(`${input.name}::${input.value}`);
-    });
-
-    Array.from(duplicateList.children).forEach((item) => {
-      const input = item.querySelector('input[name][value]');
-      if (input) {
-        const signature = `${input.name}::${input.value}`;
-        if (existingInputs.has(signature)) return;
-        existingInputs.add(signature);
-      }
-      targetList.appendChild(item);
-    });
-
-    const showMoreButton = duplicate.querySelector('show-more-button');
-    if (showMoreButton) {
-      const primaryShowMore = primary.querySelector('show-more-button');
-      if (!primaryShowMore) {
-        primary.appendChild(showMoreButton);
-      } else {
-        showMoreButton.remove();
-      }
-    }
-
-    duplicate.remove();
+    document.getElementById('FacetFiltersFormMobile').closest('menu-drawer').bindEvents();
   }
 
   static renderCounts(source, target) {
@@ -489,8 +239,7 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   static updateURLHash(searchParams) {
-    const target = FacetFiltersForm.buildHistoryTarget(searchParams);
-    history.pushState({ searchParams }, '', target);
+    history.pushState({ searchParams }, '', `${window.location.pathname}${searchParams && '?'.concat(searchParams)}`);
   }
 
   static getSections() {
@@ -513,8 +262,7 @@ class FacetFiltersForm extends HTMLElement {
   onSubmitHandler(event) {
     event.preventDefault();
     const sortFilterForms = document.querySelectorAll('facet-filters-form form');
-    const srcEl = event.target || event.srcElement;
-    if (srcEl && srcEl.classList && srcEl.classList.contains('mobile-facets__checkbox')) {
+    if (event.srcElement.className == 'mobile-facets__checkbox') {
       const searchParams = this.createSearchParams(event.target.closest('form'));
       this.onSubmitForm(searchParams, event);
     } else {
@@ -548,21 +296,8 @@ class FacetFiltersForm extends HTMLElement {
 FacetFiltersForm.filterData = [];
 FacetFiltersForm.searchParamsInitial = window.location.search.slice(1);
 FacetFiltersForm.searchParamsPrev = window.location.search.slice(1);
-FacetFiltersForm.latestSearchParams = FacetFiltersForm.searchParamsInitial;
-FacetFiltersForm.baseUrl = null;
-FacetFiltersForm.initialQueryParams = null;
 customElements.define('facet-filters-form', FacetFiltersForm);
 FacetFiltersForm.setListeners();
-FacetFiltersForm.normalizeDuplicateFilters();
-if (typeof document !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      FacetFiltersForm.observeLazyImages(document);
-    });
-  } else {
-    FacetFiltersForm.observeLazyImages(document);
-  }
-}
 
 class PriceRange extends HTMLElement {
   constructor() {
@@ -612,7 +347,6 @@ class FacetRemove extends HTMLElement {
   constructor() {
     super();
     const facetLink = this.querySelector('a');
-    if (!facetLink) return; // Safeguard against empty wrappers
     facetLink.setAttribute('role', 'button');
     facetLink.addEventListener('click', this.closeFilter.bind(this));
     facetLink.addEventListener('keyup', (event) => {

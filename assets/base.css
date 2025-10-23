@@ -3595,13 +3595,3 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
-/* === Custom Font: Luckiest Guy === */
-h1, h2, h3, .h1, .h2, .h3 {
-  font-family: 'Luckiest Guy', cursive !important;
-}
-
-/* Example: Apply only to logo text in header */
-.site-header__heading, 
-.site-header__logo {
-  font-family: 'Luckiest Guy', cursive !important;
-}

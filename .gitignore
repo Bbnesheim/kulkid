@@ -1,11 +1,10 @@
-# Ignore performance test outputs
-lighthouse/
-audits/
-docs/perf/
-lighthouse-report*.html
-lighthouse-report*.json
-
-# Ignore local/system cruft
-*.log
+# OS generated files #
+######################
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+.shopify

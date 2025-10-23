@@ -23,7 +23,6 @@
 {%- unless skip_styles -%}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
-  {{ 'component-card.css' | asset_url | stylesheet_tag }}
 
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
@@ -40,62 +39,8 @@
     if ratio == 0 or ratio == null
       assign ratio = 1
     endif
-    assign product_theme = ''
-    assign product_print_type = ''
-    assign product_age_range = ''
-    if card_product.metafields.custom != blank
-      if card_product.metafields.custom.theme != blank
-        assign product_theme = card_product.metafields.custom.theme.value | default: card_product.metafields.custom.theme
-      endif
-      if card_product.metafields.custom.print_type != blank
-        assign product_print_type = card_product.metafields.custom.print_type.value | default: card_product.metafields.custom.print_type
-      endif
-      if card_product.metafields.custom.age_range != blank
-        assign product_age_range = card_product.metafields.custom.age_range.value | default: card_product.metafields.custom.age_range
-      endif
-    endif
-    if card_product.tags != blank
-      for tag in card_product.tags
-        if product_theme == '' and tag contains 'theme:'
-          assign product_theme = tag | split: ':' | last | strip
-        endif
-        if product_print_type == '' and tag contains 'print_type:'
-          assign product_print_type = tag | split: ':' | last | strip
-        endif
-        if product_age_range == '' and tag contains 'age_range:'
-          assign product_age_range = tag | split: ':' | last | strip
-        endif
-      endfor
-    endif
   -%}
-  {%- liquid
-    assign image_loading = 'lazy'
-    assign image_fetchpriority = 'low'
-    assign image_decoding = 'async'
-    if lazy_load == false
-      assign image_loading = 'eager'
-      assign image_fetchpriority = 'high'
-      assign image_decoding = 'auto'
-    endif
-  -%}
-  <div
-    class="card-wrapper product-card-wrapper underline-links-hover"
-    {% if card_product.product_type != blank %}
-      data-product-category="{{ card_product.product_type | escape }}"
-    {% endif %}
-    {% if product_theme != blank %}
-      data-product-theme="{{ product_theme | escape }}"
-    {% endif %}
-    {% if product_print_type != blank %}
-      data-product-print-type="{{ product_print_type | escape }}"
-    {% endif %}
-    {% if product_age_range != blank %}
-      data-product-age-range="{{ product_age_range | escape }}"
-    {% endif %}
-    {% if card_product.tags != blank %}
-      data-product-tags="{{ card_product.tags | join: ',' | escape }}"
-    {% endif %}
-  >
+  <div class="card-wrapper product-card-wrapper underline-links-hover">
     <div
       class="
         card card--{{ settings.card_style }}
@@ -130,9 +75,9 @@
                 sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
                 alt="{{ card_product.featured_media.alt | escape }}"
                 class="motion-reduce"
-                loading="{{ image_loading }}"
-                decoding="{{ image_decoding }}"
-                fetchpriority="{{ image_fetchpriority }}"
+                {% unless lazy_load == false %}
+                  loading="lazy"
+                {% endunless %}
                 width="{{ card_product.featured_media.width }}"
                 height="{{ card_product.featured_media.height }}"
               >
@@ -154,8 +99,6 @@
                   alt="{{ card_product.media[1].alt | escape }}"
                   class="motion-reduce"
                   loading="lazy"
-                  decoding="async"
-                  fetchpriority="low"
                   width="{{ card_product.media[1].width }}"
                   height="{{ card_product.media[1].height }}"
                 >

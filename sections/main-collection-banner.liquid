@@ -1,5 +1,5 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{% render 'lazy-css', file: 'component-collection-hero.css' %}
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   @media screen and (max-width: 749px) {
@@ -23,14 +23,6 @@
     </div>
 
     {%- if section.settings.show_collection_image and collection.image -%}
-      {%- liquid
-        assign fetch_priority = 'auto'
-        assign loading_attr = 'lazy'
-        if section.index == 1
-          assign fetch_priority = 'high'
-          assign loading_attr = 'eager'
-        endif
-      -%}
       <div class="collection-hero__image-container media gradient">
         <img
           srcset="
@@ -47,9 +39,6 @@
           alt="{{ collection.image.alt | escape }}"
           width="{{ collection.image.width }}"
           height="{{ collection.image.height }}"
-          loading="{{ loading_attr }}"
-          decoding="async"
-          fetchpriority="{{ fetch_priority }}"
         >
       </div>
     {%- endif -%}

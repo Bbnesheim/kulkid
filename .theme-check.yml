@@ -1,10 +1,4 @@
-# .theme-check.yml
-
-ignore:
-  - kulkid/**
-  - snapshot/**
-  - docs/**
-
-LiquidTag:
-  enabled: true
-  severity: error
+MatchingTranslations:
+  enabled: false
+TemplateLength:
+  enabled: false
