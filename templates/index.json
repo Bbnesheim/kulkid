@@ -109,9 +109,9 @@
         "kids_category_CGiHQq": {
           "type": "kids_category",
           "settings": {
-            "name": "Hodeplagg",
-            "image": "shopify://shop_images/mockup-b7497940cf225211d716e40530b2b1a2.png",
-            "link": "shopify://collections/luer"
+            "name": "Joggebukser",
+            "image": "shopify://shop_images/svartjoggebukse-person.jpg",
+            "link": "shopify://collections/joggebukser-til-barn"
           }
         },
         "kids_category_q4BpXT": {
@@ -141,9 +141,9 @@
         "kids_category_7Mni64": {
           "type": "kids_category",
           "settings": {
-            "name": "Joggebukser",
-            "image": "shopify://shop_images/svartjoggebukse-person.jpg",
-            "link": "shopify://collections/joggebukser-til-barn"
+            "name": "Hodeplagg",
+            "image": "shopify://shop_images/mockup-b7497940cf225211d716e40530b2b1a2.png",
+            "link": "shopify://collections/luer"
           }
         },
         "kids_category_gMfNia": {
@@ -266,7 +266,7 @@
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": true,
+        "show_rating": false,
         "quick_add": "standard",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
@@ -488,7 +488,7 @@
       "name": "Basic produkter",
       "settings": {
         "collection": "basics",
-        "products_to_show": 25,
+        "products_to_show": 12,
         "title": "",
         "heading_size": "h1",
         "description": "",
@@ -566,7 +566,7 @@
       "name": "SUPERKUL produkter",
       "settings": {
         "collection": "superkule-klaer-til-barn",
-        "products_to_show": 12,
+        "products_to_show": 8,
         "title": "",
         "heading_size": "h1",
         "description": "",
