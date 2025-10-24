@@ -329,10 +329,10 @@
     },
     "featured_collection_zTzmNC": {
       "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
+      "name": "Motiver Produkter",
       "settings": {
         "collection": "t-skjorter",
-        "products_to_show": 25,
+        "products_to_show": 12,
         "title": "",
         "heading_size": "h1",
         "description": "",
@@ -407,7 +407,7 @@
     },
     "featured_collection_md4CFj": {
       "type": "featured-collection",
-      "name": "Halloween-kolleksjon",
+      "name": "SUPERHELTENE produkter",
       "settings": {
         "collection": "superhelter",
         "products_to_show": 12,
@@ -485,7 +485,7 @@
     },
     "featured_collection_RXfLrt": {
       "type": "featured-collection",
-      "name": "Basic",
+      "name": "Basic produkter",
       "settings": {
         "collection": "basics",
         "products_to_show": 12,
@@ -549,9 +549,9 @@
         "product_F7wwjj",
         "collection_fEmV8W"
       ],
-      "name": "BASICS",
+      "name": "SUPERKUL",
       "settings": {
-        "heading": "Kuleste kiden i gata!",
+        "heading": "Skremmende Kul!",
         "heading_size": "h1",
         "desktop_layout": "left",
         "mobile_layout": "collage",
@@ -563,7 +563,7 @@
     },
     "featured_collection_B4tcDC": {
       "type": "featured-collection",
-      "name": "Basic",
+      "name": "SUPERKUL produkter",
       "settings": {
         "collection": "superkule-klaer-til-barn",
         "products_to_show": 8,
@@ -605,13 +605,13 @@
     "blocks_M737Hn",
     "collage_UyGffd",
     "featured_collection",
-    "collection_list_gTXynP",
-    "featured_collection_zTzmNC",
-    "collage_DM3cc7",
-    "featured_collection_md4CFj",
+    "collage_T3EXf3",
+    "featured_collection_B4tcDC",
     "collage_qdRyxk",
     "featured_collection_RXfLrt",
-    "collage_T3EXf3",
-    "featured_collection_B4tcDC"
+    "collage_DM3cc7",
+    "featured_collection_md4CFj",
+    "collection_list_gTXynP",
+    "featured_collection_zTzmNC"
   ]
 }
